@@ -1,11 +1,11 @@
 ---
-title: "Proposal title"
+title: "Graphically pawsitive vibes"
 subtitle: "Proposal"
 author: 
-  - name: "Team Name"
+  - name: "Isle of Dogs"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Project description"
+description: "This project will graphically depict trends, patterns, and analysis of Animal Shelter data derived from the TidyTuesday initiative. The dataset includes information about animals taken in and released from the shelter; there are variables such as intake type, outcome type, animal type, breed, age, and more. The primary goal of this project is to identify key factors that influence an animals outcome."
 format:
   html:
     code-tools: true
@@ -35,9 +35,11 @@ A brief description of your dataset including its provenance, dimensions, etc. a
 
 Make sure to load the data and use inline code for some of this information.
 
-## Questions
+## Questions (Working Ideas)
 
-The two questions you want to answer.
+1. At time of intake, how are intake condition, animal type, and age associated with the likelihood and time to adoption?
+
+2. Over years 2021–2025, how have intake and outcome types varied for different species of animals?
 
 ## Analysis plan
 
