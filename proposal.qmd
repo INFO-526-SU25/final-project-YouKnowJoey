@@ -21,7 +21,14 @@ execute:
 ```{r}
 #| label: load-pkgs
 #| message: false
-library(tidyverse)
+#| echo: false
+
+if (!require("pacman")) 
+  install.packages("pacman")
+
+pacman::p_load(tidyverse,tidytuesdayR)
+
+longbeach <- tt_load("2025-03-04")
 ```
 
 ## Dataset
@@ -29,17 +36,29 @@ library(tidyverse)
 ```{r}
 #| label: load-dataset
 #| message: false
+#| echo: false
+
+glimpse(longbeach$longbeach)
+
+length(unique(longbeach$longbeach$jurisdiction))
+unique(longbeach$longbeach$jurisdiction)
+
+length(unique(longbeach$longbeach$animal_type))
+unique(longbeach$longbeach$animal_type)
+
 ```
 
 A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
 
+This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows that provides potential insights of rescued animals at the city's shelter. The data includes variables such as intake type, outcome type, animal type, age, breed, and geographical jurisdiction. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
+
 Make sure to load the data and use inline code for some of this information.
 
-## Questions (Working Ideas)
+## Questions
 
-1. At time of intake, how are intake condition, animal type, and age associated with the likelihood and time to adoption?
+1.  How do intake conditions, animal types, and ages affect the animal's outcome?
 
-2. Over years 2021–2025, how have intake and outcome types varied for different species of animals?
+2.  Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
 ## Analysis plan
 
