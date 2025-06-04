@@ -1,5 +1,5 @@
 ---
-title: "Graphically pawsitive vibes"
+title: "Graphically Pawsitive Vibes"
 subtitle: "Proposal"
 author: 
   - name: "Isle of Dogs"
