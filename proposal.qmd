@@ -39,6 +39,7 @@ longbeach <- tt_load("2025-03-04")
 #| echo: false
 
 glimpse(longbeach$longbeach)
+summary(longbeach$longbeach)
 
 length(unique(longbeach$longbeach$jurisdiction))
 unique(longbeach$longbeach$jurisdiction)
@@ -63,3 +64,87 @@ Make sure to load the data and use inline code for some of this information.
 ## Analysis plan
 
 -   A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+
+For each question, we plan the following: 
+
+### 1. We will model $y_1$ as a function of $x_1$, $x_2$, and $x_3$ using a linear model (subject to change). 
+
+
+Variables: 
+
+- **$x_1$ = age** 
+
+- **$x_2$ = intake_type**  
+
+- **$x_3$ = animal_type**
+
+- **$y_1$ = outcome type**
+
+### 2. We'll mutate() a new variable $y_2$ as the time difference between intake and outcome dates, then analyze its variation by $x_4$ and $x_5$ across years.
+
+
+Variables: 
+
+- **$x_4$ = animal_type**
+
+- **$x_5$ = intake_conditions**
+
+- **$y_2$ = intake_outcome_duration** (requires mutate())
+
+## Plan of Attack 
+
+---
+
+### Week 1: June 8 – June 14  
+**Objective: Data Exploration & Cleaning**
+
+- Load and examine the structure of the dataset
+
+- Data Wrangle, filter, and prepare variables
+
+- Create exploratory plots
+
+- Begin cleaning and formatting date columns for mutation
+
+- Start presentation.qmd and write-up in index.qmd (last item)
+
+---
+
+### Week 2: June 15 – June 21  
+**Objective: Question 1 & Question 2 deep-dive**
+
+- Complete Index.qmd
+
+- Visualize model predictions by key features and trends over time
+
+- (Q1) Filter and prepare variables: age, intake_type, animal_type, outcome_type
+
+- (Q1) Fit Linear Model
+
+- (Q2) Explore distributions of durations by animal_type and intake_condition
+
+- (Q2) Create `y_2` by mutating: `intake_outcome_duration = outcome_date - intake_date`
+
+
+---
+
+### Week 3: June 22 – June 25  
+**Objective:  Translate Findings into Presentation**
+
+- Refine visualizations and model summaries
+
+- Interpret findings for both questions
+
+- Peer review & revise before submission/presentation (last item)
+
+
+---
+
+### Week 4: June 26 – June 30  
+**Objective: Finalize & Present**
+
+- Organize and clean report
+
+- Record presentation
+
+---
