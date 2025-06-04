@@ -88,153 +88,58 @@ Variables:
 
 ## Plan of Attack 
 
-<table class="table" border="1" cellspacing="0" cellpadding="6">
-  <thead>
-    <tr>
-      <th>Week</th>
-      <th>Task Name</th>
-      <th>Status</th>
-      <th>Due</th>
-      <th>Priority</th>
-      <th>Summary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Week 1 -->
-    <tr>
-      <td>Week 1 (June 8–14)</td>
-      <td>Load and examine the structure of the dataset</td>
-      <td>☐</td>
-      <td>June 10</td>
-      <td>High</td>
-      <td>Initial data understanding and variable types</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Wrangle and filter variables</td>
-      <td>☐</td>
-      <td>June 11</td>
-      <td>High</td>
-      <td>Prepare key variables for analysis</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Create exploratory plots</td>
-      <td>☐</td>
-      <td>June 12</td>
-      <td>Moderate</td>
-      <td>Visual overview of distributions and outliers</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Format date columns for mutation</td>
-      <td>☐</td>
-      <td>June 13</td>
-      <td>Moderate</td>
-      <td>Prepare date variables for duration calculation</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Complete <code>Index.qmd</code></td>
-      <td>☐</td>
-      <td>June 14</td>
-      <td>High</td>
-      <td>Main project landing document</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Peer review & revise</td>
-      <td>☐</td>
-      <td>June 14</td>
-      <td>Low</td>
-      <td>Get feedback and apply revisions</td>
-    </tr>
+---
 
-    <!-- Week 2 -->
-    <tr>
-      <td>Week 2 (June 15–21)</td>
-      <td>Visualize model predictions and trends</td>
-      <td>☐</td>
-      <td>June 16</td>
-      <td>Moderate</td>
-      <td>Trends across features over time</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Prepare variables for Q1 (age, intake_type, animal_type, outcome_type)</td>
-      <td>☐</td>
-      <td>June 17</td>
-      <td>High</td>
-      <td>Filter necessary data for modeling</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Fit linear model for Q1</td>
-      <td>☐</td>
-      <td>June 18</td>
-      <td>High</td>
-      <td>Analyze how predictors affect outcomes</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Explore durations by animal_type and intake_condition (Q2)</td>
-      <td>☐</td>
-      <td>June 19</td>
-      <td>Moderate</td>
-      <td>Assess time to adoption across groups</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Create <code>y_2</code> as intake_outcome_duration</td>
-      <td>☐</td>
-      <td>June 20</td>
-      <td>High</td>
-      <td>Derived time variable for Q2 analysis</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Complete <code>Presentation.qmd</code></td>
-      <td>☐</td>
-      <td>June 21</td>
-      <td>High</td>
-      <td>Initial draft of final presentation</td>
-    </tr>
+### Week 1: June 8 – June 14  
+**Objective: Data Exploration & Cleaning**
 
-    <!-- Week 3 -->
-    <tr>
-      <td>Week 3 (June 22–25)</td>
-      <td>Refine visuals, model summaries, and presentation</td>
-      <td>☐</td>
-      <td>June 23</td>
-      <td>High</td>
-      <td>Polish charts and summaries for clarity</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Interpret findings for both questions</td>
-      <td>☐</td>
-      <td>June 24</td>
-      <td>Moderate</td>
-      <td>Turn results into clear conclusions</td>
-    </tr>
+- Load and examine the structure of the dataset
 
-    <!-- Week 4 -->
-    <tr>
-      <td>Week 4 (June 26–30)</td>
-      <td>Organize and clean report</td>
-      <td>☐</td>
-      <td>June 28</td>
-      <td>High</td>
-      <td>Prepare final version of report</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Record presentation</td>
-      <td>☐</td>
-      <td>June 30</td>
-      <td>High</td>
-      <td>Deliverable for final submission</td>
-    </tr>
-  </tbody>
-</table>
-<!-- Table Produced by ChatGPT-->
+- Data Wrangle, filter, and prepare variables
+
+- Create exploratory plots
+
+- Begin cleaning and formatting date columns for mutation
+
+- Start presentation.qmd
+
+- Finsih rough draft of index.qmd
+
+- Peer review & revise before submission/presentation (last item)
+
+---
+
+### Week 2: June 15 – June 21  
+**Objective: Question 1 & Question 2 deep-dive**
+
+- Complete Index.qmd
+
+- Visualize model predictions by key features and trends over time
+
+- (Q1) Filter and prepare variables: age, intake_type, animal_type, outcome_type
+
+- (Q1) Fit Linear Model
+
+- (Q2) Explore distributions of durations by animal_type and intake_condition
+
+- (Q2) Create `y_2` by mutating: `intake_outcome_duration = outcome_date - intake_date`
+
+
+---
+
+### Week 3: June 22 – June 25  
+**Objective:  Translate Findings into Presentation**
+
+- Refine visualizations and model summaries
+
+- Interpret findings for both questions
+
+
+---
+
+### Week 4: June 26 – June 30  
+**Objective: Finalize & Present**
+
+- Organize and clean report
+
+- Record presentation
