@@ -55,8 +55,9 @@ This TidyTuesday dataset is a conglomeration of different species retrieved in L
 
 For each question, we plan the following: 
 
-### 1. We will model $y_1$ as a function of $x_1$, $x_2$, and $x_3$ using a linear model (subject to change). 
+### 1. How do intake conditions, animal types, and ages affect the animal's outcome?
 
+We will model $y_1$ as a function of $x_1$, $x_2$, and $x_3$ using a linear model (subject to change). 
 
 Variables: 
 
@@ -68,7 +69,9 @@ Variables:
 
 - **$y_1$ = outcome type**
 
-### 2. We'll mutate() a new variable $y_2$ as the time difference between intake and outcome dates, then analyze its variation by $x_4$ and $x_5$ across years.
+### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
+
+We'll mutate() a new variable $y_2$ as the time difference between intake and outcome dates, then analyze its variation by $x_4$ and $x_5$ across years.
 
 
 Variables: 
@@ -234,3 +237,4 @@ Variables:
     </tr>
   </tbody>
 </table>
+<!-- Table Produced by ChatGPT-->
