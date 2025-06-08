@@ -1,11 +1,11 @@
 ---
-title: "Project Title"
-subtitle: "INFO 526 - Summer 2024 - Final Project"
+title: "Graphically Pawsitive Vibes"
+subtitle: "INFO 526 - Summer 2025 - Final Project"
 author: 
-  - name: "Team name"
+  - name: "Isle of Dogs"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Project description"
+description: "This project will graphically depict trends, patterns, and analysis of Animal Shelter data derived from the TidyTuesday initiative. The dataset includes information about animals taken in and released from the shelter; there are variables such as intake type, outcome type, animal type, breed, age, and more. The primary goal of this project is to identify key factors that influence an animals outcome."
 format:
    html:
     code-tools: true
@@ -19,4 +19,8 @@ execute:
 
 ## Abstract
 
-Add project abstract here.
+This project examines factors influencing animal outcomes and adoption timelines at the Long Beach Animal Shelter. The dataset—sourced from TidyTuesday—contains 29,787 records and 22 fields, capturing intake and outcome events for various species in Long Beach, California.
+
+The first goal investigates how intake conditions, species grouping, and age at intake relate to final outcomes. The raw data are cleaned and transformed by parsing the `dob` field into a numeric `age_at_intake`, standardizing `intake_condition` values, and collapsing `animal_type`. Visual analyses reveal which intake conditions are associated with more favorable outcomes, how outcome patterns differ across species groups, and whether age correlates with specific dispositions. These insights may help shelter staff identify high‐risk subgroups and allocate medical or foster resources more effectively.
+
+The second goal analyzes time‐to‐adoption trends from 2021 through 2025. Records with `outcome_type == "adoption"` are filtered, `days_to_adoption` is computed as the difference between `outcome_date` and `intake_date`, and `intake_year` is derived. Visualizations illustrate how adoption lengths have shifted over time. This highlights whether animals find homes more quickly in recent years and identifies factors that drive those improvements. These findings could inform capacity planning, guide medical staffing decisions for long‐stay cases, and serve as benchmarks for continuous improvement in shelter performance.
