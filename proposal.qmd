@@ -24,21 +24,27 @@ execute:
 #| echo: false
 
 if (!require("pacman")) 
-  install.packages("pacman")
+  install.packages("pacman, formattable, diagnose, dlookr")
 
-pacman::p_load(tidyverse,tidytuesdayR)
-
-longbeach <- tt_load("2025-03-04")
+pacman::p_load(tidyverse,
+               tidytuesdayR,
+               formattable,
+               dlookr)
 ```
 
 ### Dataset
+
+```{r}
+longbeach <- tt_load("2025-03-04")
+longbeach = longbeach$longbeach
+```
 
 ```{r}
 #| label: load-dataset
 #| message: false
 
 # Column Names
-names(longbeach$longbeach)
+names(longbeach)
 
 ```
 
@@ -72,17 +78,24 @@ Dependent Variables:
 
 #### Data Cleaning
 
+```{r}
+longbeach |>
+  diagnose() |>
+  filter(variables %in% c("dob", "intake_date", "intake_condition", "animal_type", "outcome_type")) |>
+  formattable()
+```
+
 #### Proposed Visualizations
 
 ### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
-We'll mutate() a new variable `days_to_adoption` as the time difference between intake and outcome dates, then analyze its variation by `intake_year` and `outcome_type` across years.
+We'll mutate() a new variable `days_to_adoption` as the time difference between intake and outcome dates, then analyze its variation by `intake_year` and `outcome_type` across years. Because dogs and cats dominate the data, we collapse all other species into a three-level factor `species_group` (“Dog,” “Cat,” “Other”) for clearer comparisons.
 
 Independent Variables:
 
 -   `animal_type`
 
--   `intake_conditions`
+-   `intake_condition`
 
 -   `intake_year` (derived from `intake_date`)
 
@@ -94,12 +107,58 @@ Dependent Variables:
 
 #### Data Cleaning
 
+```{r}
+longbeach |>
+  diagnose() |>
+  filter(variables %in% c("animal_type", "intake_condition", "intake_date", "outcome_type")) |>
+  formattable()
+```
+
+```{r}
+longbeach_clean <- longbeach |>
+  
+  # standardize intake_condition
+  mutate(
+    intake_condition = intake_condition |>
+      str_squish()             # collapse multiple spaces
+      |> str_replace_all("/", " ")  # replace slashes with spaces
+      |> str_to_lower()             # convert to lowercase
+  ) |>
+  
+  # create a simplified species_group
+  mutate(
+    species_group = case_when(
+      animal_type == "dog" ~ "Dog",
+      animal_type == "cat" ~ "Cat",
+      TRUE ~ "Other"
+    ) |> 
+      factor(levels = c("Dog", "Cat", "Other"))
+  ) |>
+  
+  # compute age_at_intake and flag unknowns
+  mutate(
+    age_at_intake = as.numeric(intake_date - dob) / 365,
+    age_unknown   = is.na(age_at_intake)
+  ) |>
+  
+  # compute days_to_adoption
+  mutate(
+    days_to_adoption = as.integer(outcome_date - intake_date)
+  )
+
+glimpse(longbeach_clean)
+```
+
 #### Proposed Visualizations
+
+Time‐Series Lines: Median `days_to_adoption` by `intake_year` (2021–2025), faceted by `species_group`.
+
+Violin Distribution: Yearly distribution of `days_to_adoption`, split by `intake_condition`
 
 ## Weekly Plan of Attack
 
 | Task Name | Status | Due | Priority | Summary |
-|----|----|----|----|----|
+|---------------|---------------|---------------|---------------|---------------|
 | Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |
 | Data ingestion & cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |
 | Q1 & Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |
