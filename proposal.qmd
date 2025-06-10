@@ -31,7 +31,7 @@ pacman::p_load(tidyverse,tidytuesdayR)
 longbeach <- tt_load("2025-03-04")
 ```
 
-## Dataset
+### Dataset
 
 ```{r}
 #| label: load-dataset
@@ -44,8 +44,7 @@ names(longbeach$longbeach)
 
 This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows that provides potential insights of rescued animals at the city's shelter. The data includes variables such as intake type, outcome type, animal type, age, breed, and geographical jurisdiction. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
 
-
-## Questions
+### Questions
 
 1.  How do intake conditions, animal types, and ages affect the animal's outcome?
 
@@ -53,93 +52,44 @@ This TidyTuesday dataset is a conglomeration of different species retrieved in L
 
 ## Analysis plan
 
-For each question, we plan the following: 
+For each question, we plan the following:
 
 ### 1. How do intake conditions, animal types, and ages affect the animal's outcome?
 
-We will model $y_1$ as a function of $x_1$, $x_2$, and $x_3$ using a linear model (subject to change). 
+We will model $y_1$ as a function of $x_1$, $x_2$, and $x_3$ using a linear model (subject to change).
 
-Variables: 
+Variables:
 
-- **$x_1$ = age_at_intake** (calculated by dob and intake_date)
+-   $x_1$ = age_at_intake (calculated by dob and intake_date)
 
-- **$x_2$ = intake_condition**  
+-   $x_2$ = intake_condition
 
-- **$x_3$ = animal_type**
+-   $x_3$ = animal_type
 
-- **$y_1$ = outcome type**
+-   $y_1$ = outcome type
 
 ### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
 We'll mutate() a new variable $y_2$ as the time difference between intake and outcome dates, then analyze its variation by $x_4$ and $x_5$ across years.
 
+Variables:
 
-Variables: 
+-   $x_4$ = animal_type
 
-- **$x_4$ = animal_type**
+-   $x_5$ = intake_conditions
 
-- **$x_5$ = intake_conditions**
+-   $x_6$ = intake_year (derived from intake_date)
 
-- **$x_6$ = intake_year** (derived from intake_date)
+-   $x_7$ = outcome_type
 
-- **$x_7$ = outcome_type**
+-   $y_2$ = days_to_adoption (computed by outcome_date - intake_date)
 
-- **$y_2$ = days_to_adoption** (computed by outcome_date - intake_date)
+## Weekly Plan of Attack
 
-## Plan of Attack 
-
----
-
-### Week 1: June 8 – June 14  
-**Objective: Data Exploration & Cleaning**
-
-- Load and examine the structure of the dataset
-
-- Data Wrangle, filter, and prepare variables
-
-- Create exploratory plots
-
-- Begin cleaning and formatting date columns for mutation
-
-- Start presentation.qmd
-
-- Finsih rough draft of index.qmd
-
-- Peer review & revise before submission/presentation (last item)
-
----
-
-### Week 2: June 15 – June 21  
-**Objective: Question 1 & Question 2 deep-dive**
-
-- Complete Index.qmd
-
-- Visualize model predictions by key features and trends over time
-
-- (Q1) Filter and prepare variables: age, intake_type, animal_type, outcome_type
-
-- (Q1) Fit Linear Model
-
-- (Q2) Explore distributions of durations by animal_type and intake_condition
-
-- (Q2) Create `y_2` by mutating: `intake_outcome_duration = outcome_date - intake_date`
-
-
----
-
-### Week 3: June 22 – June 25  
-**Objective:  Translate Findings into Presentation**
-
-- Refine visualizations and model summaries
-
-- Interpret findings for both questions
-
-
----
-
-### Week 4: June 26 – June 30  
-**Objective: Finalize & Present**
-
-- Organize and clean report
-
-- Record presentation
+| Task Name | Status | Due | Priority | Summary |
+|-------------|-------------|-------------|-------------|----------------------|
+| Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |
+| Data ingestion & cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |
+| Q1 & Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |
+| Draft narrative & interpretation | Not started | 2025-06-20 | High | Summarize results; write narrative for both questions |
+| Finalize report & slides | Not started | 2025-06-30 | High | Refine visuals; polish text; build and rehearse presentation |
