@@ -56,38 +56,50 @@ For each question, we plan the following:
 
 ### 1. How do intake conditions, animal types, and ages affect the animal's outcome?
 
-We will model $y_1$ as a function of $x_1$, $x_2$, and $x_3$ using a linear model (subject to change).
+We will model `outcome_type` as a function of `age_at_intake`, `intake_condition`, and `animal_type` using a linear model (subject to change).
 
-Variables:
+Independent Variables:
 
--   $x_1$ = age_at_intake (calculated by dob and intake_date)
+-   `age_at_intake` (calculated by `dob` and `intake_date`)
 
--   $x_2$ = intake_condition
+-   `intake_condition`
 
--   $x_3$ = animal_type
+-   `animal_type`
 
--   $y_1$ = outcome type
+Dependent Variables:
+
+-   `outcome_type`
+
+#### Data Cleaning
+
+#### Proposed Visualizations
 
 ### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
-We'll mutate() a new variable $y_2$ as the time difference between intake and outcome dates, then analyze its variation by $x_4$ and $x_5$ across years.
+We'll mutate() a new variable `days_to_adoption` as the time difference between intake and outcome dates, then analyze its variation by `intake_year` and `outcome_type` across years.
 
-Variables:
+Independent Variables:
 
--   $x_4$ = animal_type
+-   `animal_type`
 
--   $x_5$ = intake_conditions
+-   `intake_conditions`
 
--   $x_6$ = intake_year (derived from intake_date)
+-   `intake_year` (derived from `intake_date`)
 
--   $x_7$ = outcome_type
+-   `outcome_type`
 
--   $y_2$ = days_to_adoption (computed by outcome_date - intake_date)
+Dependent Variables:
+
+-   `days_to_adoption` (`computed by outcome_date` - `intake_date`)
+
+#### Data Cleaning
+
+#### Proposed Visualizations
 
 ## Weekly Plan of Attack
 
 | Task Name | Status | Due | Priority | Summary |
-|-------------|-------------|-------------|-------------|----------------------|
+|----|----|----|----|----|
 | Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |
 | Data ingestion & cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |
 | Q1 & Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |
