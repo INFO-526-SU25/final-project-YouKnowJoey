@@ -6,6 +6,6 @@ editor: visual
 
 This project was developed by the team *Isle of Dogs* For [INFO 526 - Data Analysis and Visualization](https://datavizaz.org/) at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.
 
--   Joey Garcia
+-   Joey Garcia. First-year Master of Science in Data Science student with a keen interest in Artifical Intelligence architecture.
 
 -   S. David Kyle. First-year Master of Science in Data Science student with a professional background in software engineering.
