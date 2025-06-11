@@ -52,7 +52,7 @@ This TidyTuesday dataset is a conglomeration of different species retrieved in L
 
 ### Questions
 
-1.  How do intake conditions, animal types, and ages affect the animal's outcome?
+1.  How do intake conditions and animal types affect the animal's outcome?
 
 2.  Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
@@ -65,7 +65,7 @@ For each question, we plan the following:
 We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` will be re-coded into `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Dependent on the bar plot results, we may mutate `outcome_type` into a binary value of `death` and `non-death` outcome. 
 
 ``` {r}
-longbeach_clean |>
+longbeach |>
   distinct(outcome_type)
 ```
 
