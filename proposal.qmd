@@ -24,7 +24,10 @@ execute:
 #| echo: false
 
 if (!require("pacman")) 
-  install.packages("pacman, formattable, diagnose, dlookr")
+  install.packages("pacman, 
+                   formattable, 
+                   diagnose, 
+                   dlookr")
 
 pacman::p_load(tidyverse,
                tidytuesdayR,
@@ -39,15 +42,6 @@ longbeach <- tt_load("2025-03-04")
 longbeach = longbeach$longbeach
 ```
 
-```{r}
-#| label: load-dataset
-#| message: false
-
-# Column Names
-names(longbeach)
-
-```
-
 This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows that provides potential insights of rescued animals at the city's shelter. The data includes variables such as intake type, outcome type, animal type, age, breed, and geographical jurisdiction. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
 
 ### Questions
@@ -58,74 +52,24 @@ This TidyTuesday dataset is a conglomeration of different species retrieved in L
 
 ## Analysis plan
 
-For each question, we plan the following:
+### Variables
 
-### 1. How do intake conditions and animal types affect the animal's outcome?
+The following variables will be used in our analysis:
 
-We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` will be re-coded into `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Dependent on the bar plot results, we may mutate `outcome_type` into a binary value of `death` and `non-death` outcome. 
+-   `intake_condition`: The condition of the animal at the time of intake
+-   `animal_type`: The type of animal
+-   `outcome_type`: The outcome of the animal
+-   `dob`: Date of birth of the animal
+-   `days_to_outcome`: Date the animal had an outcome `outcome_date` - `income_date`: Date the animal arrived
+-   `intake_year`: Year of intake
+-   `species_group`: A simplified grouping of `animal_type` into "Dog," "Cat," and "Other"
+-   `days_to_adoption`: The number of days from intake to adoption
 
-``` {r}
-longbeach |>
-  distinct(outcome_type)
-```
+### Cleaning
 
-Independent Variables:
-
--   `intake_condition`
-
--   `animal_type`
-
-Dependent Variables:
-
--   `outcome_type`
-
-#### Proposed Visualizations
-
-Proportion of Outcomes by Animal Type: Bar plot showing the proportion of `outcome_types` to each faceted `species_group`. This will highlight which outcomes dominate each species category.
-
-Distribution of Outcomes Across Intake Condition: Bar plot showing distribution of `intake_condition` for a specific faceted `outcome_type`. This will identify which intake conditions are more likely to lead to certain outcome.
-
-
-### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
-
-We'll mutate() a new variable `days_to_adoption` as the time difference between intake and outcome dates, then analyze its variation by `intake_year` and `outcome_type` across years. Because dogs and cats dominate the data, we collapse all other species into a three-level factor `species_group` (“Dog,” “Cat,” “Other”) for clearer comparisons.
-
-Independent Variables:
-
--   `animal_type`
-
--   `intake_condition`
-
--   `intake_year` (derived from `intake_date`)
-
--   `outcome_type`
-
-Dependent Variables:
-
--   `days_to_adoption` (`computed by outcome_date` - `intake_date`)
-
-#### Proposed Visualizations
-
-Time‐Series Lines: Median `days_to_adoption` by `intake_year` (2021–2025), faceted by `species_group`.
-
-Violin Distribution: Yearly distribution of `days_to_adoption`, split by `intake_condition`
-
-### Data Cleaning
-
-We've introduced the participating variables. Now we'll analyze and transform our dataset to our visualization requirements.
+We go ahead and clean and mutate the data we know the team will need.
 
 ```{r}
-#| label: data-cleaning-analysis
-
-longbeach |>
-  diagnose() |>
-  filter(variables %in% c("dob", "intake_date", "intake_condition", "animal_type",  "outcome_type")) |>
-  formattable()
-```
-
-```{r}
-#| label: data-cleaning-transformations
-
 longbeach_clean <- longbeach |>
   
   # standardize intake_condition
@@ -157,8 +101,78 @@ longbeach_clean <- longbeach |>
     days_to_adoption = as.integer(outcome_date - intake_date)
   )
 
-glimpse(longbeach_clean)
 ```
+
+Let's take a look at the data to see any issues:
+
+```{r}
+longbeach_clean |>
+  diagnose() |>
+  filter(variables %in% c("intake_condition",
+                          "animal_type",
+                          "outcome_type",
+                          "dob",
+                          "days_to_outcome",
+                          "intake_year",
+                          "species_group",
+                          "days_to_adoption")) |>
+  formattable()
+```
+
+### Potential Issues
+
+DOB (date of birth) has a seemingly significant number of missing entries. On inspection this seems not to be a factor in our analysis because how data will be processed. We will need to check this number and see if the effects are meaningful.
+
+## Project Goals
+
+### 1. How do intake conditions and animal types affect the animal's outcome?
+
+We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` have been be re-coded into `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Dependent on the bar plot results, we may mutate `outcome_type` into a binary value of `death` and `non-death` outcome.
+
+```{r}
+longbeach |>
+  distinct(outcome_type)
+```
+
+Independent Variables:
+
+-   `intake_condition`
+
+-   `animal_type`
+
+Dependent Variables:
+
+-   `outcome_type`
+
+#### Proposed Visualizations
+
+Proportion of Outcomes by Animal Type: Bar plot showing the proportion of `outcome_types` to each faceted `species_group`. This will highlight which outcomes dominate each species category.
+
+Distribution of Outcomes Across Intake Condition: Bar plot showing distribution of `intake_condition` for a specific faceted `outcome_type`. This will identify which intake conditions are more likely to lead to certain outcome.
+
+### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
+
+We'll mutate() a new variable `days_to_adoption` as the time difference between intake and outcome dates, then analyze its variation by `intake_year` and `outcome_type` across years. Because dogs and cats dominate the data, we collapse all other species into a three-level factor `species_group` (“Dog,” “Cat,” “Other”) for clearer comparisons.
+
+Independent Variables:
+
+-   `animal_type`
+
+-   `intake_condition`
+
+-   `intake_year` (derived from `intake_date`)
+
+-   `outcome_type`
+
+Dependent Variables:
+
+-   `days_to_adoption` (`computed by outcome_date` - `intake_date`)
+
+#### Proposed Visualizations
+
+Time‐Series Lines: Median `days_to_adoption` by `intake_year` (2021–2025), faceted by `species_group`.
+
+Violin Distribution: Yearly distribution of `days_to_adoption`, split by `intake_condition`
 
 ## Weekly Plan of Attack
 
