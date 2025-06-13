@@ -42,7 +42,7 @@ longbeach <- tt_load("2025-03-04")
 longbeach = longbeach$longbeach
 ```
 
-This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows that provides potential insights of rescued animals at the city's shelter. The data includes variables such as intake type, outcome type, animal type, age, breed, and geographical jurisdiction. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
+This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows, providing potential insights into rescued animals at the city's shelter. The data includes variables such as `intake type`, `outcome type`, `animal type`, `age`, `breed`, and `geographical jurisdiction`. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
 
 ### Questions
 
@@ -121,13 +121,13 @@ longbeach_clean |>
 
 ### Potential Issues
 
-DOB (date of birth) has a seemingly significant number of missing entries. On inspection this seems not to be a factor in our analysis because how data will be processed. We will need to check this number and see if the effects are meaningful.
+DOB (date of birth) has a seemingly significant number of missing entries. Upon inspection, this seems not to be a factor in our analysis because of how data will be processed. We will need to check this number and see if the effects are meaningful.
 
 ## Project Goals
 
 ### 1. How do intake conditions and animal types affect the animal's outcome?
 
-We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` have been be re-coded into `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Dependent on the bar plot results, we may mutate `outcome_type` into a binary value of `death` and `non-death` outcome.
+We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` has been re-coded into a `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Depending on the bar plot results, we may mutate `outcome_type` into a binary value of `death` and `non-death` outcomes.
 
 ```{r}
 longbeach |>
@@ -148,7 +148,7 @@ Dependent Variables:
 
 Proportion of Outcomes by Animal Type: Bar plot showing the proportion of `outcome_types` to each faceted `species_group`. This will highlight which outcomes dominate each species category.
 
-Distribution of Outcomes Across Intake Condition: Bar plot showing distribution of `intake_condition` for a specific faceted `outcome_type`. This will identify which intake conditions are more likely to lead to certain outcome.
+Distribution of Outcomes Across Intake Condition: Bar plot showing distribution of `intake_condition` for a specific faceted `outcome_type`. This will identify which intake conditions are more likely to lead to a certain outcome.
 
 ### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
