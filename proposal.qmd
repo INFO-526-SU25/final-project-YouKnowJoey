@@ -42,7 +42,7 @@ longbeach <- tt_load("2025-03-04")
 longbeach = longbeach$longbeach
 ```
 
-This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows, providing potential insights into rescued animals at the city's shelter. The data includes variables such as `intake type`, `outcome type`, `animal type`, `age`, `breed`, and `geographical jurisdiction`. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
+This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows from 2021-2025, providing potential insights into rescued animals at the city's shelter. The underlying data originate from the City of Long Beach Animal Care Services Open Data portal, which publishes daily intake and outcome records for the Long Beach Animal Shelter. The data includes variables such as `intake type`, `outcome type`, `animal type`, `age`, `breed`, and `geographical jurisdiction`. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.
 
 ### Questions
 
