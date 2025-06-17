@@ -103,6 +103,12 @@ longbeach_clean <- longbeach |>
 
 ```
 
+#### Other Species Breakdown
+
+Dogs and cats account for the majority of shelter intakes, so we recode `animal_type` into a three-level factor—Dog, Cat, and Other. Because the “Other” category still comprises thousands of records, we include a descending horizontal bar chart of `animal_type`—filtered to `species_group == "Other"`—to show the most frequent non-dog/cat species. We order bars by count and label each directly. This helps readers understand which rabbits, birds, reptiles, and other species fall into the “Other” category before we proceed with Questions 1 and 2.
+
+#### Data Diagnostics
+
 Let's take a look at the data to see any issues:
 
 ```{r}
@@ -177,7 +183,7 @@ Violin Distribution: Yearly distribution of `days_to_adoption`, split by `intake
 ## Weekly Plan of Attack
 
 | Task Name | Status | Due | Priority | Summary |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |
 | Data ingestion & cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |
 | Q1 & Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |
