@@ -24,10 +24,7 @@ execute:
 #| echo: false
 
 if (!require("pacman")) 
-  install.packages("pacman, 
-                   formattable, 
-                   diagnose, 
-                   dlookr")
+  install.packages("pacman")
 
 pacman::p_load(tidyverse,
                tidytuesdayR,
@@ -133,11 +130,45 @@ DOB (date of birth) has a seemingly significant number of missing entries. Upon 
 
 ### 1. How do intake conditions and animal types affect the animal's outcome?
 
-We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` has been re-coded into a `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Depending on the bar plot results, we may mutate `outcome_type` into a binary value of `death` and `non-death` outcomes.
+We will evaluate how `intake_condition` and `animal_type` influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, `animal_type` has been re-coded into a `species_group` category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we'll use all 19 of `outcome_type`'s unique values. Based on the `outcome_type` distribution, we've decided to mutate `outcome_type` into three categorical values of `death`, `non-death`, and `adopted`.
 
 ```{r}
-longbeach |>
-  distinct(outcome_type)
+#| label: outcome-type-distribution
+#| echo: false
+longbeach_clean |>
+  count(outcome_type) |>
+  ggplot(aes(x = reorder(outcome_type, n), y = n)) +
+  geom_bar(stat = "identity", fill = "cornsilk4") +
+  coord_flip() + 
+  labs(
+    title = "Distribution of Outcome Types",
+    x = "Outcome Type",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+
+```{r}
+#| label: outcome-category-classification
+
+longbeach_clean |>
+  mutate(outcome_category = case_when(
+    outcome_type %in% c("adoption", "foster to adopt", 
+                        "homefirst") ~ "adopted",
+    outcome_type %in% c("euthanasia", "died", 
+                        "disposal") ~ "death",
+    outcome_type %in% c("rescue", "transfer", 
+                        "return to owner", "shelter, neuter, return", 
+                        "return to rescue", "transport", 
+                        "community cat", "return to wild habitat", 
+                        "foster", "trap, neuter, release", 
+                        "missing", "NA", 
+                        "duplicate") ~ "non-death",
+    TRUE ~ "non-death"
+  )) |>
+  count(outcome_category)
 ```
 
 Independent Variables:
@@ -159,6 +190,24 @@ Distribution of Outcomes Across Intake Condition: Bar plot showing distribution 
 ### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
 We'll mutate() a new variable `days_to_adoption` as the time difference between intake and outcome dates, then analyze its variation by `intake_year` and `outcome_type` across years. Because dogs and cats dominate the data, we collapse all other species into a three-level factor `species_group` (“Dog,” “Cat,” “Other”) for clearer comparisons.
+
+```{r}
+#| label: species-distribution
+#| echo: false
+
+longbeach_clean |>
+  count(animal_type) |>
+  ggplot(aes(x = reorder(animal_type, n), y = n)) +
+  geom_bar(stat = "identity", fill = "cornsilk4") +
+  coord_flip() + 
+  labs(
+    title = "Distribution of Species",
+    x = "Species Type",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
 
 Independent Variables:
 
@@ -183,7 +232,7 @@ Violin Distribution: Yearly distribution of `days_to_adoption`, split by `intake
 ## Weekly Plan of Attack
 
 | Task Name | Status | Due | Priority | Summary |
-|----|----|----|----|----|
+|---------------|---------------|---------------|---------------|---------------|
 | Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |
 | Data ingestion & cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |
 | Q1 & Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |
