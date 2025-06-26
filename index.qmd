@@ -30,7 +30,8 @@ pacman::p_load(tidyverse,
                formattable,
                dlookr,
                ggplot2,
-               scales)
+               scales,
+               lubridate)
 ```
 
 # Graphically Pawsitive Vibes
@@ -110,35 +111,33 @@ longbeach_clean |>
       labels = scales::comma_format()
     ) +
     labs(
-      title    = "Animal Intakes by Type (Dog, Cat, Other)",
+      title = "Animal Intakes by Type (Dog, Cat, Other)",
       subtitle = "Shelter intakes, 2021–2025",
-      x        = "Number of Intakes",
-      y        = "Animal Type",
-      fill     = "Species Group",
-      caption  = "Source: City of Long Beach Animal Care Services (TidyTuesday 2025-03-04)"
+      x = "Number of Intakes",
+      y  = "Animal Type",
+      fill = "Species Group",
+      caption = "Source: City of Long Beach Animal Care Services (TidyTuesday 2025-03-04)"
     ) +
     scale_fill_discrete(
       breaks = c("Cat", "Dog", "Other")
     ) +
     theme_minimal() +
     theme(
-      plot.title.position    = "plot",
-      plot.title             = element_text(face = "bold", hjust = 0.1, size = 12),
-      plot.subtitle          = element_text(hjust = 0.07, size = 10),
-      axis.text              = element_text(size = 10),
-      plot.caption           = element_text(margin = margin(t = 13)),
-      legend.position        = "inside",
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold", hjust = 0.1, size = 12),
+      plot.subtitle = element_text(hjust = 0.07, size = 10),
+      axis.text = element_text(size = 10),
+      plot.caption = element_text(margin = margin(t = 13)),
+      legend.position = "inside",
       legend.position.inside = c(0.9, 0.5),
-      legend.background      = element_rect(fill = "white")
+      legend.background = element_rect(fill = "white")
     )
 
 ```
 
-#### 
+## Question 1: How do intake conditions and animal types affect the animal's outcome?
 
-## Question 1:
-
-### Introduction (1-2 paragraphs):
+### Introduction:
 
 ### Approach (1-2 paragraphs):
 
@@ -146,12 +145,63 @@ longbeach_clean |>
 
 ### Discussion (1-3 paragraphs):
 
-## Question 2:
+## Question 2: How Have Adoption Timelines Evolved (2021–2025)?
 
-### Introduction (1-2 paragraphs):
+### Introduction:
 
-### Approach (1-2 paragraphs):
+Tracking changes in adoption timelines from 2021 to 2025 is important for shelter capacity planning and improving animal welfare, since faster adoptions free up space and resources for incoming intakes. Examining these trends by species and intake condition also lets us evaluate the impact of recent outreach and medical initiatives and guide future program investments.
 
-### Analysis (2-3 code blocks, 2 figures, text/code comments as needed):
+### Approach:
+
+**Plot 1** is a line chart of median days_to_adoption over intake_year, with separate lines colored by intake_condition and facets for each species_group. Line charts display trends over time and allow comparison across multiple conditions in a single view.
+
+**Plot 2** is a violin plot that shows the full distribution of days_to_adoption for each year, with fill mapped to intake_condition and facets by species_group. Violin plots show how the shape and range of adoption delays shift over the 2021–2025 period. This informs us whether shelter practices have reduced long‐stay outliers.
+
+### Analysis:
+
+```{r}
+adopt_df <- longbeach_clean |>
+  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
+  mutate(intake_year = year(intake_date))
+```
+
+#### Plot 1
+
+```{r}
+adopt_df |>
+  group_by(intake_year, intake_condition, species_group) |>
+  summarise(median_days = median(days_to_adoption), .groups = "drop") |>
+  ggplot(aes(x = intake_year, y = median_days, color = intake_condition)) +
+    geom_line(linewidth = 1) +           # use linewidth instead of size
+    facet_wrap(~ species_group) +
+    scale_y_continuous("Median Days to Adoption") +
+    labs(
+      x     = "Intake Year",
+      color = "Intake Condition",
+      title = "Median Time to Adoption by Year, Condition, and Species Group"
+    )
+
+```
+
+#### Plot 2
+
+```{r}
+
+adopt_df |>
+  group_by(intake_year, species_group, intake_condition) |>
+  filter(n() >= 2) |>
+  ungroup() |>
+  ggplot(aes(x = factor(intake_year), y = days_to_adoption, fill = intake_condition)) +
+    geom_violin(trim = FALSE) +
+    facet_wrap(~ species_group) +
+    labs(
+      x = "Intake Year",
+      y = "Days to Adoption",
+      fill = "Intake Condition",
+      title = "Distribution of Adoption Delays by Year, Condition, and Species Group"
+    ) +
+    scale_y_continuous(labels = scales::comma_format()) +
+    theme_minimal()
+```
 
 ### Discussion (1-3 paragraphs):
