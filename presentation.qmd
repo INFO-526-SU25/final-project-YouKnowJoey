@@ -52,7 +52,25 @@ mtcars$speed <- mtcars$hp / mtcars$wt
 data("penguins")
 ```
 
-# Using Quarto for presentations
+# Introduction - "Pawsome" Animal Shelter Data
+
+## About Animal Shelter Data
+
+## Our Questions
+
+## Data Wrangle
+
+# Question 1
+
+## Plots
+
+# Question 2
+
+## Plots
+
+# Takeaways and Conclusions
+
+# Cited Work
 
 ## Quarto
 
