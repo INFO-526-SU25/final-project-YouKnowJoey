@@ -233,9 +233,9 @@ Understanding how both the volume of adoptions and the speed at which animals le
 
 ### Approach:
 
-**Plot 1** is a line chart of median days_to_adoption over intake_year, with separate lines colored by intake_condition and facets for each species_group. Line charts display trends over time and allow comparison across multiple conditions in a single view.
+**Plot 1** shows, for each species group (Dogs, Cats, Other), how adoption volumes and delay distributions have shifted annually from 2017 through 2024. The grey bars (right‐axis scale) represent the total count of adoptions each year (scaled to the 95th percentile), while the blue violins (left‐axis scale) depict the full distribution of days-to-adoption, with dark points marking the median.
 
-**Plot 2** is a violin plot that shows the full distribution of days_to_adoption for each year, with fill mapped to intake_condition and facets by species_group. Violin plots show how the shape and range of adoption delays shift over the 2021–2025 period. This informs us whether shelter practices have reduced long‐stay outliers.
+**Plot 2** consists of bubble chart plots, for each species group, the year‐to‐year relationship between the speed of adoptions (median days to adoption on the y-axis) and the volume of adoptions (bubble size). By faceting Dogs, Cats, and Other vertically, you can see how median wait times and total placements have moved in tandem from 2017 through 2024.
 
 ### Analysis:
 
