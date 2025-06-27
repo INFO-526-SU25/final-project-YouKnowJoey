@@ -31,7 +31,8 @@ pacman::p_load(tidyverse,
                dlookr,
                ggplot2,
                scales,
-               lubridate)
+               lubridate,
+               RColorBrewer)
 ```
 
 # Graphically Pawsitive Vibes
@@ -139,11 +140,95 @@ longbeach_clean |>
 
 ### Introduction:
 
+Animal shelters frequently intake a wide range of animals with different conditions. From scenarios such as healthy surrenders, injured or ill, or stray pickups. Understanding how these intake conditions affect the final outcomes across the three categorized animal types (dogs, cats, and others) is crucial. This analysis provides insights into which species may be underrepresented or disproportionately affected, helping shelter management and policymakers make informed decisions to improve animal care and resource allocation.
+
 ### Approach (1-2 paragraphs):
+
+We will analyze how `intake_condition` and `animal_type` affect the likelihood of different outcomes for animals in a shelter. To simplify interpretation and capture broad patterns, `animal_type` has been recoded into a species_group with three categories: dogs, cats, and others. Initially, all 19 unique `outcome_type` values will be explored, based on their distribution, we further categorize outcomes into three groups `outcome_category`: death, non-death, and adopted.
+
 
 ### Analysis (2-3 code blocks, 2 figures, text/code comments as needed):
 
+
+```{r}
+
+longbeach_clean |>
+  mutate(outcome_category = case_when(
+    outcome_type %in% c("adoption", "foster to adopt", 
+                        "homefirst") ~ "adopted",
+    outcome_type %in% c("euthanasia", "died", 
+                        "disposal") ~ "death",
+    outcome_type %in% c("rescue", "transfer", 
+                        "return to owner", "shelter, neuter, return", 
+                        "return to rescue", "transport", 
+                        "community cat", "return to wild habitat", 
+                        "foster", "trap, neuter, release", 
+                        "missing", "NA", 
+                        "duplicate") ~ "non-death",
+    TRUE ~ "non-death"
+  )) |>
+  group_by(species_group, outcome_category) |>
+  summarise(n = n(), .groups = "drop") |>
+  group_by(species_group) |>
+  mutate(prop = n / sum(n)) |>
+  ggplot(aes(x = species_group, y = prop, fill = outcome_category)) +
+  geom_col(position = "dodge", color = "white") +
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    title = "Proportion of Outcomes by Animal Type",
+    y = "Proportion of Outcomes",
+    x = NULL,
+    fill = "Outcome Category"
+  ) +
+  theme_minimal()
+
+
+```
+
+```{r}
+
+# Select top 5 intake conditions by count for each outcome category
+top_5_intake <- longbeach_clean |>
+  mutate(outcome_category = case_when(
+    outcome_type %in% c("adoption", "foster to adopt", 
+                        "homefirst") ~ "adopted",
+    outcome_type %in% c("euthanasia", "died", 
+                        "disposal") ~ "death",
+    outcome_type %in% c("rescue", "transfer", 
+                        "return to owner", "shelter, neuter, return", 
+                        "return to rescue", "transport", 
+                        "community cat", "return to wild habitat", 
+                        "foster", "trap, neuter, release", 
+                        "missing", "NA", 
+                        "duplicate") ~ "non-death",
+    TRUE ~ "non-death"
+  )) |>
+  filter(!is.na(intake_condition)) |>
+  group_by(outcome_category, intake_condition) |>
+  summarise(n = n(), .groups = "drop") |>
+  group_by(outcome_category) |>
+  slice_max(n, n = 5)
+
+ggplot(top_5_intake, 
+       aes(x = reorder(intake_condition, n), y = n, fill = intake_condition)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ outcome_category, 
+             scales = "free_y") +
+  coord_flip() +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(
+    title = "Top 5 Intake Conditions by Outcome Category",
+    x = "Intake Condition",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+
 ### Discussion (1-3 paragraphs):
+
+
 
 ## Question 2: How Have Adoption Timelines Evolved (2021–2025)?
 
