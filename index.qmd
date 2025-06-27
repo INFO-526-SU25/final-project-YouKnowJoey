@@ -43,13 +43,13 @@ This project examines factors influencing animal outcomes and adoption timelines
 
 The first goal investigates how intake conditions, species grouping, and age at intake relate to final outcomes. The raw data are cleaned and transformed by parsing the `dob` field into a numeric `age_at_intake`, standardizing `intake_condition` values, and collapsing `animal_type`. Visual analyses reveal which intake conditions are associated with more favorable outcomes, how outcome patterns differ across species groups, and whether age correlates with specific dispositions. These insights may help shelter staff identify high‐risk subgroups and allocate medical or foster resources more effectively.
 
-The second goal analyzes time‐to‐adoption trends from 2021 through 2025. Records with `outcome_type == "adoption"` are filtered, `days_to_adoption` is computed as the difference between `outcome_date` and `intake_date`, and `intake_year` is derived. Visualizations illustrate how adoption lengths have shifted over time. This highlights whether animals find homes more quickly in recent years and identifies factors that drive those improvements. These findings could inform capacity planning, guide medical staffing decisions for long‐stay cases, and serve as benchmarks for continuous improvement in shelter performance.
+The second goal examines how both the number of adoptions and the speed of adoption have changed from 2017 through 2024. We filter to records where `outcome_type == "adoption"`, compute `days_to_adoption` as the difference between `outcome_date` and `intake_date`, and derive `intake_year`. Vsualizations combine median adoption timelines with annual adoption counts to show how volumes and wait times have shifted year over year. This dual view reveals not just whether animals are moving through the shelter more quickly, but also whether adoption demand has increased or decreased, offering actionable insights for capacity planning, resource allocation, and ongoing performance benchmarking.
 
 ## Introduction
 
 The Long Beach Animal Shelter dataset (TidyTuesday week 2025-03-04) captures 29,787 intake and outcome records from 2021–2025, sourced from the City of Long Beach Animal Care Services open data portal. It includes 22 fields such as `intake_date`, `outcome_date`, `intake_condition`, `animal_type`, `outcome_type`, `dob`, and geolocation, providing a rich mix of categorical, date, and numeric variables.
 
-This project visualizes which intake scenarios and animal characteristics predict different outcomes, and how quickly animals find homes over time. By looking at a variety of visualizations, we hope to provide insight into how intake conditions and animal types affect the animal's outcome and how species and intake conditions influenced the time to adoption. This information could deliver actionable insights for shelter staff on resource allocation and policy planning.
+This project visualizes which intake scenarios and animal characteristics predict different outcomes, and how quickly animals find homes over time. By looking at a variety of visualizations, we hope to provide insight into how intake conditions and animal types affect the animal's outcome and then examine year-by-year shifts in both the number of adoptions and the speed with which animals find homes. This information could deliver actionable insights for shelter staff on resource allocation and policy planning.
 
 ## Data Loading and Cleaning
 
@@ -146,9 +146,7 @@ Animal shelters frequently intake a wide range of animals with different conditi
 
 We will analyze how `intake_condition` and `animal_type` affect the likelihood of different outcomes for animals in a shelter. To simplify interpretation and capture broad patterns, `animal_type` has been recoded into a species_group with three categories: dogs, cats, and others. Initially, all 19 unique `outcome_type` values will be explored, based on their distribution, we further categorize outcomes into three groups `outcome_category`: death, non-death, and adopted.
 
-
 ### Analysis (2-3 code blocks, 2 figures, text/code comments as needed):
-
 
 ```{r}
 
@@ -225,16 +223,13 @@ ggplot(top_5_intake,
 
 ```
 
-
 ### Discussion (1-3 paragraphs):
 
-
-
-## Question 2: How Have Adoption Timelines Evolved (2021–2025)?
+## Question 2: How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
 
 ### Introduction:
 
-Tracking changes in adoption timelines from 2021 to 2025 is important for shelter capacity planning and improving animal welfare, since faster adoptions free up space and resources for incoming intakes. Examining these trends by species and intake condition also lets us evaluate the impact of recent outreach and medical initiatives and guide future program investments.
+Understanding how both the volume of adoptions and the speed at which animals leave the shelter have shifted from 2017 through 2024 is critical for effective capacity planning and resource management. Breaking these trends out by Dogs, Cats, and Other species groups also lets us assess the impact of recent outreach and medical initiatives and inform future program investments.
 
 ### Approach:
 
@@ -252,95 +247,74 @@ adopt_df <- longbeach_clean |>
 
 #### Plot 1
 
-#### Plot 2
-
 ```{r}
 #| fig-width: 10
 #| fig-height: 7
-library(dplyr)
-library(lubridate)
-library(ggplot2)
-library(scales)
 
-# 1. Filter to adoptions and derive intake_year
-adopt_df <- longbeach_clean |>
-  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
-  mutate(intake_year = year(intake_date))
-
-# 2. Identify the top 3 intake conditions by total adoptions
-top3_conditions <- adopt_df |>
-  count(intake_condition, sort = TRUE) |>
-  slice_head(n = 3) |>
-  pull(intake_condition)
-
-# 3. Group all other conditions into "Other" and compute median days to adoption
-adopt_cond_ts <- adopt_df |>
-  mutate(
-    intake_cond2 = if_else(intake_condition %in% top3_conditions,
-                           intake_condition,
-                           "Other")
-  ) |>
-  group_by(species_group, intake_year, intake_cond2) |>
-  summarise(
-    median_days = median(days_to_adoption, na.rm = TRUE),
-    .groups     = "drop"
-  ) |>
-  filter(intake_year >= 2017 & intake_year <= 2024)
-
-# 4. Plot vertical facets (Dog/Cat/Other) of median days to adoption over time
-ggplot(adopt_cond_ts, aes(x = intake_year, y = median_days, color = intake_cond2)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2) +
-  facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
-  scale_x_continuous(breaks = 2017:2024) +
-  scale_y_continuous(name = "Median Days to Adoption") +
-  scale_color_brewer(palette = "Set2", name = "Intake Condition") +
-  labs(
-    title    = "Median Time to Adoption by Intake Condition and Species Group",
-    subtitle = "Top 3 Intake Conditions vs. Other, 2017–2024",
-    x        = "Intake Year"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title.position  = "plot",
-    plot.title           = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle        = element_text(hjust = 0.1),
-    legend.position      = "bottom",
-    axis.title.x         = element_text(margin = margin(t = 8)),
-    axis.text            = element_text(size = 10)
-  )
-
-```
-
-```{r}
-#| fig-width: 10
-#| fig-height: 7
-library(dplyr)
-library(lubridate)
-library(ggplot2)
-library(scales)
-
-# 1. Prepare adoption data for 2017–2024
+# prepare adoption data
 adopt_df_full <- longbeach_clean |>
-  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
+  filter(
+    outcome_type     == "adoption",
+    !is.na(days_to_adoption),
+    days_to_adoption >= 0
+  ) |>
   mutate(intake_year = year(intake_date)) |>
-  filter(intake_year >= 2017, intake_year <= 2024)
+  filter(intake_year >= 2017, intake_year <= 2024) |>
+  mutate(intake_year = factor(intake_year, levels = 2017:2024))
 
-# 2. Compute the 95th percentile of days_to_adoption
+# 95th percentile to make the grap display better
 p95 <- quantile(adopt_df_full$days_to_adoption, 0.95, na.rm = TRUE)
 
-# 3. Violin plot of adoption delays by year, faceted by species_group,
-#    zoomed to the 95th percentile to focus on the main distribution
-ggplot(adopt_df_full, aes(x = factor(intake_year), y = days_to_adoption)) +
-  geom_violin(trim = FALSE, fill = "skyblue", color = NA, alpha = 0.7) +
-  stat_summary(fun = median, geom = "point", size = 2, color = "darkblue") +
+# get counts
+count_df <- adopt_df_full |>
+  count(species_group, intake_year, name = "n_adopt")
+
+# scale to the 95th percentile
+scaleFact <- p95 / max(count_df$n_adopt)
+
+# plot
+ggplot() +
+  # bars
+  geom_col(
+    data = count_df,
+    aes(x = intake_year, y = n_adopt * scaleFact),
+    fill  = "grey80",
+    width = 0.6
+  ) +
+  # violins
+  geom_violin(
+    data   = adopt_df_full,
+    aes(x = intake_year, y = days_to_adoption),
+    trim   = FALSE, 
+    fill   = "skyblue", 
+    color  = NA, 
+    alpha  = 0.7
+  ) +
+  # medians
+  stat_summary(
+    data = adopt_df_full,
+    aes(x = intake_year, y = days_to_adoption),
+    fun    = median,
+    geom   = "point",
+    size   = 2,
+    color  = "darkblue"
+  ) +
   facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
-  scale_y_continuous("Days to Adoption", labels = comma_format()) +
   scale_x_discrete(drop = FALSE) +
+  scale_y_continuous(
+    name = "Days to Adoption",
+    labels = comma_format(),
+    expand = c(0, 0),                    # <-- remove bottom padding
+    sec.axis = sec_axis(
+      ~ . / scaleFact,
+      name   = "Number of Adoptions",
+      labels = comma_format()
+    )
+  ) +
   coord_cartesian(ylim = c(0, p95)) +
   labs(
-    title    = "Distribution of Adoption Delays by Year and Species Group",
-    subtitle = "Zoomed to 95th percentile, All intake conditions, 2017–2024",
+    title    = "Adoption Delays and Counts by Year and Species Group",
+    subtitle = "Violins = days to adoption; Bars = count of adoptions (2017–2024)",
     x        = "Intake Year"
   ) +
   theme_minimal() +
@@ -348,10 +322,61 @@ ggplot(adopt_df_full, aes(x = factor(intake_year), y = days_to_adoption)) +
     plot.title.position = "plot",
     plot.title          = element_text(face = "bold", hjust = 0.1),
     plot.subtitle       = element_text(hjust = 0.1),
-    axis.text           = element_text(size = 10),
-    axis.title.x        = element_text(margin = margin(t = 8))
+    strip.text          = element_text(face = "bold"),
+    axis.title.x        = element_text(margin = margin(t = 8)),
+    axis.text           = element_text(size = 10)
   )
 
+```
+
+#### Plot 2
+
+```{r}
+#| fig-width: 10
+#| fig-height: 7
+
+bubble_df <- longbeach_clean |>
+  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
+  mutate(intake_year = year(intake_date)) |>
+  filter(intake_year >= 2017, intake_year <= 2024) |>
+  group_by(species_group, intake_year) |>
+  summarise(
+    median_days = median(days_to_adoption, na.rm = TRUE),
+    n_adopt     = n(),
+    .groups     = "drop"
+  )
+
+ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
+  geom_line(aes(group = 1), color = "grey50", linewidth = 0.5) +
+  geom_point(aes(size = n_adopt),
+             fill   = "skyblue",
+             color  = "white",
+             shape  = 21,
+             alpha  = 0.8) +
+  facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
+  scale_x_continuous(breaks = 2017:2024) +
+  scale_y_continuous(
+    name   = "Median Days to Adoption",
+    expand = expansion(add = c(5, 5))  # 5-day padding below
+  ) +
+  scale_size_area(
+    max_size = 12,
+    name     = "Count of Adoptions"
+  ) +
+  labs(
+    title    = "Adoption Speed vs. Volume Over Time",
+    subtitle = "Median days-to-adoption (y) & adoption count (point size), faceted by species group",
+    x        = "Intake Year"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title.position = "plot",
+    plot.title          = element_text(face = "bold", hjust = 0.1),
+    plot.subtitle       = element_text(hjust = 0.1),
+    strip.text          = element_text(face = "bold"),
+    axis.title.x        = element_text(margin = margin(t = 8)),
+    axis.text           = element_text(size = 12)
+  )
 ```
 
 ### Discussion (1-3 paragraphs):
