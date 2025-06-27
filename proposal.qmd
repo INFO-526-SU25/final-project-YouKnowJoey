@@ -45,11 +45,11 @@ This TidyTuesday dataset is a conglomeration of different species retrieved in L
 
 1.  How do intake conditions and animal types affect the animal's outcome?
 
-    -   Hypothesis: Animals with poor intake conditions (sick or injured) will have a higher likelihood of negative outcomes (euthanasia). Certain species such as dogs, will show higher adoption rates compared to others.
+    -   Hypothesis: Animals with poor intake conditions (sick or injured) will have a higher likelihood of negative outcomes (euthanasia). Certain species, such as dogs, tend to have higher adoption rates compared to others.
 
 2.  Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?
 
-    -   Hypothesis: Healthy animals will more commonly experience shorter durations from intake to adoption.
+    -   Hypothesis: Healthy animals will more commonly experience a shorter duration from intake to adoption.
 
 ## Analysis plan
 
