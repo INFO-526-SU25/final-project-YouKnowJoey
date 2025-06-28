@@ -144,49 +144,16 @@ Animal shelters frequently intake a wide range of animals with different conditi
 
 ### Approach (1-2 paragraphs):
 
-We will analyze how `intake_condition` and `animal_type` affect the likelihood of different outcomes for animals in a shelter. To simplify interpretation and capture broad patterns, `animal_type` has been recoded into a species_group with three categories: dogs, cats, and others. Initially, all 19 unique `outcome_type` values will be explored, based on their distribution, we further categorize outcomes into three groups `outcome_category`: death, non-death, and adopted.
+We will examine how `intake_condition` and `species_group` influence the likelihood of different outcomes for animals in the Long Beach shelter system. To simplify interpretation, the original `animal_type` variable has been recoded into a more general `species_group` category consisting of dogs, cats, and other species. This distinction allows us to focus on how outcomes differ not only by individual condition but also across species that historically experience different adoption rates and shelter outcomes.
+
+The outcome variable, originally containing 19 unique `outcome_type` values, has been consolidated into a new `outcome_category` with three meaningful groups: **adopted**, **death**, and **non-death**. This categorization captures critical differences in outcomes while reducing complexity. Through this approach, we aim to uncover patterns that reveal which species and intake conditions are associated with better or worse outcomes, providing actionable insights for shelter management and animal welfare efforts.
 
 ### Analysis (2-3 code blocks, 2 figures, text/code comments as needed):
 
 ```{r}
 
-longbeach_clean |>
-  mutate(outcome_category = case_when(
-    outcome_type %in% c("adoption", "foster to adopt", 
-                        "homefirst") ~ "adopted",
-    outcome_type %in% c("euthanasia", "died", 
-                        "disposal") ~ "death",
-    outcome_type %in% c("rescue", "transfer", 
-                        "return to owner", "shelter, neuter, return", 
-                        "return to rescue", "transport", 
-                        "community cat", "return to wild habitat", 
-                        "foster", "trap, neuter, release", 
-                        "missing", "NA", 
-                        "duplicate") ~ "non-death",
-    TRUE ~ "non-death"
-  )) |>
-  group_by(species_group, outcome_category) |>
-  summarise(n = n(), .groups = "drop") |>
-  group_by(species_group) |>
-  mutate(prop = n / sum(n)) |>
-  ggplot(aes(x = species_group, y = prop, fill = outcome_category)) +
-  geom_col(position = "dodge", color = "white") +
-  scale_y_continuous(labels = percent_format()) +
-  labs(
-    title = "Proportion of Outcomes by Animal Type",
-    y = "Proportion of Outcomes",
-    x = NULL,
-    fill = "Outcome Category"
-  ) +
-  theme_minimal()
-
-
-```
-
-```{r}
-
-# Select top 5 intake conditions by count for each outcome category
-top_5_intake <- longbeach_clean |>
+# Select top 6 intake conditions by count for each outcome category
+top_6_intake <- longbeach_clean |>
   mutate(outcome_category = case_when(
     outcome_type %in% c("adoption", "foster to adopt", 
                         "homefirst") ~ "adopted",
@@ -205,9 +172,9 @@ top_5_intake <- longbeach_clean |>
   group_by(outcome_category, intake_condition) |>
   summarise(n = n(), .groups = "drop") |>
   group_by(outcome_category) |>
-  slice_max(n, n = 5)
+  slice_max(n, n = 6) # adjust int for n amount of 'top' conditions
 
-ggplot(top_5_intake, 
+ggplot(top_6_intake, 
        aes(x = reorder(intake_condition, n), y = n, fill = intake_condition)) +
   geom_col(show.legend = FALSE) +
   facet_wrap(~ outcome_category, 
@@ -215,15 +182,63 @@ ggplot(top_5_intake,
   coord_flip() +
   scale_fill_brewer(palette = "Dark2") +
   labs(
-    title = "Top 5 Intake Conditions by Outcome Category",
+    title = "Paths Begin at Intake: Which Conditions Influence Shelter Outcomes?",
+    subtitle = "Top 6 Intake Conditions by Outcome Category",
     x = "Intake Condition",
-    y = "Count"
+    y = "Count",
+    caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal()
 
 ```
 
+```{r}
+
+longbeach_clean |>
+  
+  mutate(outcome_category = case_when(
+    outcome_type %in% c("adoption", "foster to adopt", 
+                        "homefirst") ~ "adopted",
+    outcome_type %in% c("euthanasia", "died", 
+                        "disposal") ~ "death",
+    outcome_type %in% c("rescue", "transfer", 
+                        "return to owner", "shelter, neuter, return", 
+                        "return to rescue", "transport", 
+                        "community cat", "return to wild habitat", 
+                        "foster", "trap, neuter, release", 
+                        "missing", "NA", 
+                        "duplicate") ~ "non-death",
+    TRUE ~ "non-death"
+  )) |>
+  group_by(species_group, outcome_category) |>
+  summarise(n = n(), .groups = "drop") |>
+  group_by(species_group) |>
+  mutate(prop = n / sum(n)) |>
+  
+  ggplot(aes(x = outcome_category, y = prop, fill = species_group)) +
+  geom_col(position = "dodge", color = "white") +
+  scale_y_continuous(labels = percent_format()) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(
+    title = "A Stark Divide: The Uneven Landscape of Shelter Adoptions and Deaths",
+    subtitle = "Proportion of Outcomes by Animal Type in California",
+    y = "Proportion of Outcomes",
+    x = "Outcomes",
+    fill = "Species",
+    caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
+  ) +
+  theme_minimal()
+
+
+```
+
 ### Discussion (1-3 paragraphs):
+
+The shelter outcome data reveals a clear disparity in how different species fare once admitted. Dogs and cats make up the majority of the shelter population, they are significantly more likely to be adopted compared to other species. This disproportionate rate of adoptions suggests that dogs and cats dominate intake numbers and benefit from greater public interest and adoption opportunities.
+
+Conversely, animals categorized outside of dogs and cats, such as rabbits, birds, reptiles, and other small animals—experience far fewer adoptions and notably higher death rates. Despite representing a smaller share of shelter intakes, these species face worse outcomes, highlighting an underrepresented group that is more vulnerable within the shelter system.
+
+Furthermore, intake conditions play a critical role in shaping these outcomes. As seen in the "Paths Begin at Intake:.." plot, animals arriving in favorable conditions, such as mild or moderate illness or injury, often translate into higher adoption rates. Meanwhile, when arriving in moderate or severe conditions, face greater barriers to positive outcomes. These patterns emphasize the need for more targeted intervention and outreach to improve the fate of non-dog and non-cat species within the shelter environment.
 
 ## Question 2: How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
 
@@ -335,7 +350,8 @@ ggplot() +
   labs(
     title    = "Adoption Delays and Counts by Year and Species Group",
     subtitle = "Violins = days to adoption; Bars = count of adoptions; Dots = median (2017–2024)",
-    x        = "Intake Year"
+    x        = "Intake Year",
+    caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
   theme(
@@ -388,7 +404,8 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   labs(
     title    = "Adoption Speed vs. Volume Over Time",
     subtitle = "Median days-to-adoption (y) & adoption count (point size), faceted by species group",
-    x        = "Intake Year"
+    x        = "Intake Year",
+    caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
   theme(
