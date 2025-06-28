@@ -22,7 +22,14 @@ execute:
 
 # Load packages here
 pacman::p_load(tidymodels,
-               tidyverse)
+               tidyverse,
+               tidytuesdayR,
+               formattable,
+               dlookr,
+               ggplot2,
+               scales,
+               lubridate,
+               RColorBrewer)
 
 ```
 
@@ -45,20 +52,107 @@ knitr::opts_chunk$set(
 ```{r}
 #| label: load-data
 #| include: false
+
 # Load data here
+longbeach <- tt_load("2025-03-04")
+longbeach = longbeach$longbeach
+
 data(mtcars)
 mtcars$speed <- mtcars$hp / mtcars$wt
-
-data("penguins")
 ```
 
 # Introduction - "Pawsome" Animal Shelter Data
 
+We want ALL animals adopted!
+
 ## About Animal Shelter Data
+
+- Source: Long Beach, CA Animal Care Services Open Data Portal
+
+- Dataset: TidyTuesday (Week of 2025-03-04)
+
+- Records: 29,787 animal intakes and outcomes (2021–2025)
+
+- Key Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation
 
 ## Our Questions
 
+1. How do intake conditions and animal types affect the animal's outcome?
+
+2. How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
+
 ## Data Wrangle
+Comments: ""
+```{r}
+#| label: data-wrangle-clean
+#| echo: FALSE
+
+longbeach_clean <- longbeach |>
+  
+  # standardize intake_condition
+  mutate(
+    intake_condition = intake_condition |>
+      str_squish()             # collapse multiple spaces
+      |> str_replace_all("/", " ")  # replace slashes with spaces
+      |> str_to_lower()             # convert to lowercase
+  ) |>
+  
+  # create a simplified species_group
+  mutate(
+    species_group = case_when(
+      animal_type == "dog" ~ "Dog",
+      animal_type == "cat" ~ "Cat",
+      TRUE ~ "Other"
+    ) |> 
+      factor(levels = c("Dog", "Cat", "Other"))
+  ) |>
+  
+  # compute age_at_intake and flag unknowns
+  mutate(
+    age_at_intake = as.numeric(intake_date - dob) / 365,
+    age_unknown   = is.na(age_at_intake)
+  ) |>
+  
+  # compute days_to_adoption
+  mutate(
+    days_to_adoption = as.integer(outcome_date - intake_date)
+  )
+
+longbeach_clean |>
+  count(animal_type, species_group, sort = TRUE) |>
+  ggplot(aes(x = n, y = reorder(animal_type, n), fill = species_group)) +
+    geom_col() +
+    geom_text(aes(label = n),
+              hjust = -0.1,
+              size = 3) +
+    scale_x_continuous(
+      expand = expansion(mult = c(0, 0.05)),
+      labels = scales::comma_format()
+    ) +
+    labs(
+      title = "Animal Intakes by Type (Dog, Cat, Other)",
+      subtitle = "Shelter intakes, 2017–2024",
+      x = "Number of Intakes",
+      y  = "Animal Type",
+      fill = "Species Group",
+      caption = "Source: City of Long Beach Animal Care Services (TidyTuesday 2025-03-04)"
+    ) +
+    scale_fill_discrete(
+      breaks = c("Cat", "Dog", "Other")
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold", hjust = 0.1, size = 12),
+      plot.subtitle = element_text(hjust = 0.07, size = 10),
+      axis.text = element_text(size = 10),
+      plot.caption = element_text(margin = margin(t = 13)),
+      legend.position = "inside",
+      legend.position.inside = c(0.9, 0.5),
+      legend.background = element_rect(fill = "white")
+    )
+
+```
 
 # Question 1
 
