@@ -302,12 +302,12 @@ ggplot() +
   facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
   scale_x_discrete(drop = FALSE) +
   scale_y_continuous(
-    name = "Days to Adoption",
+    name = "Days to Adoption (violins)",
     labels = comma_format(),
     expand = c(0, 0),                    # <-- remove bottom padding
     sec.axis = sec_axis(
       ~ . / scaleFact,
-      name   = "Number of Adoptions",
+      name   = "Number of Adoptions (bars)",
       labels = comma_format()
     )
   ) +
@@ -380,3 +380,111 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
 ```
 
 ### Discussion (1-3 paragraphs):
+
+```{r}
+#| fig-width: 10
+#| fig-height: 7
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(scales)
+
+# 1. Prepare adoption data for 2017–2024
+adopt_df_full <- longbeach_clean |>
+  filter(
+    outcome_type     == "adoption",
+    !is.na(days_to_adoption),
+    days_to_adoption >= 0
+  ) |>
+  # derive a numeric year for filtering
+  mutate(intake_year_num = year(intake_date)) |>
+  filter(intake_year_num >= 2017, intake_year_num <= 2024) |>
+  # then turn it into a factor for the x-axis
+  mutate(intake_year = factor(intake_year_num, levels = 2017:2024)) 
+
+# 2. Compute the 95th percentile of days_to_adoption
+p95 <- quantile(adopt_df_full$days_to_adoption, 0.95, na.rm = TRUE)
+
+# 3. Compute counts per year & species for bar fills
+count_df <- adopt_df_full |>
+  count(species_group, intake_year, name = "n_adopt")
+
+# 4. Scaling factor to align counts with days scale
+scaleFact <- p95 / max(count_df$n_adopt)
+
+# 5. Plot with combined legend on top
+ggplot() +
+  # Bars (counts)
+  geom_col(
+    data = count_df,
+    aes(x = intake_year, y = n_adopt * scaleFact, fill = "Number of adoptions"),
+    width = 0.6,
+    alpha = 0.7
+  ) +
+  # Violins (delay distributions)
+  geom_violin(
+    data = adopt_df_full,
+    aes(x = intake_year, y = days_to_adoption, fill = "Days to adoption"),
+    trim  = FALSE, 
+    color  = NA,
+    alpha = 0.7
+  ) +
+  # Median points
+  stat_summary(
+    data = adopt_df_full,
+    aes(x = intake_year, y = days_to_adoption, color = "Median days"),
+    fun    = median,
+    geom   = "point",
+    size   = 3
+  ) +
+  facet_wrap(~ species_group, ncol = 1, scales = "fixed") +
+  scale_x_discrete(drop = FALSE) +
+  
+  # Fill legend for bars & violins
+  scale_fill_manual(
+    name   = NULL,
+    values = c(
+      "Days to adoption"   = "skyblue",
+      "Number of adoptions" = "grey80"
+    ),
+    breaks = c("Days to adoption", "Number of adoptions"),
+    guide  = guide_legend(order = 1)
+  ) +
+  # Color legend for median dots
+  scale_color_manual(
+    values = c("Median days" = "darkblue"),
+    guide  = guide_legend(order = 2, override.aes = list(size = 4)),
+    name   = NULL
+  ) +
+  
+  # Dual axis & zoom
+  scale_y_continuous(
+    name    = "Days to Adoption (violins)",
+    labels  = comma_format(),
+    expand  = c(0, 0),
+    sec.axis = sec_axis(
+      ~ . / scaleFact,
+      name   = "Number of Adoptions (bars)",
+      labels = comma_format()
+    )
+  ) +
+  coord_cartesian(ylim = c(0, p95)) +
+  
+  labs(
+    title    = "Adoption Delays and Counts by Year and Species Group",
+    subtitle = "Violins = days to adoption; Bars = count of adoptions; Dots = median (2017–2024)",
+    x        = "Intake Year"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position       = "top",
+    legend.direction      = "horizontal",
+    plot.title.position   = "plot",
+    plot.title            = element_text(face = "bold", hjust = 0.1),
+    plot.subtitle         = element_text(hjust = 0.1),
+    strip.text            = element_text(face = "bold"),
+    axis.title.x          = element_text(margin = margin(t = 8)),
+    axis.text             = element_text(size = 10)
+  )
+
+```
