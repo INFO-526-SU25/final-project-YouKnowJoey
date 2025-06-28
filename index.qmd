@@ -251,144 +251,6 @@ adopt_df <- longbeach_clean |>
 #| fig-width: 10
 #| fig-height: 7
 
-# prepare adoption data
-adopt_df_full <- longbeach_clean |>
-  filter(
-    outcome_type     == "adoption",
-    !is.na(days_to_adoption),
-    days_to_adoption >= 0
-  ) |>
-  mutate(intake_year = year(intake_date)) |>
-  filter(intake_year >= 2017, intake_year <= 2024) |>
-  mutate(intake_year = factor(intake_year, levels = 2017:2024))
-
-# 95th percentile to make the grap display better
-p95 <- quantile(adopt_df_full$days_to_adoption, 0.95, na.rm = TRUE)
-
-# get counts
-count_df <- adopt_df_full |>
-  count(species_group, intake_year, name = "n_adopt")
-
-# scale to the 95th percentile
-scaleFact <- p95 / max(count_df$n_adopt)
-
-# plot
-ggplot() +
-  # bars
-  geom_col(
-    data = count_df,
-    aes(x = intake_year, y = n_adopt * scaleFact),
-    fill  = "grey80",
-    width = 0.6
-  ) +
-  # violins
-  geom_violin(
-    data   = adopt_df_full,
-    aes(x = intake_year, y = days_to_adoption),
-    trim   = FALSE, 
-    fill   = "skyblue", 
-    color  = NA, 
-    alpha  = 0.7
-  ) +
-  # medians
-  stat_summary(
-    data = adopt_df_full,
-    aes(x = intake_year, y = days_to_adoption),
-    fun    = median,
-    geom   = "point",
-    size   = 2,
-    color  = "darkblue"
-  ) +
-  facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
-  scale_x_discrete(drop = FALSE) +
-  scale_y_continuous(
-    name = "Days to Adoption (violins)",
-    labels = comma_format(),
-    expand = c(0, 0),                    # <-- remove bottom padding
-    sec.axis = sec_axis(
-      ~ . / scaleFact,
-      name   = "Number of Adoptions (bars)",
-      labels = comma_format()
-    )
-  ) +
-  coord_cartesian(ylim = c(0, p95)) +
-  labs(
-    title    = "Adoption Delays and Counts by Year and Species Group",
-    subtitle = "Violins = days to adoption; Bars = count of adoptions (2017–2024)",
-    x        = "Intake Year"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title.position = "plot",
-    plot.title          = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle       = element_text(hjust = 0.1),
-    strip.text          = element_text(face = "bold"),
-    axis.title.x        = element_text(margin = margin(t = 8)),
-    axis.text           = element_text(size = 10)
-  )
-
-```
-
-#### Plot 2
-
-```{r}
-#| fig-width: 10
-#| fig-height: 7
-
-bubble_df <- longbeach_clean |>
-  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
-  mutate(intake_year = year(intake_date)) |>
-  filter(intake_year >= 2017, intake_year <= 2024) |>
-  group_by(species_group, intake_year) |>
-  summarise(
-    median_days = median(days_to_adoption, na.rm = TRUE),
-    n_adopt     = n(),
-    .groups     = "drop"
-  )
-
-ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
-  geom_line(aes(group = 1), color = "grey50", linewidth = 0.5) +
-  geom_point(aes(size = n_adopt),
-             fill   = "skyblue",
-             color  = "white",
-             shape  = 21,
-             alpha  = 0.8) +
-  facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
-  scale_x_continuous(breaks = 2017:2024) +
-  scale_y_continuous(
-    name   = "Median Days to Adoption",
-    expand = expansion(add = c(5, 5))  # 5-day padding below
-  ) +
-  scale_size_area(
-    max_size = 12,
-    name     = "Count of Adoptions"
-  ) +
-  labs(
-    title    = "Adoption Speed vs. Volume Over Time",
-    subtitle = "Median days-to-adoption (y) & adoption count (point size), faceted by species group",
-    x        = "Intake Year"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title.position = "plot",
-    plot.title          = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle       = element_text(hjust = 0.1),
-    strip.text          = element_text(face = "bold"),
-    axis.title.x        = element_text(margin = margin(t = 8)),
-    axis.text           = element_text(size = 12)
-  )
-```
-
-### Discussion (1-3 paragraphs):
-
-```{r}
-#| fig-width: 10
-#| fig-height: 7
-library(dplyr)
-library(lubridate)
-library(ggplot2)
-library(scales)
-
 # 1. Prepare adoption data for 2017–2024
 adopt_df_full <- longbeach_clean |>
   filter(
@@ -488,3 +350,55 @@ ggplot() +
   )
 
 ```
+
+#### Plot 2
+
+```{r}
+#| fig-width: 10
+#| fig-height: 7
+
+bubble_df <- longbeach_clean |>
+  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
+  mutate(intake_year = year(intake_date)) |>
+  filter(intake_year >= 2017, intake_year <= 2024) |>
+  group_by(species_group, intake_year) |>
+  summarise(
+    median_days = median(days_to_adoption, na.rm = TRUE),
+    n_adopt     = n(),
+    .groups     = "drop"
+  )
+
+ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
+  geom_line(aes(group = 1), color = "grey50", linewidth = 0.5) +
+  geom_point(aes(size = n_adopt),
+             fill   = "skyblue",
+             color  = "white",
+             shape  = 21,
+             alpha  = 0.8) +
+  facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
+  scale_x_continuous(breaks = 2017:2024) +
+  scale_y_continuous(
+    name   = "Median Days to Adoption",
+    expand = expansion(add = c(5, 5))  # 5-day padding below
+  ) +
+  scale_size_area(
+    max_size = 12,
+    name     = "Count of Adoptions"
+  ) +
+  labs(
+    title    = "Adoption Speed vs. Volume Over Time",
+    subtitle = "Median days-to-adoption (y) & adoption count (point size), faceted by species group",
+    x        = "Intake Year"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title.position = "plot",
+    plot.title          = element_text(face = "bold", hjust = 0.1),
+    plot.subtitle       = element_text(hjust = 0.1),
+    strip.text          = element_text(face = "bold"),
+    axis.title.x        = element_text(margin = margin(t = 8)),
+    axis.text           = element_text(size = 12)
+  )
+```
+
+### Discussion (1-3 paragraphs):
