@@ -51,7 +51,7 @@ The Long Beach Animal Shelter dataset (TidyTuesday week 2025-03-04) captures 29,
 
 This project visualizes which intake scenarios and animal characteristics predict different outcomes, and how quickly animals find homes over time. By looking at a variety of visualizations, we hope to provide insight into how intake conditions and animal types affect the animal's outcome and then examine year-by-year shifts in both the number of adoptions and the speed with which animals find homes. This information could deliver actionable insights for shelter staff on resource allocation and policy planning.
 
-## Data Loading and Cleaning
+### Data Loading and Cleaning
 
 Load the Longbeach dataset from TidyTuesday
 
@@ -142,13 +142,13 @@ longbeach_clean |>
 
 Animal shelters frequently intake a wide range of animals with different conditions. From scenarios such as healthy surrenders, injured or ill, or stray pickups. Understanding how these intake conditions affect the final outcomes across the three categorized animal types (dogs, cats, and others) is crucial. This analysis provides insights into which species may be underrepresented or disproportionately affected, helping shelter management and policymakers make informed decisions to improve animal care and resource allocation.
 
-### Approach (1-2 paragraphs):
+### Approach:
 
 We will examine how `intake_condition` and `species_group` influence the likelihood of different outcomes for animals in the Long Beach shelter system. To simplify interpretation, the original `animal_type` variable has been recoded into a more general `species_group` category consisting of dogs, cats, and other species. This distinction allows us to focus on how outcomes differ not only by individual condition but also across species that historically experience different adoption rates and shelter outcomes.
 
 The outcome variable, originally containing 19 unique `outcome_type` values, has been consolidated into a new `outcome_category` with three meaningful groups: **adopted**, **death**, and **non-death**. This categorization captures critical differences in outcomes while reducing complexity. Through this approach, we aim to uncover patterns that reveal which species and intake conditions are associated with better or worse outcomes, providing actionable insights for shelter management and animal welfare efforts.
 
-### Analysis (2-3 code blocks, 2 figures, text/code comments as needed):
+### Analysis:
 
 ```{r}
 
@@ -232,7 +232,7 @@ longbeach_clean |>
 
 ```
 
-### Discussion (1-3 paragraphs):
+### Discussion:
 
 The shelter outcome data reveals a clear disparity in how different species fare once admitted. Dogs and cats make up the majority of the shelter population, they are significantly more likely to be adopted compared to other species. This disproportionate rate of adoptions suggests that dogs and cats dominate intake numbers and benefit from greater public interest and adoption opportunities.
 
@@ -244,7 +244,7 @@ Furthermore, intake conditions play a critical role in shaping these outcomes. A
 
 ### Introduction:
 
-Understanding how both the volume of adoptions and the speed at which animals leave the shelter have shifted from 2017 through 2024 is critical for effective capacity planning and resource management. Breaking these trends out by Dogs, Cats, and Other species groups also lets us assess the impact of recent outreach and medical initiatives and inform future program investments.
+Understanding how both the volume of adoptions and the speed at which animals leave the shelter have shifted from 2017 through 2024 is o,portant for effective capacity planning and resource management. Looking at these trends out by Dogs, Cats, and Other species groups also lets us assess the impact of recent outreach and medical initiatives and inform future program investments.
 
 ### Approach:
 
@@ -304,7 +304,7 @@ ggplot() +
     aes(x = intake_year, y = days_to_adoption, fill = "Days to adoption"),
     trim  = FALSE, 
     color  = NA,
-    alpha = 0.7
+    alpha = 0.5
   ) +
   # Median points
   stat_summary(
@@ -336,12 +336,12 @@ ggplot() +
   
   # Dual axis & zoom
   scale_y_continuous(
-    name    = "Days to Adoption (violins)",
+    name    = "Days to Adoption",
     labels  = comma_format(),
     expand  = c(0, 0),
     sec.axis = sec_axis(
       ~ . / scaleFact,
-      name   = "Number of Adoptions (bars)",
+      name   = "Number of Adoptions",
       labels = comma_format()
     )
   ) +
@@ -349,18 +349,21 @@ ggplot() +
   
   labs(
     title    = "Adoption Delays and Counts by Year and Species Group",
-    subtitle = "Violins = days to adoption; Bars = count of adoptions; Dots = median (2017–2024)",
+    subtitle = "Violin = full days-to-adoption distribution; dots = median (2017–2024), zoomed to the 95th percentile",
     x        = "Intake Year",
     caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
   theme(
+    panel.spacing.y = unit(0.8, "lines"),
+    panel.grid.major.y = element_line(color = "#EEEEEE"),
+    panel.grid.minor   = element_blank(),
     legend.position       = "top",
     legend.direction      = "horizontal",
     plot.title.position   = "plot",
     plot.title            = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle         = element_text(hjust = 0.1),
-    strip.text            = element_text(face = "bold"),
+    plot.subtitle         = element_text(hjust = 0.18),
+    strip.text            = element_text(size = 11, face = "bold"),
     axis.title.x          = element_text(margin = margin(t = 8)),
     axis.text             = element_text(size = 10)
   )
@@ -388,7 +391,7 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   geom_line(aes(group = 1), color = "grey50", linewidth = 0.5) +
   geom_point(aes(size = n_adopt),
              fill   = "skyblue",
-             color  = "white",
+             color  = "#6BAED6",
              shape  = 21,
              alpha  = 0.8) +
   facet_wrap(~ species_group, ncol = 1, scales = "free_y") +
@@ -398,8 +401,9 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
     expand = expansion(add = c(5, 5))  # 5-day padding below
   ) +
   scale_size_area(
-    max_size = 12,
-    name     = "Count of Adoptions"
+  name   = "Volume",         # rename legend title
+  breaks = c(200, 400, 600), # show just a few reference sizes
+  max_size = 12
   ) +
   labs(
     title    = "Adoption Speed vs. Volume Over Time",
@@ -412,10 +416,13 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
     plot.title.position = "plot",
     plot.title          = element_text(face = "bold", hjust = 0.1),
     plot.subtitle       = element_text(hjust = 0.1),
-    strip.text          = element_text(face = "bold"),
+    strip.text          = element_text(size = 11, face = "bold"),
     axis.title.x        = element_text(margin = margin(t = 8)),
-    axis.text           = element_text(size = 12)
+    axis.text           = element_text(size = 12),
+    panel.grid.major.y = element_line(color = "#E8E8E8"),
+    panel.grid.minor   = element_blank(),
+    panel.spacing.y = unit(0.8, "lines")
   )
 ```
 
-### Discussion (1-3 paragraphs):
+### Discussion:
