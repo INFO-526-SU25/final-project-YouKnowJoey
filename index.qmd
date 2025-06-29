@@ -415,7 +415,7 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   theme(
     plot.title.position = "plot",
     plot.title          = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle       = element_text(hjust = 0.1),
+    plot.subtitle       = element_text(hjust = 0.155),
     strip.text          = element_text(size = 11, face = "bold"),
     axis.title.x        = element_text(margin = margin(t = 8)),
     axis.text           = element_text(size = 12),
