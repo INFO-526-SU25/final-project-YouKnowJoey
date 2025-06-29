@@ -407,7 +407,7 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   ) +
   labs(
     title    = "Adoption Speed vs. Volume Over Time",
-    subtitle = "Median days-to-adoption (y) & adoption count (point size), faceted by species group",
+    subtitle = "Median days-to-adoption & adoption count by species group (2017–2024)",
     x        = "Intake Year",
     caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
@@ -415,7 +415,7 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   theme(
     plot.title.position = "plot",
     plot.title          = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle       = element_text(hjust = 0.155),
+    plot.subtitle       = element_text(hjust = 0.138),
     strip.text          = element_text(size = 11, face = "bold"),
     axis.title.x        = element_text(margin = margin(t = 8)),
     axis.text           = element_text(size = 12),
