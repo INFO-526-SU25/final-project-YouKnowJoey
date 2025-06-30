@@ -33,6 +33,22 @@ pacman::p_load(tidyverse,
                scales,
                lubridate,
                RColorBrewer)
+
+# Plot theme
+ggplot2::theme_set(
+  theme_minimal() +
+    theme(
+      text = element_text(size = 14),
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold", 
+                                hjust = 0.1, 
+                                size = 16),
+      plot.subtitle = element_text(hjust = 0.1, size = 14),
+      axis.text = element_text(size = 14),
+      plot.caption = element_text(margin = margin(t = 13)),
+    )
+)
+
 ```
 
 # Graphically Pawsitive Vibes
@@ -99,6 +115,12 @@ longbeach_clean <- longbeach |>
 
 To establish the rationale for combining `animal_type` into Dog, Cat, and Other, horizontal bar chart of the various values of `animal_type` are shown with colot highlighting the grouping.
 
+scale_fill_discrete(
+
+breaks = c("Cat", "Dog", "Other", pal_brewer(palette = "Dark2"))
+
+) +
+
 ```{r}
 longbeach_clean |>
   count(animal_type, species_group, sort = TRUE) |>
@@ -109,7 +131,7 @@ longbeach_clean |>
               size = 3) +
     scale_x_continuous(
       expand = expansion(mult = c(0, 0.05)),
-      labels = scales::comma_format()
+      labels = comma_format()
     ) +
     labs(
       title = "Animal Intakes by Type (Dog, Cat, Other)",
@@ -119,16 +141,11 @@ longbeach_clean |>
       fill = "Species Group",
       caption = "Source: City of Long Beach Animal Care Services (TidyTuesday 2025-03-04)"
     ) +
-    scale_fill_discrete(
+    scale_fill_brewer(
+      palette = "Dark2",
       breaks = c("Cat", "Dog", "Other")
     ) +
-    theme_minimal() +
     theme(
-      plot.title.position = "plot",
-      plot.title = element_text(face = "bold", hjust = 0.1, size = 12),
-      plot.subtitle = element_text(hjust = 0.07, size = 10),
-      axis.text = element_text(size = 10),
-      plot.caption = element_text(margin = margin(t = 13)),
       legend.position = "inside",
       legend.position.inside = c(0.9, 0.5),
       legend.background = element_rect(fill = "white")
@@ -187,8 +204,7 @@ ggplot(top_6_intake,
     x = "Intake Condition",
     y = "Count",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
-  ) +
-  theme_minimal()
+  )
 
 ```
 
@@ -226,8 +242,7 @@ longbeach_clean |>
     x = "Outcomes",
     fill = "Species",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
-  ) +
-  theme_minimal()
+  )
 
 
 ```
@@ -263,8 +278,6 @@ adopt_df <- longbeach_clean |>
 #### Plot 1
 
 ```{r}
-#| fig-width: 10
-#| fig-height: 7
 
 # 1. Prepare adoption data for 2017–2024
 adopt_df_full <- longbeach_clean |>
@@ -312,7 +325,7 @@ ggplot() +
     aes(x = intake_year, y = days_to_adoption, color = "Median days"),
     fun    = median,
     geom   = "point",
-    size   = 3
+    size   = 1.5
   ) +
   facet_wrap(~ species_group, ncol = 1, scales = "fixed") +
   scale_x_discrete(drop = FALSE) +
@@ -353,19 +366,15 @@ ggplot() +
     x        = "Intake Year",
     caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal() +
   theme(
     panel.spacing.y = unit(0.8, "lines"),
     panel.grid.major.y = element_line(color = "#EEEEEE"),
     panel.grid.minor   = element_blank(),
     legend.position       = "top",
     legend.direction      = "horizontal",
-    plot.title.position   = "plot",
-    plot.title            = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle         = element_text(hjust = 0.18),
-    strip.text            = element_text(size = 11, face = "bold"),
+    strip.text            = element_text(size = 14, face = "bold"),
     axis.title.x          = element_text(margin = margin(t = 8)),
-    axis.text             = element_text(size = 10)
+    axis.text             = element_text(size = 14)
   )
 
 ```
@@ -373,8 +382,6 @@ ggplot() +
 #### Plot 2
 
 ```{r}
-#| fig-width: 10
-#| fig-height: 7
 
 bubble_df <- longbeach_clean |>
   filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
@@ -411,14 +418,10 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
     x        = "Intake Year",
     caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal() +
   theme(
-    plot.title.position = "plot",
-    plot.title          = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle       = element_text(hjust = 0.138),
-    strip.text          = element_text(size = 11, face = "bold"),
+    strip.text          = element_text(size = 14, face = "bold"),
     axis.title.x        = element_text(margin = margin(t = 8)),
-    axis.text           = element_text(size = 12),
+    axis.text           = element_text(size = 14),
     panel.grid.major.y = element_line(color = "#E8E8E8"),
     panel.grid.minor   = element_blank(),
     panel.spacing.y = unit(0.8, "lines")
