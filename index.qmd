@@ -248,9 +248,9 @@ Understanding how both the volume of adoptions and the speed at which animals le
 
 ### Approach:
 
-**Plot 1** shows, for each species group (Dogs, Cats, Other), how adoption volumes and delay distributions have shifted annually from 2017 through 2024. The grey bars (right‐axis scale) represent the total count of adoptions each year (scaled to the 95th percentile), while the blue violins (left‐axis scale) depict the full distribution of days-to-adoption, with dark points marking the median.
+The first plot shows, for each species group (Dogs, Cats, Other), how adoption volumes and delay distributions have shifted annually from 2017 through 2024. The grey bars (right‐axis scale) represent the total count of adoptions each year (scaled to the 95th percentile), while the blue violins (left‐axis scale) depict the full distribution of days-to-adoption, with dark points marking the median.
 
-**Plot 2** consists of bubble chart plots, for each species group, the year‐to‐year relationship between the speed of adoptions (median days to adoption on the y-axis) and the volume of adoptions (bubble size). By faceting Dogs, Cats, and Other vertically, you can see how median wait times and total placements have moved in tandem from 2017 through 2024.
+The second visualization consists of bubble chart plots, for each species group, the year‐to‐year relationship between the speed of adoptions (median days to adoption on the y-axis) and the volume of adoptions (bubble size). By faceting Dogs, Cats, and Other vertically, you can see how median wait times and total placements have moved in tandem from 2017 through 2024.
 
 ### Analysis:
 
@@ -426,3 +426,9 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
 ```
 
 ### Discussion:
+
+The plots show a clear pandemic‐era dip in adoptions, followed by a strong post‐2020 rebound. Dog adoptions surged from roughly 100 in 2020 to over 600 by 2023–24, with cats exhibiting a similar rebound and “Other” species peaking around 200 placements.
+
+Despite these volume swings, median wait times held steady or improved compared to pre-pandemic levels, representing a true dual gain for the shelter: higher throughput and faster turnover. Dogs remain the quickest to rehome, cats exhibit a broader distribution with some long-stay outliers, and “Other” species continue to show the greatest year-to-year variability. The broader distribution for cats is not surprising as more adoptions suggest a broader variety of time to adoption–it is impressive that dogs did not show the same increase even though their adoption numbers increased as well.
+
+These improvements speak to the shelter's focus on improving outcomes for their animals. It is a reflection of staff, volunteer, and supporter dedication to the lives of pets and their owners.
