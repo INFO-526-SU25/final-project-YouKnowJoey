@@ -202,14 +202,14 @@ ggplot(top_6_intake,
   theme_minimal() + 
   theme(
     plot.title.position = "plot",
-    plot.caption = element_text(margin = margin(t = 9), size = 18),
-    plot.title = element_text(size = 20, face = "bold", hjust = 0.1),
+    plot.caption = element_text(margin = margin(t = 9), size = 18, hjust = 1),
+    plot.title = element_text(size = 30, face = "bold", hjust = 0.1),
     plot.subtitle = element_text(size = 20, hjust = 0.055),
     axis.title = element_text(size = 18),
     axis.text = element_text(size = 14),
     strip.text = element_text(size = 18, face = "bold"),
     panel.grid.major = element_line(color = "grey90", size = 0.2),
-    panel.grid.minor = element_line(color = "grey95", size = 0.1),
+    panel.grid.minor = element_line(color = NULL),
   )
 ```
 
@@ -248,7 +248,21 @@ longbeach_clean |>
     fill = "Species",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal()
+  theme_minimal() +
+    theme(
+      plot.title.position = "plot",
+      plot.caption.position = "plot", 
+      plot.caption = element_text(margin = margin(t = 9), size = 18, hjust = 1),
+      plot.title = element_text(size = 28, face = "bold", hjust = 0),
+      plot.subtitle = element_text(size = 20, hjust = 0),
+      axis.title = element_text(size = 22),
+      axis.text = element_text(size = 18),
+      strip.text = element_text(size = 24, face = "bold"),
+      legend.title = element_text(size = 18),
+      legend.text = element_text(size = 16),
+      panel.grid.major = element_line(color = "grey90", size = 0.2),
+      panel.grid.minor = element_line(color = "grey95", size = 0.1)
+  )
 
 
 ```
