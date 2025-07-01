@@ -130,10 +130,10 @@ longbeach_clean |>
     theme_minimal() +
     theme(
       plot.title.position = "plot",
-      plot.title = element_text(face = "bold", hjust = 0.068, size = 15),
-      plot.subtitle = element_text(hjust = 0.05, size = 12),
-      axis.text = element_text(size = 10),
-      axis.title = element_text(size = 12),
+      plot.title = element_text(face = "bold", hjust = 0.068, size = 17),
+      plot.subtitle = element_text(hjust = 0.045, size = 13),
+      axis.text = element_text(size = 12),
+      axis.title = element_text(size = 14),
       plot.caption = element_text(margin = margin(t = 10), size = 12),
       legend.position = "inside",
       legend.position.inside = c(0.87, 0.6),
@@ -201,13 +201,14 @@ ggplot(top_6_intake,
     y = "Count",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal()+
+  theme_minimal() +
     theme(
       plot.title.position = "plot",
-      plot.title = element_text(face = "bold", hjust = 0.068, size = 15),
-      plot.subtitle = element_text(hjust = 0.028, size = 12),
-      axis.text = element_text(size = 10),
-      axis.title = element_text(size = 12),
+      plot.title = element_text(face = "bold", hjust = 0.068, size = 17),
+      plot.subtitle = element_text(hjust = 0.023, size = 13),
+      axis.text = element_text(size = 11),
+      axis.title.y        = element_text(size = 13),
+      axis.title.x        = element_text(margin = margin(t = 9), size = 13),
       strip.text = element_text(size = 13,),
       plot.caption = element_text(margin = margin(t = 10), size = 12),
       panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
@@ -217,6 +218,9 @@ ggplot(top_6_intake,
 ```
 
 ```{r}
+#| fig-width: 10
+#| fig-height: 7
+#| fig-retina: 1
 
 longbeach_clean |>
   
@@ -240,7 +244,11 @@ longbeach_clean |>
   mutate(prop = n / sum(n)) |>
   
   ggplot(aes(x = outcome_category, y = prop, fill = species_group)) +
-  geom_col(position = "dodge", color = "white") +
+  geom_col(
+      position = position_dodge(width = 0.82),
+      width    = 0.8,
+      color    = "white"
+    ) +
   scale_y_continuous(labels = percent_format()) +
   scale_fill_brewer(palette = "Dark2") +
   labs(
@@ -251,7 +259,22 @@ longbeach_clean |>
     fill = "Species",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal()
+  theme_minimal() +
+    theme(
+      plot.title.position = "plot",
+      plot.caption.position = "plot", 
+      plot.title = element_text(face = "bold", hjust = 0.1, size = 17),
+      plot.subtitle = element_text(hjust = 0.025, size = 12),
+      axis.text = element_text(size = 14),
+      axis.title.y        = element_text(margin = margin(r = 15), size = 14),
+      axis.title.x        = element_text(margin = margin(t = 9), size = 14),
+      strip.text = element_text(size = 13,),
+      plot.caption = element_text(margin = margin(t = 15), size = 12),
+      panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
+      panel.grid.minor = element_blank(),
+      legend.text  = element_text(size = 13),
+      legend.title = element_text(size = 14)
+    )
 
 
 ```
