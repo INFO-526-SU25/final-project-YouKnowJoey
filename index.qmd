@@ -480,14 +480,17 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   theme_minimal() +
   theme(
     plot.title.position = "plot",
-    plot.title          = element_text(face = "bold", hjust = 0.1),
-    plot.subtitle       = element_text(hjust = 0.138),
-    strip.text          = element_text(size = 11, face = "bold"),
-    axis.title.x        = element_text(margin = margin(t = 8)),
-    axis.text           = element_text(size = 12),
-    panel.grid.major.y = element_line(color = "#E8E8E8"),
+    plot.caption.position = "plot", 
+    plot.title = element_text(face = "bold", hjust = 0.03, size = 18),
+    plot.subtitle = element_text(hjust = 0.045, size = 14),
+    panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
     panel.grid.minor   = element_blank(),
-    panel.spacing.y = unit(0.8, "lines")
+    plot.caption = element_text(margin = margin(t = 15), size = 12),
+    strip.text            = element_text(size = 13),
+    axis.title.y        = element_text(margin = margin(r = 15), size = 14),
+    axis.title.x        = element_text(margin = margin(t = 9), size = 14),
+    axis.title.y.right = element_text(margin = margin(l = 15)),
+    axis.text = element_text(size = 12),
   )
 ```
 
