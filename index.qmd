@@ -28,7 +28,7 @@ if (!require("pacman"))
 pacman::p_load(tidyverse,
                tidytuesdayR,
                formattable,
-               dlookr,
+               dlookr,               
                ggplot2,
                scales,
                lubridate,
@@ -36,17 +36,16 @@ pacman::p_load(tidyverse,
 
 # Plot theme
 ggplot2::theme_set(
-  theme_minimal() +
+    theme_minimal(base_size = 24) +             
     theme(
-      text = element_text(size = 14),
-      plot.title.position = "plot",
-      plot.title = element_text(face = "bold", 
-                                hjust = 0.1, 
-                                size = 16),
-      plot.subtitle = element_text(hjust = 0.1, size = 14),
-      axis.text = element_text(size = 14),
-      plot.caption = element_text(margin = margin(t = 13)),
-    )
+      plot.title       = element_text(size = 20, face = "bold", hjust = 0.1),
+      plot.subtitle    = element_text(size = 14),
+      axis.title       = element_text(size = 14),
+      axis.text        = element_text(size = 12),
+      strip.text       = element_text(size = 14, face = "bold"),
+      legend.title     = element_text(size = 14),
+      legend.text      = element_text(size = 12)
+  )
 )
 
 ```
@@ -128,7 +127,7 @@ longbeach_clean |>
     geom_col() +
     geom_text(aes(label = n),
               hjust = -0.1,
-              size = 3) +
+              size = 6) +
     scale_x_continuous(
       expand = expansion(mult = c(0, 0.05)),
       labels = comma_format()
@@ -148,8 +147,19 @@ longbeach_clean |>
     theme(
       legend.position = "inside",
       legend.position.inside = c(0.9, 0.5),
-      legend.background = element_rect(fill = "white")
-    )
+      legend.background = element_rect(fill = "white", color = "grey75",size   = 0.25),
+      plot.title = element_text(size = 28, face = "bold", hjust = 0),
+      plot.subtitle = element_text(size = 20),
+      axis.title = element_text(size = 22),
+      axis.text = element_text(size = 18),
+      strip.text = element_text(size = 24, face = "bold"),
+      legend.title = element_text(size = 18),
+      legend.text = element_text(size = 16),
+      caption.text =  element_text(size = 20),
+      panel.grid.major = element_line(color = "grey90", size = 0.2),
+      panel.grid.minor = element_line(color = "grey95", size = 0.1)
+  )
+    
 
 ```
 
