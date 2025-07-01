@@ -235,7 +235,7 @@ Violin Distribution: Yearly distribution of `days_to_adoption`, split by `intake
 ## Weekly Plan of Attack
 
 | Task Name | Status | Due | Priority | Summary |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |
 | Data ingestion & cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |
 | Q1 & Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |

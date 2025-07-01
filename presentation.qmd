@@ -35,7 +35,6 @@ pacman::p_load(tidymodels,
 
 ```
 
-
 ```{r}
 #| label: load-data
 #| include: false
@@ -54,43 +53,43 @@ We want ALL animals adopted!
 
 ## About Animal Shelter Data
 
-- Source: Long Beach, CA Animal Care Services Open Data Portal
+-   Source: Long Beach, CA Animal Care Services Open Data Portal
 
-- Dataset: TidyTuesday (Week of 2025-03-04)
+-   Dataset: TidyTuesday (Week of 2025-03-04)
 
-- Records: 29,787 animal intakes and outcomes (2021–2025)
+-   Records: 29,787 animal intakes and outcomes (2021–2025)
 
-- Key Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation
+-   Key Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation
 
 ## Our Questions
 
 Understanding the factors that influence animal shelter outcomes is essential for improving animal welfare and operational efficiency. By exploring these questions, we aim to identify gaps, disparities, and opportunities for intervention. Provide actionable insights to guide shelter policies, resource allocation, and effectiveness of shelter practices over time.
 
-1. How do intake conditions and animal types affect the animal's outcome?
+1.  How do intake conditions and animal types affect the animal's outcome?
 
-2. How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
+2.  How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
 
 ## Data Considerations (Part 1)
+
 What must we change in the Data?
 
-  - **Simplified `species_group`:** 
-  
-  `animal_type` is grouped as `"Dog"`, `"Cat"`, `"Other"`
-  
-  - **Create `age_at_intake`:**
-  
-  (`intake_date` - `dob`) / 365
-  
-  - **Create `days_to_adoption`:**
-  
-  (`outcome_date` - `intake_date`)
+-   **Simplified `species_group`:**
+
+`animal_type` is grouped as `"Dog"`, `"Cat"`, `"Other"`
+
+-   **Create `age_at_intake`:**
+
+(`intake_date` - `dob`) / 365
+
+-   **Create `days_to_adoption`:**
+
+(`outcome_date` - `intake_date`)
 
 ## Data Considerations (Part 2)
 
-**Justification for `species_group`**  
+**Justification for `species_group`**
 
-_Add image of Consideration_
-
+*Add image of Consideration*
 
 ## Data Considerations (Part 3)
 
@@ -98,16 +97,14 @@ Animal Outcome Category Classification
 
 ::::: columns
 ::: {.column width="40%"}
+-   `adopted`
 
-- `adopted`
+-   `death`
 
-- `death`
-
-- `non-death`
-
+-   `non-death`
 :::
-::: {.column width="60%"}
 
+::: {.column width="60%"}
 ```{r}
 # Classify 3 outcome categories
 outcome_summary <- tibble(
@@ -127,7 +124,6 @@ outcome_summary |>
   unnest(cols = subcategories)
 
 ```
-
 :::
 :::::
 
@@ -135,29 +131,40 @@ outcome_summary |>
 
 ## Plots
 
+
+
+## Plots
+
+
 # Question 2
 
 ## Plots
 
-#  Conclusions
+
+
+## Plots
+
+
+
+# Conclusions
 
 ## Our Insights
 
-- "Other" species face lower adoption rates and higher death rates
+-   "Other" species face lower adoption rates and higher death rates
 
-- Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes. 
+-   Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes.
 
-- Dog and cat adoptions surged after 2020 pandemic dip; "Other" species showed gains but more variability
+-   Dog and cat adoptions surged after 2020 pandemic dip; "Other" species showed gains but more variability
 
-- Dogs are rehomed quickest, cats show more long-stay variability
+-   Dogs are rehomed quickest, cats show more long-stay variability
 
-- There's faster median time to adoption, despite rising volumes
+-   There's faster median time to adoption, despite rising volumes
 
 ## Takeaways
 
-- Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable. 
+-   Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable.
 
-- Fast median times reflects shelter staff and volunteer efforts to improve animal outcomes
+-   Fast median times reflects shelter staff and volunteer efforts to improve animal outcomes
 
 # Cited Work
 
