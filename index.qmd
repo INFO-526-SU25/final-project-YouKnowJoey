@@ -208,6 +208,7 @@ ggplot(top_6_intake,
       plot.subtitle = element_text(hjust = 0.028, size = 12),
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
+      strip.text = element_text(size = 13,),
       plot.caption = element_text(margin = margin(t = 10), size = 12),
       panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
       panel.grid.minor = element_blank()
