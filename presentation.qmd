@@ -1,15 +1,17 @@
 ---
 title: "Graphically Pawsitive Vibes"
 subtitle: "INFO 526 - Summer 2025 - Final Project"
-author: "Isle of Dogs: Joey Garcia & David Kyle "
+author: "Isle of Dogs: Joey Garcia & David Kyle"
 title-slide-attributes:
-  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
-  data-background-size: stretch
-  data-background-opacity: "0.7"
+  data-background-image: images/LB_AnimalCareServices-932x501.avif
+  data-background-size: 50%
+  data-background-position: center top
+  data-background-opacity: "0.9"
   data-slide-number: none
 format:
   revealjs:
     theme:  ['data/customtheming.scss']
+    slide-number: true
   
 editor: visual
 execute:

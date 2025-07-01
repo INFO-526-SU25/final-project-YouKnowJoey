@@ -2,6 +2,16 @@
 
 $body-bg: #ffffff;
 
+/* Title slide colors */
+
+.reveal h1.title {
+  margin-top: 325px;
+}
+
+.reveal .title {
+  color: #236092;
+}
+
 /* Improve default heading fonts */
 $font-size-base: 1rem;   // Body text
 $h1-font-size: 2rem;     // Larger for emphasis
