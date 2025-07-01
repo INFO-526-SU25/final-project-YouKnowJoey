@@ -161,6 +161,9 @@ The outcome variable, originally containing 19 unique `outcome_type` values, has
 ### Analysis:
 
 ```{r}
+#| fig-width: 10
+#| fig-height: 7
+#| fig-retina: 1
 
 # Select top 6 intake conditions by count for each outcome category
 top_6_intake <- longbeach_clean |>
@@ -198,7 +201,17 @@ ggplot(top_6_intake,
     y = "Count",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal()
+  theme_minimal()+
+    theme(
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold", hjust = 0.068, size = 15),
+      plot.subtitle = element_text(hjust = 0.028, size = 12),
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      plot.caption = element_text(margin = margin(t = 10), size = 12),
+      panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
+      panel.grid.minor = element_blank()
+    )
 
 ```
 
