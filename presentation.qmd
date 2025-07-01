@@ -33,21 +33,6 @@ pacman::p_load(tidymodels,
 
 ```
 
-```{r}
-#| label: setup
-#| include: false
-
-# Plot theme
-ggplot2::theme_set(ggplot2::theme_minimal(base_size = 11))
-
-# For better figure resolution
-knitr::opts_chunk$set(
-  fig.retina = 3, 
-  dpi = 300, 
-  fig.width = 6, 
-  fig.asp = 0.618 
-  )
-```
 
 ```{r}
 #| label: load-data
@@ -77,82 +62,72 @@ We want ALL animals adopted!
 
 ## Our Questions
 
+Understanding the factors that influence animal shelter outcomes is essential for improving animal welfare and operational efficiency. By exploring these questions, we aim to identify gaps, disparities, and opportunities for intervention. Provide actionable insights to guide shelter policies, resource allocation, and effectiveness of shelter practices over time.
+
 1. How do intake conditions and animal types affect the animal's outcome?
 
 2. How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
 
-## Data Wrangle
-Comments: ""
+## Data Considerations (Part 1)
+What must we change in the Data?
+
+  - **Simplified `species_group`:** 
+  
+  `animal_type` is grouped as `"Dog"`, `"Cat"`, `"Other"`
+  
+  - **Create `age_at_intake`:**
+  
+  (`intake_date` - `dob`) / 365
+  
+  - **Create `days_to_adoption`:**
+  
+  (`outcome_date` - `intake_date`)
+
+## Data Considerations (Part 2)
+
+**Justification for `species_group`**  
+
+_Add image of Consideration_
+
+
+## Data Considerations (Part 3)
+
+Animal Outcome Category Classification
+
+::::: columns
+::: {.column width="40%"}
+
+- `adopted`
+
+- `death`
+
+- `non-death`
+
+:::
+::: {.column width="60%"}
+
 ```{r}
-#| label: data-wrangle-clean
-#| echo: FALSE
-
-longbeach_clean <- longbeach |>
-  
-  # standardize intake_condition
-  mutate(
-    intake_condition = intake_condition |>
-      str_squish()             # collapse multiple spaces
-      |> str_replace_all("/", " ")  # replace slashes with spaces
-      |> str_to_lower()             # convert to lowercase
-  ) |>
-  
-  # create a simplified species_group
-  mutate(
-    species_group = case_when(
-      animal_type == "dog" ~ "Dog",
-      animal_type == "cat" ~ "Cat",
-      TRUE ~ "Other"
-    ) |> 
-      factor(levels = c("Dog", "Cat", "Other"))
-  ) |>
-  
-  # compute age_at_intake and flag unknowns
-  mutate(
-    age_at_intake = as.numeric(intake_date - dob) / 365,
-    age_unknown   = is.na(age_at_intake)
-  ) |>
-  
-  # compute days_to_adoption
-  mutate(
-    days_to_adoption = as.integer(outcome_date - intake_date)
+# Classify 3 outcome categories
+outcome_summary <- tibble(
+  outcome_category = c("adopted", "death", "non-death"),
+  subcategories = list(
+    c("adoption", "foster to adopt", "homefirst"),
+    c("euthanasia", "died", "disposal"),
+    c("rescue", "transfer", "return to owner", 
+      "shelter, neuter, return", "return to rescue", 
+      "transport", "community cat", "return to wild habitat", 
+      "foster", "trap, neuter, release", 
+      "missing", "NA", "duplicate", "others")
   )
+)
 
-longbeach_clean |>
-  count(animal_type, species_group, sort = TRUE) |>
-  ggplot(aes(x = n, y = reorder(animal_type, n), fill = species_group)) +
-    geom_col() +
-    geom_text(aes(label = n),
-              hjust = -0.1,
-              size = 3) +
-    scale_x_continuous(
-      expand = expansion(mult = c(0, 0.05)),
-      labels = scales::comma_format()
-    ) +
-    labs(
-      title = "Animal Intakes by Type (Dog, Cat, Other)",
-      subtitle = "Shelter intakes, 2017–2024",
-      x = "Number of Intakes",
-      y  = "Animal Type",
-      fill = "Species Group",
-      caption = "Source: City of Long Beach Animal Care Services (TidyTuesday 2025-03-04)"
-    ) +
-    scale_fill_discrete(
-      breaks = c("Cat", "Dog", "Other")
-    ) +
-    theme_minimal() +
-    theme(
-      plot.title.position = "plot",
-      plot.title = element_text(face = "bold", hjust = 0.1, size = 12),
-      plot.subtitle = element_text(hjust = 0.07, size = 10),
-      axis.text = element_text(size = 10),
-      plot.caption = element_text(margin = margin(t = 13)),
-      legend.position = "inside",
-      legend.position.inside = c(0.9, 0.5),
-      legend.background = element_rect(fill = "white")
-    )
+outcome_summary |> 
+  unnest(cols = subcategories)
 
 ```
+
+:::
+:::::
 
 # Question 1
 
@@ -162,7 +137,25 @@ longbeach_clean |>
 
 ## Plots
 
-# Takeaways and Conclusions
+#  Conclusions
+
+## Our Insights
+
+- "Other" species face lower adoption rates and higher death rates
+
+- Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes. 
+
+- Dog and cat adoptions surged after 2020 pandemic dip; "Other" species showed gains but more variability
+
+- Dogs are rehomed quickest, cats show more long-stay variability
+
+- There's faster median time to adoption, despite rising volumes
+
+## Takeaways
+
+- Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable. 
+
+- Fast median times reflects shelter staff and volunteer efforts to improve animal outcomes
 
 # Cited Work
 
