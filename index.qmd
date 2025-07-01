@@ -97,18 +97,23 @@ longbeach_clean <- longbeach |>
 
 #### Analysis of Data
 
-To establish the rationale for combining `animal_type` into Dog, Cat, and Other, horizontal bar chart of the various values of `animal_type` are shown with colot highlighting the grouping.
+To establish the rationale for combining `animal_type` into Dog, Cat, and Other, horizontal bar chart of the various values of `animal_type` are shown with color highlighting the grouping.
 
 ```{r}
+#| fig-width: 10
+#| fig-height: 7
+#| fig-retina: 1
 longbeach_clean |>
   count(animal_type, species_group, sort = TRUE) |>
-  ggplot(aes(x = n, y = reorder(animal_type, n), fill = species_group)) +
-    geom_col() +
-    geom_text(aes(label = n),
-              hjust = -0.3,
-              size = 6) +
+    ggplot(aes(x = n, y = reorder(animal_type, n), fill = species_group)) +
+      geom_col() +
+      geom_text(
+      aes(label = scales::comma(n)),   # comma‐format the counts
+      hjust = -0.2,
+      size  = 4
+    ) +
     scale_x_continuous(
-      expand = expansion(mult = c(0, 0.1)),
+      expand = expansion(mult = c(0, 0.077)),
       labels = scales::comma_format()
     ) +
     labs(
@@ -125,25 +130,19 @@ longbeach_clean |>
     theme_minimal() +
     theme(
       plot.title.position = "plot",
-      plot.caption = element_text(margin = margin(t = 9), size = 18),
+      plot.title = element_text(face = "bold", hjust = 0.068, size = 15),
+      plot.subtitle = element_text(hjust = 0.05, size = 12),
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      plot.caption = element_text(margin = margin(t = 10), size = 12),
       legend.position = "inside",
       legend.position.inside = c(0.9, 0.5),
       legend.background = element_rect(fill = "white", 
-                                       color = "grey75"
-                                       ,size   = 0.25)
-    ) + 
-    
-    theme(
-      plot.title = element_text(size = 30, face = "bold", hjust = 0.1),
-      plot.subtitle = element_text(size = 20, hjust = 0.055),
-      axis.title = element_text(size = 22),
-      axis.text = element_text(size = 18),
-      strip.text = element_text(size = 24, face = "bold"),
-      panel.grid.major = element_line(color = "grey90", size = 0.2),
-      panel.grid.minor = element_line(color = "grey95", size = 0.1),
-      legend.title = element_text(size = 18),
-      legend.text = element_text(size = 16)
-  )
+                                       color = "grey80"
+                                       ,linewidth   = 0.25),
+      panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
+      panel.grid.minor = element_line(color = "grey97", linewidth = 0.05),
+    )
 
 ```
 
@@ -199,18 +198,8 @@ ggplot(top_6_intake,
     y = "Count",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal() + 
-  theme(
-    plot.title.position = "plot",
-    plot.caption = element_text(margin = margin(t = 9), size = 18, hjust = 1),
-    plot.title = element_text(size = 30, face = "bold", hjust = 0.1),
-    plot.subtitle = element_text(size = 20, hjust = 0.055),
-    axis.title = element_text(size = 18),
-    axis.text = element_text(size = 14),
-    strip.text = element_text(size = 18, face = "bold"),
-    panel.grid.major = element_line(color = "grey90", size = 0.2),
-    panel.grid.minor = element_line(color = NULL),
-  )
+  theme_minimal()
+
 ```
 
 ```{r}
@@ -248,21 +237,7 @@ longbeach_clean |>
     fill = "Species",
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
-  theme_minimal() +
-    theme(
-      plot.title.position = "plot",
-      plot.caption.position = "plot", 
-      plot.caption = element_text(margin = margin(t = 9), size = 18, hjust = 1),
-      plot.title = element_text(size = 28, face = "bold", hjust = 0),
-      plot.subtitle = element_text(size = 20, hjust = 0),
-      axis.title = element_text(size = 22),
-      axis.text = element_text(size = 18),
-      strip.text = element_text(size = 24, face = "bold"),
-      legend.title = element_text(size = 18),
-      legend.text = element_text(size = 16),
-      panel.grid.major = element_line(color = "grey90", size = 0.2),
-      panel.grid.minor = element_line(color = "grey95", size = 0.1)
-  )
+  theme_minimal()
 
 
 ```
