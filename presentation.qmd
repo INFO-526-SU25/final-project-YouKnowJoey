@@ -89,7 +89,7 @@ What must we change in the Data?
 
 **Justification for `species_group`**
 
-*Add image of Consideration*
+![](images/animal_intake_type.png)
 
 ## Data Considerations (Part 3)
 
@@ -131,20 +131,21 @@ outcome_summary |>
 
 ## Plots
 
-
+![](images/intake_influence_outcomes.png)
 
 ## Plots
 
+![](images/prop_outcomes_per_animal.png)
 
 # Question 2
 
 ## Plots
 
-
+![](images/days_to_adoption.png)
 
 ## Plots
 
-
+![](images/volume_speed_species.png)
 
 # Conclusions
 
@@ -247,10 +248,6 @@ penguins |>
   kableExtra::kable() |>
   kableExtra::kable_styling()
 ```
-
-## Images
-
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
 
 ## Math Expressions {.smaller}
 

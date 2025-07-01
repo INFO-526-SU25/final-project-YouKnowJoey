@@ -95,7 +95,7 @@
     "href": "presentation.html#data-considerations-part-2",
     "title": "Graphically Pawsitive Vibes",
     "section": "Data Considerations (Part 2)",
-    "text": "Data Considerations (Part 2)\nJustification for species_group\nAdd image of Consideration"
+    "text": "Data Considerations (Part 2)\nJustification for species_group"
   },
   {
     "objectID": "presentation.html#data-considerations-part-3",
@@ -187,13 +187,6 @@
     "title": "Graphically Pawsitive Vibes",
     "section": "Tables",
     "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\nAdelie\nTorgersen\n39.1\n18.7\n181\n3750\nmale\n\n\nAdelie\nTorgersen\n39.5\n17.4\n186\n3800\nfemale\n\n\nAdelie\nTorgersen\n40.3\n18.0\n195\n3250\nfemale\n\n\nAdelie\nTorgersen\nNA\nNA\nNA\nNA\nNA\n\n\nAdelie\nTorgersen\n36.7\n19.3\n193\n3450\nfemale\n\n\nAdelie\nTorgersen\n39.3\n20.6\n190\n3650\nmale"
-  },
-  {
-    "objectID": "presentation.html#images",
-    "href": "presentation.html#images",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Images",
-    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
   },
   {
     "objectID": "presentation.html#math-expressions",
