@@ -63,36 +63,52 @@ longbeach = longbeach$longbeach
 Before diving into our analyses, we perform several key data‐wrangling steps to ensure consistency and create the variables we need. First, we standardize the `intake_condition` text by trimming extra whitespace, replacing slashes with spaces, and converting to lowercase. Next, we collapse the many values of `animal_type` into a three-level factor—Dog, Cat, and Other—so we can directly compare these groups. We also calculate each animal’s age at intake (in years) from its date of birth, flagging missing values as “Unknown.” Finally, we derive `days_to_adoption` by subtracting `intake_date` from `outcome_date`, which sets us up to explore adoption timelines.
 
 ```{r}
+
 longbeach_clean <- longbeach |>
   
-  # standardize intake_condition
+  # 1. Standardize & title‐case intake_condition  
   mutate(
     intake_condition = intake_condition |>
-      str_squish()             # collapse multiple spaces
-      |> str_replace_all("/", " ")  # replace slashes with spaces
-      |> str_to_lower()             # convert to lowercase
+      str_squish() |>
+      str_replace_all("/", " ") |>
+      str_to_lower() |>
+      str_to_title()
   ) |>
   
-  # create a simplified species_group
+  # 2. Title‐case animal_type for consistency  
+  mutate(
+    animal_type = animal_type |> 
+      str_to_lower() |> 
+      str_to_title()
+  ) |>
+  
+  # 3. Simplify species_group  
   mutate(
     species_group = case_when(
-      animal_type == "dog" ~ "Dog",
-      animal_type == "cat" ~ "Cat",
-      TRUE ~ "Other"
+      animal_type == "Dog" ~ "Dog",
+      animal_type == "Cat" ~ "Cat",
+      TRUE                ~ "Other"
     ) |> 
       factor(levels = c("Dog", "Cat", "Other"))
   ) |>
   
-  # compute age_at_intake and flag unknowns
+  # 4. Compute age_at_intake & flag missing  
   mutate(
     age_at_intake = as.numeric(intake_date - dob) / 365,
     age_unknown   = is.na(age_at_intake)
   ) |>
   
-  # compute days_to_adoption
+  # 5. Compute days to adoption  
   mutate(
     days_to_adoption = as.integer(outcome_date - intake_date)
+  ) |>
+  
+  # 6. Extract intake_year as a factor for plotting  
+  mutate(
+    intake_year = factor(lubridate::year(intake_date), 
+                         levels = 2017:2024)
   )
+
 ```
 
 #### Analysis of Data
@@ -113,7 +129,7 @@ longbeach_clean |>
       size  = 4
     ) +
     scale_x_continuous(
-      expand = expansion(mult = c(0, 0.077)),
+      expand = expansion(mult = c(0, 0.082)),
       labels = scales::comma_format()
     ) +
     labs(
@@ -169,17 +185,17 @@ The outcome variable, originally containing 19 unique `outcome_type` values, has
 top_6_intake <- longbeach_clean |>
   mutate(outcome_category = case_when(
     outcome_type %in% c("adoption", "foster to adopt", 
-                        "homefirst") ~ "adopted",
+                        "homefirst") ~ "Adopted",
     outcome_type %in% c("euthanasia", "died", 
-                        "disposal") ~ "death",
+                        "disposal") ~ "Death",
     outcome_type %in% c("rescue", "transfer", 
                         "return to owner", "shelter, neuter, return", 
                         "return to rescue", "transport", 
                         "community cat", "return to wild habitat", 
                         "foster", "trap, neuter, release", 
                         "missing", "NA", 
-                        "duplicate") ~ "non-death",
-    TRUE ~ "non-death"
+                        "duplicate") ~ "Non-death",
+    TRUE ~ "Non-death"
   )) |>
   filter(!is.na(intake_condition)) |>
   group_by(outcome_category, intake_condition) |>
@@ -226,17 +242,17 @@ longbeach_clean |>
   
   mutate(outcome_category = case_when(
     outcome_type %in% c("adoption", "foster to adopt", 
-                        "homefirst") ~ "adopted",
+                        "homefirst") ~ "Adopted",
     outcome_type %in% c("euthanasia", "died", 
-                        "disposal") ~ "death",
+                        "disposal") ~ "Death",
     outcome_type %in% c("rescue", "transfer", 
                         "return to owner", "shelter, neuter, return", 
                         "return to rescue", "transport", 
                         "community cat", "return to wild habitat", 
                         "foster", "trap, neuter, release", 
                         "missing", "NA", 
-                        "duplicate") ~ "non-death",
-    TRUE ~ "non-death"
+                        "duplicate") ~ "Non-death",
+    TRUE ~ "Non-death"
   )) |>
   group_by(species_group, outcome_category) |>
   summarise(n = n(), .groups = "drop") |>
@@ -307,11 +323,10 @@ adopt_df <- longbeach_clean |>
   mutate(intake_year = year(intake_date))
 ```
 
-#### Plot 1
-
 ```{r}
 #| fig-width: 10
 #| fig-height: 7
+#| fig-retina: 1
 
 # 1. Prepare adoption data for 2017–2024
 adopt_df_full <- longbeach_clean |>
@@ -417,11 +432,10 @@ ggplot() +
 
 ```
 
-#### Plot 2
-
 ```{r}
 #| fig-width: 10
 #| fig-height: 7
+#| fig-retina: 1
 
 bubble_df <- longbeach_clean |>
   filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
