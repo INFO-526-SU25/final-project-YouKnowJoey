@@ -5225,28 +5225,28 @@ integer
 </tr>
 <tr class="even">
 <td>Data ingestion &amp; cleaning</td>
-<td>Started</td>
+<td>Complete</td>
 <td>2025-06-13</td>
 <td>High</td>
 <td>Load data; inspect structure; derive and clean data</td>
 </tr>
 <tr class="odd">
 <td>Q1 &amp; Q2 plot exploration and decision</td>
-<td>Started</td>
+<td>Complete</td>
 <td>2025-06-13</td>
 <td>High</td>
 <td>Decide on plots and narrative</td>
 </tr>
 <tr class="even">
 <td>Draft narrative &amp; interpretation</td>
-<td>Not started</td>
+<td>Complete</td>
 <td>2025-06-20</td>
 <td>High</td>
 <td>Summarize results; write narrative for both questions</td>
 </tr>
 <tr class="odd">
 <td>Finalize report &amp; slides</td>
-<td>Not started</td>
+<td>Complete</td>
 <td>2025-06-30</td>
 <td>High</td>
 <td>Refine visuals; polish text; build and rehearse presentation</td>
@@ -5948,212 +5948,218 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb6-37"><a href="#cb6-37"></a><span class="fu">### Dataset</span></span>
 <span id="cb6-38"><a href="#cb6-38"></a></span>
 <span id="cb6-41"><a href="#cb6-41"></a><span class="in">```{r}</span></span>
-<span id="cb6-42"><a href="#cb6-42"></a>longbeach <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">&quot;2025-03-04&quot;</span>)</span>
-<span id="cb6-43"><a href="#cb6-43"></a>longbeach <span class="ot">=</span> longbeach<span class="sc">$</span>longbeach</span>
-<span id="cb6-44"><a href="#cb6-44"></a><span class="in">```</span></span>
-<span id="cb6-45"><a href="#cb6-45"></a></span>
-<span id="cb6-46"><a href="#cb6-46"></a>This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows from 2021-2025, providing potential insights into rescued animals at the city&#39;s shelter. The underlying data originate from the City of Long Beach Animal Care Services Open Data portal, which publishes daily intake and outcome records for the Long Beach Animal Shelter. The data includes variables such as <span class="in">`intake type`</span>, <span class="in">`outcome type`</span>, <span class="in">`animal type`</span>, <span class="in">`age`</span>, <span class="in">`breed`</span>, and <span class="in">`geographical jurisdiction`</span>. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.</span>
+<span id="cb6-42"><a href="#cb6-42"></a><span class="co">#| label: load-dataset</span></span>
+<span id="cb6-43"><a href="#cb6-43"></a></span>
+<span id="cb6-44"><a href="#cb6-44"></a>longbeach <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">&quot;2025-03-04&quot;</span>)</span>
+<span id="cb6-45"><a href="#cb6-45"></a>longbeach <span class="ot">=</span> longbeach<span class="sc">$</span>longbeach</span>
+<span id="cb6-46"><a href="#cb6-46"></a><span class="in">```</span></span>
 <span id="cb6-47"><a href="#cb6-47"></a></span>
-<span id="cb6-48"><a href="#cb6-48"></a><span class="fu">### Questions</span></span>
+<span id="cb6-48"><a href="#cb6-48"></a>This TidyTuesday dataset is a conglomeration of different species retrieved in Long Beach, CA. It contains 22 columns and 29,787 rows from 2021-2025, providing potential insights into rescued animals at the city&#39;s shelter. The underlying data originate from the City of Long Beach Animal Care Services Open Data portal, which publishes daily intake and outcome records for the Long Beach Animal Shelter. The data includes variables such as <span class="in">`intake type`</span>, <span class="in">`outcome type`</span>, <span class="in">`animal type`</span>, <span class="in">`age`</span>, <span class="in">`breed`</span>, and <span class="in">`geographical jurisdiction`</span>. We chose this dataset because it offers an opportunity to explore animal shelters and outcomes. Meaningful and relevant analysis could have direct implications for animal welfare policies and shelter resource management.</span>
 <span id="cb6-49"><a href="#cb6-49"></a></span>
-<span id="cb6-50"><a href="#cb6-50"></a><span class="ss">1.  </span>How do intake conditions and animal types affect the animal&#39;s outcome?</span>
+<span id="cb6-50"><a href="#cb6-50"></a><span class="fu">### Questions</span></span>
 <span id="cb6-51"><a href="#cb6-51"></a></span>
-<span id="cb6-52"><a href="#cb6-52"></a><span class="ss">    -   </span>Hypothesis: Animals with poor intake conditions (sick or injured) will have a higher likelihood of negative outcomes (euthanasia). Certain species, such as dogs, tend to have higher adoption rates compared to others.</span>
+<span id="cb6-52"><a href="#cb6-52"></a><span class="ss">1.  </span>How do intake conditions and animal types affect the animal&#39;s outcome?</span>
 <span id="cb6-53"><a href="#cb6-53"></a></span>
-<span id="cb6-54"><a href="#cb6-54"></a><span class="ss">2.  </span>Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?</span>
+<span id="cb6-54"><a href="#cb6-54"></a><span class="ss">    -   </span>Hypothesis: Animals with poor intake conditions (sick or injured) will have a higher likelihood of negative outcomes (euthanasia). Certain species, such as dogs, tend to have higher adoption rates compared to others.</span>
 <span id="cb6-55"><a href="#cb6-55"></a></span>
-<span id="cb6-56"><a href="#cb6-56"></a><span class="ss">    -   </span>Hypothesis: Healthy animals will more commonly experience a shorter duration from intake to adoption.</span>
+<span id="cb6-56"><a href="#cb6-56"></a><span class="ss">2.  </span>Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?</span>
 <span id="cb6-57"><a href="#cb6-57"></a></span>
-<span id="cb6-58"><a href="#cb6-58"></a><span class="fu">## Analysis plan</span></span>
+<span id="cb6-58"><a href="#cb6-58"></a><span class="ss">    -   </span>Hypothesis: Healthy animals will more commonly experience a shorter duration from intake to adoption.</span>
 <span id="cb6-59"><a href="#cb6-59"></a></span>
-<span id="cb6-60"><a href="#cb6-60"></a><span class="fu">### Variables</span></span>
+<span id="cb6-60"><a href="#cb6-60"></a><span class="fu">## Analysis plan</span></span>
 <span id="cb6-61"><a href="#cb6-61"></a></span>
-<span id="cb6-62"><a href="#cb6-62"></a>The following variables will be used in our analysis:</span>
+<span id="cb6-62"><a href="#cb6-62"></a><span class="fu">### Variables</span></span>
 <span id="cb6-63"><a href="#cb6-63"></a></span>
-<span id="cb6-64"><a href="#cb6-64"></a><span class="ss">-   </span><span class="in">`intake_condition`</span>: The condition of the animal at the time of intake</span>
-<span id="cb6-65"><a href="#cb6-65"></a><span class="ss">-   </span><span class="in">`animal_type`</span>: The type of animal</span>
-<span id="cb6-66"><a href="#cb6-66"></a><span class="ss">-   </span><span class="in">`outcome_type`</span>: The outcome of the animal</span>
-<span id="cb6-67"><a href="#cb6-67"></a><span class="ss">-   </span><span class="in">`dob`</span>: Date of birth of the animal</span>
-<span id="cb6-68"><a href="#cb6-68"></a><span class="ss">-   </span><span class="in">`days_to_outcome`</span>: Date the animal had an outcome <span class="in">`outcome_date`</span> - <span class="in">`income_date`</span>: Date the animal arrived</span>
-<span id="cb6-69"><a href="#cb6-69"></a><span class="ss">-   </span><span class="in">`intake_year`</span>: Year of intake</span>
-<span id="cb6-70"><a href="#cb6-70"></a><span class="ss">-   </span><span class="in">`species_group`</span>: A simplified grouping of <span class="in">`animal_type`</span> into &quot;Dog,&quot; &quot;Cat,&quot; and &quot;Other&quot;</span>
-<span id="cb6-71"><a href="#cb6-71"></a><span class="ss">-   </span><span class="in">`days_to_adoption`</span>: The number of days from intake to adoption</span>
-<span id="cb6-72"><a href="#cb6-72"></a></span>
-<span id="cb6-73"><a href="#cb6-73"></a><span class="fu">### Cleaning</span></span>
+<span id="cb6-64"><a href="#cb6-64"></a>The following variables will be used in our analysis:</span>
+<span id="cb6-65"><a href="#cb6-65"></a></span>
+<span id="cb6-66"><a href="#cb6-66"></a><span class="ss">-   </span><span class="in">`intake_condition`</span>: The condition of the animal at the time of intake</span>
+<span id="cb6-67"><a href="#cb6-67"></a><span class="ss">-   </span><span class="in">`animal_type`</span>: The type of animal</span>
+<span id="cb6-68"><a href="#cb6-68"></a><span class="ss">-   </span><span class="in">`outcome_type`</span>: The outcome of the animal</span>
+<span id="cb6-69"><a href="#cb6-69"></a><span class="ss">-   </span><span class="in">`dob`</span>: Date of birth of the animal</span>
+<span id="cb6-70"><a href="#cb6-70"></a><span class="ss">-   </span><span class="in">`days_to_outcome`</span>: Date the animal had an outcome <span class="in">`outcome_date`</span> - <span class="in">`income_date`</span>: Date the animal arrived</span>
+<span id="cb6-71"><a href="#cb6-71"></a><span class="ss">-   </span><span class="in">`intake_year`</span>: Year of intake</span>
+<span id="cb6-72"><a href="#cb6-72"></a><span class="ss">-   </span><span class="in">`species_group`</span>: A simplified grouping of <span class="in">`animal_type`</span> into &quot;Dog,&quot; &quot;Cat,&quot; and &quot;Other&quot;</span>
+<span id="cb6-73"><a href="#cb6-73"></a><span class="ss">-   </span><span class="in">`days_to_adoption`</span>: The number of days from intake to adoption</span>
 <span id="cb6-74"><a href="#cb6-74"></a></span>
-<span id="cb6-75"><a href="#cb6-75"></a>We go ahead and clean and mutate the data we know the team will need.</span>
+<span id="cb6-75"><a href="#cb6-75"></a><span class="fu">### Cleaning</span></span>
 <span id="cb6-76"><a href="#cb6-76"></a></span>
-<span id="cb6-79"><a href="#cb6-79"></a><span class="in">```{r}</span></span>
-<span id="cb6-80"><a href="#cb6-80"></a>longbeach_clean <span class="ot">&lt;-</span> longbeach <span class="sc">|&gt;</span></span>
-<span id="cb6-81"><a href="#cb6-81"></a>  </span>
-<span id="cb6-82"><a href="#cb6-82"></a>  <span class="co"># standardize intake_condition</span></span>
-<span id="cb6-83"><a href="#cb6-83"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-84"><a href="#cb6-84"></a>    <span class="at">intake_condition =</span> intake_condition <span class="sc">|&gt;</span></span>
-<span id="cb6-85"><a href="#cb6-85"></a>      <span class="fu">str_squish</span>()             <span class="co"># collapse multiple spaces</span></span>
-<span id="cb6-86"><a href="#cb6-86"></a>      <span class="sc">|&gt;</span> <span class="fu">str_replace_all</span>(<span class="st">&quot;/&quot;</span>, <span class="st">&quot; &quot;</span>)  <span class="co"># replace slashes with spaces</span></span>
-<span id="cb6-87"><a href="#cb6-87"></a>      <span class="sc">|&gt;</span> <span class="fu">str_to_lower</span>()             <span class="co"># convert to lowercase</span></span>
-<span id="cb6-88"><a href="#cb6-88"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-89"><a href="#cb6-89"></a>  </span>
-<span id="cb6-90"><a href="#cb6-90"></a>  <span class="co"># create a simplified species_group</span></span>
-<span id="cb6-91"><a href="#cb6-91"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-92"><a href="#cb6-92"></a>    <span class="at">species_group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb6-93"><a href="#cb6-93"></a>      animal_type <span class="sc">==</span> <span class="st">&quot;dog&quot;</span> <span class="sc">~</span> <span class="st">&quot;Dog&quot;</span>,</span>
-<span id="cb6-94"><a href="#cb6-94"></a>      animal_type <span class="sc">==</span> <span class="st">&quot;cat&quot;</span> <span class="sc">~</span> <span class="st">&quot;Cat&quot;</span>,</span>
-<span id="cb6-95"><a href="#cb6-95"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span></span>
-<span id="cb6-96"><a href="#cb6-96"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb6-97"><a href="#cb6-97"></a>      <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Dog&quot;</span>, <span class="st">&quot;Cat&quot;</span>, <span class="st">&quot;Other&quot;</span>))</span>
-<span id="cb6-98"><a href="#cb6-98"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-99"><a href="#cb6-99"></a>  </span>
-<span id="cb6-100"><a href="#cb6-100"></a>  <span class="co"># compute age_at_intake and flag unknowns</span></span>
-<span id="cb6-101"><a href="#cb6-101"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-102"><a href="#cb6-102"></a>    <span class="at">age_at_intake =</span> <span class="fu">as.numeric</span>(intake_date <span class="sc">-</span> dob) <span class="sc">/</span> <span class="dv">365</span>,</span>
-<span id="cb6-103"><a href="#cb6-103"></a>    <span class="at">age_unknown   =</span> <span class="fu">is.na</span>(age_at_intake)</span>
-<span id="cb6-104"><a href="#cb6-104"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-105"><a href="#cb6-105"></a>  </span>
-<span id="cb6-106"><a href="#cb6-106"></a>  <span class="co"># compute days_to_adoption</span></span>
-<span id="cb6-107"><a href="#cb6-107"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-108"><a href="#cb6-108"></a>    <span class="at">days_to_adoption =</span> <span class="fu">as.integer</span>(outcome_date <span class="sc">-</span> intake_date)</span>
-<span id="cb6-109"><a href="#cb6-109"></a>  )</span>
-<span id="cb6-110"><a href="#cb6-110"></a></span>
-<span id="cb6-111"><a href="#cb6-111"></a><span class="in">```</span></span>
-<span id="cb6-112"><a href="#cb6-112"></a></span>
-<span id="cb6-113"><a href="#cb6-113"></a><span class="fu">#### Other Species Breakdown</span></span>
+<span id="cb6-77"><a href="#cb6-77"></a>We go ahead and clean and mutate the data we know the team will need.</span>
+<span id="cb6-78"><a href="#cb6-78"></a></span>
+<span id="cb6-81"><a href="#cb6-81"></a><span class="in">```{r}</span></span>
+<span id="cb6-82"><a href="#cb6-82"></a><span class="co">#| label: data-cleaning</span></span>
+<span id="cb6-83"><a href="#cb6-83"></a></span>
+<span id="cb6-84"><a href="#cb6-84"></a>longbeach_clean <span class="ot">&lt;-</span> longbeach <span class="sc">|&gt;</span></span>
+<span id="cb6-85"><a href="#cb6-85"></a>  </span>
+<span id="cb6-86"><a href="#cb6-86"></a>  <span class="co"># standardize intake_condition</span></span>
+<span id="cb6-87"><a href="#cb6-87"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-88"><a href="#cb6-88"></a>    <span class="at">intake_condition =</span> intake_condition <span class="sc">|&gt;</span></span>
+<span id="cb6-89"><a href="#cb6-89"></a>      <span class="fu">str_squish</span>()             <span class="co"># collapse multiple spaces</span></span>
+<span id="cb6-90"><a href="#cb6-90"></a>      <span class="sc">|&gt;</span> <span class="fu">str_replace_all</span>(<span class="st">&quot;/&quot;</span>, <span class="st">&quot; &quot;</span>)  <span class="co"># replace slashes with spaces</span></span>
+<span id="cb6-91"><a href="#cb6-91"></a>      <span class="sc">|&gt;</span> <span class="fu">str_to_lower</span>()             <span class="co"># convert to lowercase</span></span>
+<span id="cb6-92"><a href="#cb6-92"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-93"><a href="#cb6-93"></a>  </span>
+<span id="cb6-94"><a href="#cb6-94"></a>  <span class="co"># create a simplified species_group</span></span>
+<span id="cb6-95"><a href="#cb6-95"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-96"><a href="#cb6-96"></a>    <span class="at">species_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-97"><a href="#cb6-97"></a>      animal_type <span class="sc">==</span> <span class="st">&quot;dog&quot;</span> <span class="sc">~</span> <span class="st">&quot;Dog&quot;</span>,</span>
+<span id="cb6-98"><a href="#cb6-98"></a>      animal_type <span class="sc">==</span> <span class="st">&quot;cat&quot;</span> <span class="sc">~</span> <span class="st">&quot;Cat&quot;</span>,</span>
+<span id="cb6-99"><a href="#cb6-99"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span></span>
+<span id="cb6-100"><a href="#cb6-100"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb6-101"><a href="#cb6-101"></a>      <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Dog&quot;</span>, <span class="st">&quot;Cat&quot;</span>, <span class="st">&quot;Other&quot;</span>))</span>
+<span id="cb6-102"><a href="#cb6-102"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-103"><a href="#cb6-103"></a>  </span>
+<span id="cb6-104"><a href="#cb6-104"></a>  <span class="co"># compute age_at_intake and flag unknowns</span></span>
+<span id="cb6-105"><a href="#cb6-105"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-106"><a href="#cb6-106"></a>    <span class="at">age_at_intake =</span> <span class="fu">as.numeric</span>(intake_date <span class="sc">-</span> dob) <span class="sc">/</span> <span class="dv">365</span>,</span>
+<span id="cb6-107"><a href="#cb6-107"></a>    <span class="at">age_unknown   =</span> <span class="fu">is.na</span>(age_at_intake)</span>
+<span id="cb6-108"><a href="#cb6-108"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-109"><a href="#cb6-109"></a>  </span>
+<span id="cb6-110"><a href="#cb6-110"></a>  <span class="co"># compute days_to_adoption</span></span>
+<span id="cb6-111"><a href="#cb6-111"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-112"><a href="#cb6-112"></a>    <span class="at">days_to_adoption =</span> <span class="fu">as.integer</span>(outcome_date <span class="sc">-</span> intake_date)</span>
+<span id="cb6-113"><a href="#cb6-113"></a>  )</span>
 <span id="cb6-114"><a href="#cb6-114"></a></span>
-<span id="cb6-115"><a href="#cb6-115"></a>Dogs and cats account for the majority of shelter intakes, so we recode <span class="in">`animal_type`</span> into a three-level factor—Dog, Cat, and Other. Because the “Other” category still comprises thousands of records, we include a descending horizontal bar chart of <span class="in">`animal_type`</span>—filtered to <span class="in">`species_group == &quot;Other&quot;`</span>—to show the most frequent non-dog/cat species. We order bars by count and label each directly. This helps readers understand which rabbits, birds, reptiles, and other species fall into the “Other” category before we proceed with Questions 1 and 2.</span>
+<span id="cb6-115"><a href="#cb6-115"></a><span class="in">```</span></span>
 <span id="cb6-116"><a href="#cb6-116"></a></span>
-<span id="cb6-117"><a href="#cb6-117"></a><span class="fu">#### Data Diagnostics</span></span>
+<span id="cb6-117"><a href="#cb6-117"></a><span class="fu">#### Other Species Breakdown</span></span>
 <span id="cb6-118"><a href="#cb6-118"></a></span>
-<span id="cb6-119"><a href="#cb6-119"></a>Let&#39;s take a look at the data to see any issues:</span>
+<span id="cb6-119"><a href="#cb6-119"></a>Dogs and cats account for the majority of shelter intakes, so we recode <span class="in">`animal_type`</span> into a three-level factor—Dog, Cat, and Other. Because the “Other” category still comprises thousands of records, we include a descending horizontal bar chart of <span class="in">`animal_type`</span>—filtered to <span class="in">`species_group == &quot;Other&quot;`</span>—to show the most frequent non-dog/cat species. We order bars by count and label each directly. This helps readers understand which rabbits, birds, reptiles, and other species fall into the “Other” category before we proceed with Questions 1 and 2.</span>
 <span id="cb6-120"><a href="#cb6-120"></a></span>
-<span id="cb6-123"><a href="#cb6-123"></a><span class="in">```{r}</span></span>
-<span id="cb6-124"><a href="#cb6-124"></a>longbeach_clean <span class="sc">|&gt;</span></span>
-<span id="cb6-125"><a href="#cb6-125"></a>  <span class="fu">diagnose</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-126"><a href="#cb6-126"></a>  <span class="fu">filter</span>(variables <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;intake_condition&quot;</span>,</span>
-<span id="cb6-127"><a href="#cb6-127"></a>                          <span class="st">&quot;animal_type&quot;</span>,</span>
-<span id="cb6-128"><a href="#cb6-128"></a>                          <span class="st">&quot;outcome_type&quot;</span>,</span>
-<span id="cb6-129"><a href="#cb6-129"></a>                          <span class="st">&quot;dob&quot;</span>,</span>
-<span id="cb6-130"><a href="#cb6-130"></a>                          <span class="st">&quot;days_to_outcome&quot;</span>,</span>
-<span id="cb6-131"><a href="#cb6-131"></a>                          <span class="st">&quot;intake_year&quot;</span>,</span>
-<span id="cb6-132"><a href="#cb6-132"></a>                          <span class="st">&quot;species_group&quot;</span>,</span>
-<span id="cb6-133"><a href="#cb6-133"></a>                          <span class="st">&quot;days_to_adoption&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-134"><a href="#cb6-134"></a>  <span class="fu">formattable</span>()</span>
-<span id="cb6-135"><a href="#cb6-135"></a><span class="in">```</span></span>
-<span id="cb6-136"><a href="#cb6-136"></a></span>
-<span id="cb6-137"><a href="#cb6-137"></a><span class="fu">### Potential Issues</span></span>
-<span id="cb6-138"><a href="#cb6-138"></a></span>
-<span id="cb6-139"><a href="#cb6-139"></a>DOB (date of birth) has a seemingly significant number of missing entries. Upon inspection, this seems not to be a factor in our analysis because of how data will be processed. We will need to check this number and see if the effects are meaningful.</span>
-<span id="cb6-140"><a href="#cb6-140"></a></span>
-<span id="cb6-141"><a href="#cb6-141"></a><span class="fu">## Project Goals</span></span>
+<span id="cb6-121"><a href="#cb6-121"></a><span class="fu">#### Data Diagnostics</span></span>
+<span id="cb6-122"><a href="#cb6-122"></a></span>
+<span id="cb6-123"><a href="#cb6-123"></a>Let&#39;s take a look at the data to see any issues:</span>
+<span id="cb6-124"><a href="#cb6-124"></a></span>
+<span id="cb6-127"><a href="#cb6-127"></a><span class="in">```{r}</span></span>
+<span id="cb6-128"><a href="#cb6-128"></a><span class="co">#| label: data-diagnostics</span></span>
+<span id="cb6-129"><a href="#cb6-129"></a></span>
+<span id="cb6-130"><a href="#cb6-130"></a>longbeach_clean <span class="sc">|&gt;</span></span>
+<span id="cb6-131"><a href="#cb6-131"></a>  <span class="fu">diagnose</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-132"><a href="#cb6-132"></a>  <span class="fu">filter</span>(variables <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;intake_condition&quot;</span>,</span>
+<span id="cb6-133"><a href="#cb6-133"></a>                          <span class="st">&quot;animal_type&quot;</span>,</span>
+<span id="cb6-134"><a href="#cb6-134"></a>                          <span class="st">&quot;outcome_type&quot;</span>,</span>
+<span id="cb6-135"><a href="#cb6-135"></a>                          <span class="st">&quot;dob&quot;</span>,</span>
+<span id="cb6-136"><a href="#cb6-136"></a>                          <span class="st">&quot;days_to_outcome&quot;</span>,</span>
+<span id="cb6-137"><a href="#cb6-137"></a>                          <span class="st">&quot;intake_year&quot;</span>,</span>
+<span id="cb6-138"><a href="#cb6-138"></a>                          <span class="st">&quot;species_group&quot;</span>,</span>
+<span id="cb6-139"><a href="#cb6-139"></a>                          <span class="st">&quot;days_to_adoption&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-140"><a href="#cb6-140"></a>  <span class="fu">formattable</span>()</span>
+<span id="cb6-141"><a href="#cb6-141"></a><span class="in">```</span></span>
 <span id="cb6-142"><a href="#cb6-142"></a></span>
-<span id="cb6-143"><a href="#cb6-143"></a><span class="fu">### 1. How do intake conditions and animal types affect the animal&#39;s outcome?</span></span>
+<span id="cb6-143"><a href="#cb6-143"></a><span class="fu">### Potential Issues</span></span>
 <span id="cb6-144"><a href="#cb6-144"></a></span>
-<span id="cb6-145"><a href="#cb6-145"></a>We will evaluate how <span class="in">`intake_condition`</span> and <span class="in">`animal_type`</span> influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, <span class="in">`animal_type`</span> has been re-coded into a <span class="in">`species_group`</span> category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we&#39;ll use all 19 of <span class="in">`outcome_type`</span>&#39;s unique values. Based on the <span class="in">`outcome_type`</span> distribution, we&#39;ve decided to mutate <span class="in">`outcome_type`</span> into three categorical values of <span class="in">`death`</span>, <span class="in">`non-death`</span>, and <span class="in">`adopted`</span>.</span>
+<span id="cb6-145"><a href="#cb6-145"></a>DOB (date of birth) has a seemingly significant number of missing entries. Upon inspection, this seems not to be a factor in our analysis because of how data will be processed. We will need to check this number and see if the effects are meaningful.</span>
 <span id="cb6-146"><a href="#cb6-146"></a></span>
-<span id="cb6-149"><a href="#cb6-149"></a><span class="in">```{r}</span></span>
-<span id="cb6-150"><a href="#cb6-150"></a><span class="co">#| label: outcome-type-distribution</span></span>
-<span id="cb6-151"><a href="#cb6-151"></a><span class="co">#| echo: false</span></span>
-<span id="cb6-152"><a href="#cb6-152"></a>longbeach_clean <span class="sc">|&gt;</span></span>
-<span id="cb6-153"><a href="#cb6-153"></a>  <span class="fu">count</span>(outcome_type) <span class="sc">|&gt;</span></span>
-<span id="cb6-154"><a href="#cb6-154"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(outcome_type, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb6-155"><a href="#cb6-155"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;cornsilk4&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-156"><a href="#cb6-156"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
-<span id="cb6-157"><a href="#cb6-157"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-158"><a href="#cb6-158"></a>    <span class="at">title =</span> <span class="st">&quot;Distribution of Outcome Types&quot;</span>,</span>
-<span id="cb6-159"><a href="#cb6-159"></a>    <span class="at">x =</span> <span class="st">&quot;Outcome Type&quot;</span>,</span>
-<span id="cb6-160"><a href="#cb6-160"></a>    <span class="at">y =</span> <span class="st">&quot;Count&quot;</span></span>
-<span id="cb6-161"><a href="#cb6-161"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-162"><a href="#cb6-162"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb6-163"><a href="#cb6-163"></a></span>
-<span id="cb6-164"><a href="#cb6-164"></a><span class="in">```</span></span>
-<span id="cb6-165"><a href="#cb6-165"></a></span>
-<span id="cb6-168"><a href="#cb6-168"></a><span class="in">```{r}</span></span>
-<span id="cb6-169"><a href="#cb6-169"></a><span class="co">#| label: outcome-category-classification</span></span>
-<span id="cb6-170"><a href="#cb6-170"></a></span>
-<span id="cb6-171"><a href="#cb6-171"></a>longbeach_clean <span class="sc">|&gt;</span></span>
-<span id="cb6-172"><a href="#cb6-172"></a>  <span class="fu">mutate</span>(<span class="at">outcome_category =</span> <span class="fu">case_when</span>(</span>
-<span id="cb6-173"><a href="#cb6-173"></a>    outcome_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;adoption&quot;</span>, <span class="st">&quot;foster to adopt&quot;</span>, </span>
-<span id="cb6-174"><a href="#cb6-174"></a>                        <span class="st">&quot;homefirst&quot;</span>) <span class="sc">~</span> <span class="st">&quot;adopted&quot;</span>,</span>
-<span id="cb6-175"><a href="#cb6-175"></a>    outcome_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;euthanasia&quot;</span>, <span class="st">&quot;died&quot;</span>, </span>
-<span id="cb6-176"><a href="#cb6-176"></a>                        <span class="st">&quot;disposal&quot;</span>) <span class="sc">~</span> <span class="st">&quot;death&quot;</span>,</span>
-<span id="cb6-177"><a href="#cb6-177"></a>    outcome_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;rescue&quot;</span>, <span class="st">&quot;transfer&quot;</span>, </span>
-<span id="cb6-178"><a href="#cb6-178"></a>                        <span class="st">&quot;return to owner&quot;</span>, <span class="st">&quot;shelter, neuter, return&quot;</span>, </span>
-<span id="cb6-179"><a href="#cb6-179"></a>                        <span class="st">&quot;return to rescue&quot;</span>, <span class="st">&quot;transport&quot;</span>, </span>
-<span id="cb6-180"><a href="#cb6-180"></a>                        <span class="st">&quot;community cat&quot;</span>, <span class="st">&quot;return to wild habitat&quot;</span>, </span>
-<span id="cb6-181"><a href="#cb6-181"></a>                        <span class="st">&quot;foster&quot;</span>, <span class="st">&quot;trap, neuter, release&quot;</span>, </span>
-<span id="cb6-182"><a href="#cb6-182"></a>                        <span class="st">&quot;missing&quot;</span>, <span class="st">&quot;NA&quot;</span>, </span>
-<span id="cb6-183"><a href="#cb6-183"></a>                        <span class="st">&quot;duplicate&quot;</span>) <span class="sc">~</span> <span class="st">&quot;non-death&quot;</span>,</span>
-<span id="cb6-184"><a href="#cb6-184"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;non-death&quot;</span></span>
-<span id="cb6-185"><a href="#cb6-185"></a>  )) <span class="sc">|&gt;</span></span>
-<span id="cb6-186"><a href="#cb6-186"></a>  <span class="fu">count</span>(outcome_category)</span>
-<span id="cb6-187"><a href="#cb6-187"></a><span class="in">```</span></span>
-<span id="cb6-188"><a href="#cb6-188"></a></span>
-<span id="cb6-189"><a href="#cb6-189"></a>Independent Variables:</span>
-<span id="cb6-190"><a href="#cb6-190"></a></span>
-<span id="cb6-191"><a href="#cb6-191"></a><span class="ss">-   </span><span class="in">`intake_condition`</span></span>
-<span id="cb6-192"><a href="#cb6-192"></a></span>
-<span id="cb6-193"><a href="#cb6-193"></a><span class="ss">-   </span><span class="in">`animal_type`</span></span>
+<span id="cb6-147"><a href="#cb6-147"></a><span class="fu">## Project Goals</span></span>
+<span id="cb6-148"><a href="#cb6-148"></a></span>
+<span id="cb6-149"><a href="#cb6-149"></a><span class="fu">### 1. How do intake conditions and animal types affect the animal&#39;s outcome?</span></span>
+<span id="cb6-150"><a href="#cb6-150"></a></span>
+<span id="cb6-151"><a href="#cb6-151"></a>We will evaluate how <span class="in">`intake_condition`</span> and <span class="in">`animal_type`</span> influence the likelihood of outcomes for animals in a shelter environment. We hope to identify disparities to inform shelter strategies. For clarity and consistency, <span class="in">`animal_type`</span> has been re-coded into a <span class="in">`species_group`</span> category to capture generalized trends across dogs, cats, and other species. For exploratory purposes, we&#39;ll use all 19 of <span class="in">`outcome_type`</span>&#39;s unique values. Based on the <span class="in">`outcome_type`</span> distribution, we&#39;ve decided to mutate <span class="in">`outcome_type`</span> into three categorical values of <span class="in">`death`</span>, <span class="in">`non-death`</span>, and <span class="in">`adopted`</span>.</span>
+<span id="cb6-152"><a href="#cb6-152"></a></span>
+<span id="cb6-155"><a href="#cb6-155"></a><span class="in">```{r}</span></span>
+<span id="cb6-156"><a href="#cb6-156"></a><span class="co">#| label: outcome-type-distribution</span></span>
+<span id="cb6-157"><a href="#cb6-157"></a><span class="co">#| echo: false</span></span>
+<span id="cb6-158"><a href="#cb6-158"></a>longbeach_clean <span class="sc">|&gt;</span></span>
+<span id="cb6-159"><a href="#cb6-159"></a>  <span class="fu">count</span>(outcome_type) <span class="sc">|&gt;</span></span>
+<span id="cb6-160"><a href="#cb6-160"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(outcome_type, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb6-161"><a href="#cb6-161"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;cornsilk4&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-162"><a href="#cb6-162"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb6-163"><a href="#cb6-163"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-164"><a href="#cb6-164"></a>    <span class="at">title =</span> <span class="st">&quot;Distribution of Outcome Types&quot;</span>,</span>
+<span id="cb6-165"><a href="#cb6-165"></a>    <span class="at">x =</span> <span class="st">&quot;Outcome Type&quot;</span>,</span>
+<span id="cb6-166"><a href="#cb6-166"></a>    <span class="at">y =</span> <span class="st">&quot;Count&quot;</span></span>
+<span id="cb6-167"><a href="#cb6-167"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-168"><a href="#cb6-168"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb6-169"><a href="#cb6-169"></a></span>
+<span id="cb6-170"><a href="#cb6-170"></a><span class="in">```</span></span>
+<span id="cb6-171"><a href="#cb6-171"></a></span>
+<span id="cb6-174"><a href="#cb6-174"></a><span class="in">```{r}</span></span>
+<span id="cb6-175"><a href="#cb6-175"></a><span class="co">#| label: outcome-category-classification</span></span>
+<span id="cb6-176"><a href="#cb6-176"></a></span>
+<span id="cb6-177"><a href="#cb6-177"></a>longbeach_clean <span class="sc">|&gt;</span></span>
+<span id="cb6-178"><a href="#cb6-178"></a>  <span class="fu">mutate</span>(<span class="at">outcome_category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-179"><a href="#cb6-179"></a>    outcome_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;adoption&quot;</span>, <span class="st">&quot;foster to adopt&quot;</span>, </span>
+<span id="cb6-180"><a href="#cb6-180"></a>                        <span class="st">&quot;homefirst&quot;</span>) <span class="sc">~</span> <span class="st">&quot;adopted&quot;</span>,</span>
+<span id="cb6-181"><a href="#cb6-181"></a>    outcome_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;euthanasia&quot;</span>, <span class="st">&quot;died&quot;</span>, </span>
+<span id="cb6-182"><a href="#cb6-182"></a>                        <span class="st">&quot;disposal&quot;</span>) <span class="sc">~</span> <span class="st">&quot;death&quot;</span>,</span>
+<span id="cb6-183"><a href="#cb6-183"></a>    outcome_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;rescue&quot;</span>, <span class="st">&quot;transfer&quot;</span>, </span>
+<span id="cb6-184"><a href="#cb6-184"></a>                        <span class="st">&quot;return to owner&quot;</span>, <span class="st">&quot;shelter, neuter, return&quot;</span>, </span>
+<span id="cb6-185"><a href="#cb6-185"></a>                        <span class="st">&quot;return to rescue&quot;</span>, <span class="st">&quot;transport&quot;</span>, </span>
+<span id="cb6-186"><a href="#cb6-186"></a>                        <span class="st">&quot;community cat&quot;</span>, <span class="st">&quot;return to wild habitat&quot;</span>, </span>
+<span id="cb6-187"><a href="#cb6-187"></a>                        <span class="st">&quot;foster&quot;</span>, <span class="st">&quot;trap, neuter, release&quot;</span>, </span>
+<span id="cb6-188"><a href="#cb6-188"></a>                        <span class="st">&quot;missing&quot;</span>, <span class="st">&quot;NA&quot;</span>, </span>
+<span id="cb6-189"><a href="#cb6-189"></a>                        <span class="st">&quot;duplicate&quot;</span>) <span class="sc">~</span> <span class="st">&quot;non-death&quot;</span>,</span>
+<span id="cb6-190"><a href="#cb6-190"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;non-death&quot;</span></span>
+<span id="cb6-191"><a href="#cb6-191"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb6-192"><a href="#cb6-192"></a>  <span class="fu">count</span>(outcome_category)</span>
+<span id="cb6-193"><a href="#cb6-193"></a><span class="in">```</span></span>
 <span id="cb6-194"><a href="#cb6-194"></a></span>
-<span id="cb6-195"><a href="#cb6-195"></a>Dependent Variables:</span>
+<span id="cb6-195"><a href="#cb6-195"></a>Independent Variables:</span>
 <span id="cb6-196"><a href="#cb6-196"></a></span>
-<span id="cb6-197"><a href="#cb6-197"></a><span class="ss">-   </span><span class="in">`outcome_type`</span></span>
+<span id="cb6-197"><a href="#cb6-197"></a><span class="ss">-   </span><span class="in">`intake_condition`</span></span>
 <span id="cb6-198"><a href="#cb6-198"></a></span>
-<span id="cb6-199"><a href="#cb6-199"></a><span class="fu">#### Proposed Visualizations</span></span>
+<span id="cb6-199"><a href="#cb6-199"></a><span class="ss">-   </span><span class="in">`animal_type`</span></span>
 <span id="cb6-200"><a href="#cb6-200"></a></span>
-<span id="cb6-201"><a href="#cb6-201"></a>Proportion of Outcomes by Animal Type: Bar plot showing the proportion of <span class="in">`outcome_types`</span> to each faceted <span class="in">`species_group`</span>. This will highlight which outcomes dominate each species category.</span>
+<span id="cb6-201"><a href="#cb6-201"></a>Dependent Variables:</span>
 <span id="cb6-202"><a href="#cb6-202"></a></span>
-<span id="cb6-203"><a href="#cb6-203"></a>Distribution of Outcomes Across Intake Condition: Bar plot showing distribution of <span class="in">`intake_condition`</span> for a specific faceted <span class="in">`outcome_type`</span>. This will identify which intake conditions are more likely to lead to a certain outcome.</span>
+<span id="cb6-203"><a href="#cb6-203"></a><span class="ss">-   </span><span class="in">`outcome_type`</span></span>
 <span id="cb6-204"><a href="#cb6-204"></a></span>
-<span id="cb6-205"><a href="#cb6-205"></a><span class="fu">### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?</span></span>
+<span id="cb6-205"><a href="#cb6-205"></a><span class="fu">#### Proposed Visualizations</span></span>
 <span id="cb6-206"><a href="#cb6-206"></a></span>
-<span id="cb6-207"><a href="#cb6-207"></a>We&#39;ll mutate() a new variable <span class="in">`days_to_adoption`</span> as the time difference between intake and outcome dates, then analyze its variation by <span class="in">`intake_year`</span> and <span class="in">`outcome_type`</span> across years. Because dogs and cats dominate the data, we collapse all other species into a three-level factor <span class="in">`species_group`</span> (“Dog,” “Cat,” “Other”) for clearer comparisons.</span>
+<span id="cb6-207"><a href="#cb6-207"></a>Proportion of Outcomes by Animal Type: Bar plot showing the proportion of <span class="in">`outcome_types`</span> to each faceted <span class="in">`species_group`</span>. This will highlight which outcomes dominate each species category.</span>
 <span id="cb6-208"><a href="#cb6-208"></a></span>
-<span id="cb6-211"><a href="#cb6-211"></a><span class="in">```{r}</span></span>
-<span id="cb6-212"><a href="#cb6-212"></a><span class="co">#| label: species-distribution</span></span>
-<span id="cb6-213"><a href="#cb6-213"></a><span class="co">#| echo: false</span></span>
+<span id="cb6-209"><a href="#cb6-209"></a>Distribution of Outcomes Across Intake Condition: Bar plot showing distribution of <span class="in">`intake_condition`</span> for a specific faceted <span class="in">`outcome_type`</span>. This will identify which intake conditions are more likely to lead to a certain outcome.</span>
+<span id="cb6-210"><a href="#cb6-210"></a></span>
+<span id="cb6-211"><a href="#cb6-211"></a><span class="fu">### 2. Over the years 2021–2025, how have different species and intake conditions influenced the duration from intake to adoption?</span></span>
+<span id="cb6-212"><a href="#cb6-212"></a></span>
+<span id="cb6-213"><a href="#cb6-213"></a>We&#39;ll mutate() a new variable <span class="in">`days_to_adoption`</span> as the time difference between intake and outcome dates, then analyze its variation by <span class="in">`intake_year`</span> and <span class="in">`outcome_type`</span> across years. Because dogs and cats dominate the data, we collapse all other species into a three-level factor <span class="in">`species_group`</span> (“Dog,” “Cat,” “Other”) for clearer comparisons.</span>
 <span id="cb6-214"><a href="#cb6-214"></a></span>
-<span id="cb6-215"><a href="#cb6-215"></a>longbeach_clean <span class="sc">|&gt;</span></span>
-<span id="cb6-216"><a href="#cb6-216"></a>  <span class="fu">count</span>(animal_type) <span class="sc">|&gt;</span></span>
-<span id="cb6-217"><a href="#cb6-217"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(animal_type, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb6-218"><a href="#cb6-218"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;cornsilk4&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-219"><a href="#cb6-219"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
-<span id="cb6-220"><a href="#cb6-220"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-221"><a href="#cb6-221"></a>    <span class="at">title =</span> <span class="st">&quot;Distribution of Species&quot;</span>,</span>
-<span id="cb6-222"><a href="#cb6-222"></a>    <span class="at">x =</span> <span class="st">&quot;Species Type&quot;</span>,</span>
-<span id="cb6-223"><a href="#cb6-223"></a>    <span class="at">y =</span> <span class="st">&quot;Count&quot;</span></span>
-<span id="cb6-224"><a href="#cb6-224"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-225"><a href="#cb6-225"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb6-226"><a href="#cb6-226"></a></span>
-<span id="cb6-227"><a href="#cb6-227"></a><span class="in">```</span></span>
-<span id="cb6-228"><a href="#cb6-228"></a></span>
-<span id="cb6-229"><a href="#cb6-229"></a>Independent Variables:</span>
-<span id="cb6-230"><a href="#cb6-230"></a></span>
-<span id="cb6-231"><a href="#cb6-231"></a><span class="ss">-   </span><span class="in">`animal_type`</span></span>
+<span id="cb6-217"><a href="#cb6-217"></a><span class="in">```{r}</span></span>
+<span id="cb6-218"><a href="#cb6-218"></a><span class="co">#| label: species-distribution</span></span>
+<span id="cb6-219"><a href="#cb6-219"></a><span class="co">#| echo: false</span></span>
+<span id="cb6-220"><a href="#cb6-220"></a></span>
+<span id="cb6-221"><a href="#cb6-221"></a>longbeach_clean <span class="sc">|&gt;</span></span>
+<span id="cb6-222"><a href="#cb6-222"></a>  <span class="fu">count</span>(animal_type) <span class="sc">|&gt;</span></span>
+<span id="cb6-223"><a href="#cb6-223"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(animal_type, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb6-224"><a href="#cb6-224"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;cornsilk4&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-225"><a href="#cb6-225"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb6-226"><a href="#cb6-226"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-227"><a href="#cb6-227"></a>    <span class="at">title =</span> <span class="st">&quot;Distribution of Species&quot;</span>,</span>
+<span id="cb6-228"><a href="#cb6-228"></a>    <span class="at">x =</span> <span class="st">&quot;Species Type&quot;</span>,</span>
+<span id="cb6-229"><a href="#cb6-229"></a>    <span class="at">y =</span> <span class="st">&quot;Count&quot;</span></span>
+<span id="cb6-230"><a href="#cb6-230"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-231"><a href="#cb6-231"></a>  <span class="fu">theme_minimal</span>()</span>
 <span id="cb6-232"><a href="#cb6-232"></a></span>
-<span id="cb6-233"><a href="#cb6-233"></a><span class="ss">-   </span><span class="in">`intake_condition`</span></span>
+<span id="cb6-233"><a href="#cb6-233"></a><span class="in">```</span></span>
 <span id="cb6-234"><a href="#cb6-234"></a></span>
-<span id="cb6-235"><a href="#cb6-235"></a><span class="ss">-   </span><span class="in">`intake_year`</span> (derived from <span class="in">`intake_date`</span>)</span>
+<span id="cb6-235"><a href="#cb6-235"></a>Independent Variables:</span>
 <span id="cb6-236"><a href="#cb6-236"></a></span>
-<span id="cb6-237"><a href="#cb6-237"></a><span class="ss">-   </span><span class="in">`outcome_type`</span></span>
+<span id="cb6-237"><a href="#cb6-237"></a><span class="ss">-   </span><span class="in">`animal_type`</span></span>
 <span id="cb6-238"><a href="#cb6-238"></a></span>
-<span id="cb6-239"><a href="#cb6-239"></a>Dependent Variables:</span>
+<span id="cb6-239"><a href="#cb6-239"></a><span class="ss">-   </span><span class="in">`intake_condition`</span></span>
 <span id="cb6-240"><a href="#cb6-240"></a></span>
-<span id="cb6-241"><a href="#cb6-241"></a><span class="ss">-   </span><span class="in">`days_to_adoption`</span> (<span class="in">`computed by outcome_date`</span> - <span class="in">`intake_date`</span>)</span>
+<span id="cb6-241"><a href="#cb6-241"></a><span class="ss">-   </span><span class="in">`intake_year`</span> (derived from <span class="in">`intake_date`</span>)</span>
 <span id="cb6-242"><a href="#cb6-242"></a></span>
-<span id="cb6-243"><a href="#cb6-243"></a><span class="fu">#### Proposed Visualizations</span></span>
+<span id="cb6-243"><a href="#cb6-243"></a><span class="ss">-   </span><span class="in">`outcome_type`</span></span>
 <span id="cb6-244"><a href="#cb6-244"></a></span>
-<span id="cb6-245"><a href="#cb6-245"></a>Time‐Series Lines: Median <span class="in">`days_to_adoption`</span> by <span class="in">`intake_year`</span> (2021–2025), faceted by <span class="in">`species_group`</span>.</span>
+<span id="cb6-245"><a href="#cb6-245"></a>Dependent Variables:</span>
 <span id="cb6-246"><a href="#cb6-246"></a></span>
-<span id="cb6-247"><a href="#cb6-247"></a>Violin Distribution: Yearly distribution of <span class="in">`days_to_adoption`</span>, split by <span class="in">`intake_condition`</span></span>
+<span id="cb6-247"><a href="#cb6-247"></a><span class="ss">-   </span><span class="in">`days_to_adoption`</span> (<span class="in">`computed by outcome_date`</span> - <span class="in">`intake_date`</span>)</span>
 <span id="cb6-248"><a href="#cb6-248"></a></span>
-<span id="cb6-249"><a href="#cb6-249"></a><span class="fu">## Weekly Plan of Attack</span></span>
+<span id="cb6-249"><a href="#cb6-249"></a><span class="fu">#### Proposed Visualizations</span></span>
 <span id="cb6-250"><a href="#cb6-250"></a></span>
-<span id="cb6-251"><a href="#cb6-251"></a>| Task Name | Status | Due | Priority | Summary |</span>
-<span id="cb6-252"><a href="#cb6-252"></a>|----|----|----|----|----|</span>
-<span id="cb6-253"><a href="#cb6-253"></a>| Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |</span>
-<span id="cb6-254"><a href="#cb6-254"></a>| Data ingestion &amp; cleaning | Started | 2025-06-13 | High | Load data; inspect structure; derive and clean data |</span>
-<span id="cb6-255"><a href="#cb6-255"></a>| Q1 &amp; Q2 plot exploration and decision | Started | 2025-06-13 | High | Decide on plots and narrative |</span>
-<span id="cb6-256"><a href="#cb6-256"></a>| Draft narrative &amp; interpretation | Not started | 2025-06-20 | High | Summarize results; write narrative for both questions |</span>
-<span id="cb6-257"><a href="#cb6-257"></a>| Finalize report &amp; slides | Not started | 2025-06-30 | High | Refine visuals; polish text; build and rehearse presentation |</span>
+<span id="cb6-251"><a href="#cb6-251"></a>Time‐Series Lines: Median <span class="in">`days_to_adoption`</span> by <span class="in">`intake_year`</span> (2021–2025), faceted by <span class="in">`species_group`</span>.</span>
+<span id="cb6-252"><a href="#cb6-252"></a></span>
+<span id="cb6-253"><a href="#cb6-253"></a>Violin Distribution: Yearly distribution of <span class="in">`days_to_adoption`</span>, split by <span class="in">`intake_condition`</span></span>
+<span id="cb6-254"><a href="#cb6-254"></a></span>
+<span id="cb6-255"><a href="#cb6-255"></a><span class="fu">## Weekly Plan of Attack</span></span>
+<span id="cb6-256"><a href="#cb6-256"></a></span>
+<span id="cb6-257"><a href="#cb6-257"></a>| Task Name | Status | Due | Priority | Summary |</span>
+<span id="cb6-258"><a href="#cb6-258"></a>|---------------|---------------|---------------|---------------|---------------|</span>
+<span id="cb6-259"><a href="#cb6-259"></a>| Analysis of dataset and project decision | Complete | 2025-06-13 | High | Team found dataset, selected questions. Discussed approach and division of work |</span>
+<span id="cb6-260"><a href="#cb6-260"></a>| Data ingestion &amp; cleaning | Complete | 2025-06-13 | High | Load data; inspect structure; derive and clean data |</span>
+<span id="cb6-261"><a href="#cb6-261"></a>| Q1 &amp; Q2 plot exploration and decision | Complete | 2025-06-13 | High | Decide on plots and narrative |</span>
+<span id="cb6-262"><a href="#cb6-262"></a>| Draft narrative &amp; interpretation | Complete | 2025-06-20 | High | Summarize results; write narrative for both questions |</span>
+<span id="cb6-263"><a href="#cb6-263"></a>| Finalize report &amp; slides | Complete | 2025-06-30 | High | Refine visuals; polish text; build and rehearse presentation |</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

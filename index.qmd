@@ -37,11 +37,13 @@ pacman::p_load(tidyverse,
 
 # Graphically Pawsitive Vibes
 
-### Data Loading 
+### Data Loading
 
 Load the Longbeach dataset from TidyTuesday
 
 ```{r}
+#| label: data-loading
+
 longbeach <- tt_load("2025-03-04")
 longbeach = longbeach$longbeach
 
@@ -75,6 +77,7 @@ This project visualizes which intake scenarios and animal characteristics predic
 Before diving into our analyses, we perform several key data‐wrangling steps to ensure consistency and create the variables we need. First, we standardize the `intake_condition` text by trimming extra whitespace, replacing slashes with spaces, and converting to lowercase. Next, we collapse the many values of `animal_type` into a three-level factor—Dog, Cat, and Other—so we can directly compare these groups. We also calculate each animal’s age at intake (in years) from its date of birth, flagging missing values as “Unknown.” Finally, we derive `days_to_adoption` by subtracting `intake_date` from `outcome_date`, which sets us up to explore adoption timelines.
 
 ```{r}
+#| label: data-cleaning
 
 longbeach_clean <- longbeach |>
   
@@ -128,6 +131,7 @@ longbeach_clean <- longbeach |>
 To establish the rationale for combining `animal_type` into Dog, Cat, and Other, horizontal bar chart of the various values of `animal_type` are shown with color highlighting the grouping.
 
 ```{r}
+#| label: data-analysis
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1
@@ -193,6 +197,7 @@ The outcome variable, originally containing 19 unique `outcome_type` values, has
 ### Analysis:
 
 ```{r}
+#| label: q1-top-intake-conditions
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1
@@ -252,10 +257,11 @@ ggplot(top_6_intake,
 ```
 
 ```{r}
+#| label: q1-proportion-outcomes-per-animal
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1
-#| 
+
 # clean data
 longbeach_clean |>
   # mutate to Adopted, Death, Non-death
@@ -340,17 +346,16 @@ The second visualization consists of bubble chart plots, for each species group,
 ### Analysis:
 
 ```{r}
-adopt_df <- longbeach_clean |>
-  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
-  mutate(intake_year = year(intake_date))
-```
-
-```{r}
+#| label: q2-violin-plot
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1
 
-# sdoption data for 2017–2024
+adopt_df <- longbeach_clean |>
+  filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
+  mutate(intake_year = year(intake_date))
+
+# adoption data for 2017–2024
 adopt_df_full <- longbeach_clean |>
   filter(
     outcome_type     == "adoption",
@@ -456,6 +461,7 @@ ggplot() +
 ```
 
 ```{r}
+#| label: q2-timeseries-plot
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1

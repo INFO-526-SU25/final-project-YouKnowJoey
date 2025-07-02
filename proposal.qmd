@@ -35,6 +35,8 @@ pacman::p_load(tidyverse,
 ### Dataset
 
 ```{r}
+#| label: load-dataset
+
 longbeach <- tt_load("2025-03-04")
 longbeach = longbeach$longbeach
 ```
@@ -71,6 +73,8 @@ The following variables will be used in our analysis:
 We go ahead and clean and mutate the data we know the team will need.
 
 ```{r}
+#| label: data-cleaning
+
 longbeach_clean <- longbeach |>
   
   # standardize intake_condition
@@ -113,6 +117,8 @@ Dogs and cats account for the majority of shelter intakes, so we recode `animal_
 Let's take a look at the data to see any issues:
 
 ```{r}
+#| label: data-diagnostics
+
 longbeach_clean |>
   diagnose() |>
   filter(variables %in% c("intake_condition",

@@ -86,6 +86,8 @@ Animal Outcome Category Classification
 
 ::: {.column width="60%"}
 ```{r}
+#| label: outcome-category-classification
+
 # Classify 3 outcome categories
 outcome_summary <- tibble(
   outcome_category = c("adopted", "death", "non-death"),
