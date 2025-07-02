@@ -74,7 +74,7 @@
     "href": "presentation.html#about-animal-shelter-data",
     "title": "Graphically Pawsitive Vibes",
     "section": "About Animal Shelter Data",
-    "text": "About Animal Shelter Data\n\nSource: Long Beach, CA Animal Care Services Open Data Portal\nDataset: TidyTuesday (Week of 2025-03-04)\nRecords: 29,787 animal intakes and outcomes (2021–2025)\nKey Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation"
+    "text": "About Animal Shelter Data\n\nSource: Long Beach, CA Animal Care Services Open Data Portal\nDataset: TidyTuesday (Week of 2025-03-04)\nRecords: 29,787 animal intakes and outcomes (2017-2024)\nKey Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation"
   },
   {
     "objectID": "presentation.html#our-questions",
@@ -88,7 +88,7 @@
     "href": "presentation.html#data-considerations-part-1",
     "title": "Graphically Pawsitive Vibes",
     "section": "Data Considerations (Part 1)",
-    "text": "Data Considerations (Part 1)\nWhat must we change in the Data?\n\nSimplified species_group:\n\nanimal_type is grouped as \"Dog\", \"Cat\", \"Other\"\n\nCreate age_at_intake:\n\n(intake_date - dob) / 365\n\nCreate days_to_adoption:\n\n(outcome_date - intake_date)"
+    "text": "Data Considerations (Part 1)\n\nWhat must we change in the Data?\n\nSimplified species_group:\n\nanimal_type is grouped as \"Dog\", \"Cat\", \"Other\"\n\nCreate age_at_intake:\n\n(intake_date - dob) / 365\n\nCreate days_to_adoption:\n\n(outcome_date - intake_date)"
   },
   {
     "objectID": "presentation.html#data-considerations-part-2",
@@ -105,101 +105,17 @@
     "text": "Data Considerations (Part 3)\nAnimal Outcome Category Classification\n\n\n\nadopted\ndeath\nnon-death\n\n\n\n\n# A tibble: 20 × 2\n   outcome_category subcategories          \n   &lt;chr&gt;            &lt;chr&gt;                  \n 1 adopted          adoption               \n 2 adopted          foster to adopt        \n 3 adopted          homefirst              \n 4 death            euthanasia             \n 5 death            died                   \n 6 death            disposal               \n 7 non-death        rescue                 \n 8 non-death        transfer               \n 9 non-death        return to owner        \n10 non-death        shelter, neuter, return\n11 non-death        return to rescue       \n12 non-death        transport              \n13 non-death        community cat          \n14 non-death        return to wild habitat \n15 non-death        foster                 \n16 non-death        trap, neuter, release  \n17 non-death        missing                \n18 non-death        NA                     \n19 non-death        duplicate              \n20 non-death        others"
   },
   {
-    "objectID": "presentation.html#plots",
-    "href": "presentation.html#plots",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Plots",
-    "text": "Plots"
-  },
-  {
-    "objectID": "presentation.html#plots-1",
-    "href": "presentation.html#plots-1",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Plots",
-    "text": "Plots"
-  },
-  {
-    "objectID": "presentation.html#plots-2",
-    "href": "presentation.html#plots-2",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Plots",
-    "text": "Plots"
-  },
-  {
-    "objectID": "presentation.html#plots-3",
-    "href": "presentation.html#plots-3",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Plots",
-    "text": "Plots"
-  },
-  {
     "objectID": "presentation.html#our-insights",
     "href": "presentation.html#our-insights",
     "title": "Graphically Pawsitive Vibes",
     "section": "Our Insights",
-    "text": "Our Insights\n\n“Other” species face lower adoption rates and higher death rates\nFavorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes.\nDog and cat adoptions surged after 2020 pandemic dip; “Other” species showed gains but more variability\nDogs are rehomed quickest, cats show more long-stay variability\nThere’s faster median time to adoption, despite rising volumes"
+    "text": "Our Insights\n\n“Other” species face lower adoption rates and higher death rates\nFavorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes\nDog and cat adoptions surged after 2020 pandemic dip; “Other” species showed gains but more variability\nDogs are re-homed quickest, cats show more long-stay variability\nThere’s faster median time to adoption, despite rising volumes"
   },
   {
     "objectID": "presentation.html#takeaways",
     "href": "presentation.html#takeaways",
     "title": "Graphically Pawsitive Vibes",
     "section": "Takeaways",
-    "text": "Takeaways\n\nHighlights need for targeted care and intervention for “Other” species that are underrepresented and more vulnerable.\nFast median times reflects shelter staff and volunteer efforts to improve animal outcomes"
-  },
-  {
-    "objectID": "presentation.html#quarto",
-    "href": "presentation.html#quarto",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Quarto",
-    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
-  },
-  {
-    "objectID": "presentation.html#layouts",
-    "href": "presentation.html#layouts",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Layouts",
-    "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\nlike\nthis\n\nAnd add footnotes"
-  },
-  {
-    "objectID": "presentation.html#code",
-    "href": "presentation.html#code",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Code",
-    "text": "Code\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
-  },
-  {
-    "objectID": "presentation.html#plots-4",
-    "href": "presentation.html#plots-4",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Plots",
-    "text": "Plots"
-  },
-  {
-    "objectID": "presentation.html#plot-and-text",
-    "href": "presentation.html#plot-and-text",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Plot and text",
-    "text": "Plot and text\n\n\n\nSome text\ngoes here"
-  },
-  {
-    "objectID": "presentation.html#tables",
-    "href": "presentation.html#tables",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Tables",
-    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\nAdelie\nTorgersen\n39.1\n18.7\n181\n3750\nmale\n\n\nAdelie\nTorgersen\n39.5\n17.4\n186\n3800\nfemale\n\n\nAdelie\nTorgersen\n40.3\n18.0\n195\n3250\nfemale\n\n\nAdelie\nTorgersen\nNA\nNA\nNA\nNA\nNA\n\n\nAdelie\nTorgersen\n36.7\n19.3\n193\n3450\nfemale\n\n\nAdelie\nTorgersen\n39.3\n20.6\n190\n3650\nmale"
-  },
-  {
-    "objectID": "presentation.html#math-expressions",
-    "href": "presentation.html#math-expressions",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Math Expressions",
-    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
-  },
-  {
-    "objectID": "presentation.html#feeling-adventurous",
-    "href": "presentation.html#feeling-adventurous",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Feeling adventurous?",
-    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
+    "text": "Takeaways\n\nHighlights need for targeted care and intervention for “Other” species that are underrepresented and more vulnerable\nFast median times reflects shelter staff and volunteer efforts to improve animal outcomes"
   }
 ]

@@ -121,16 +121,12 @@
       margin-right: 0; 
     }
   </style>
-  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-
-  <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="images/LB_AnimalCareServices-932x501.avif" data-background-opacity="0.9" data-background-position="center top" data-background-size="50%" data-slide-number="none" class="quarto-title-block center">
+<section id="title-slide" data-background-image="images/LB_AnimalCareServices-932x501.avif" data-background-opacity="0.9" data-background-position="center top" data-background-size="600px auto" data-slide-number="none" class="quarto-title-block center">
   <h1 class="title">Graphically Pawsitive Vibes</h1>
   <p class="subtitle">INFO 526 - Summer 2025 - Final Project</p>
 
@@ -153,7 +149,7 @@ Isle of Dogs: Joey Garcia &amp; David Kyle
 <ul>
 <li><p>Source: Long Beach, CA Animal Care Services Open Data Portal</p></li>
 <li><p>Dataset: TidyTuesday (Week of 2025-03-04)</p></li>
-<li><p>Records: 29,787 animal intakes and outcomes (2021–2025)</p></li>
+<li><p>Records: 29,787 animal intakes and outcomes (2017-2024)</p></li>
 <li><p>Key Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation</p></li>
 </ul>
 </section>
@@ -167,6 +163,7 @@ Isle of Dogs: Joey Garcia &amp; David Kyle
 </section>
 <section id="data-considerations-part-1" class="slide level2">
 <h2>Data Considerations (Part 1)</h2>
+<div style="font-size: 80%">
 <p>What must we change in the Data?</p>
 <ul>
 <li><strong>Simplified <code>species_group</code>:</strong></li>
@@ -180,6 +177,7 @@ Isle of Dogs: Joey Garcia &amp; David Kyle
 <li><strong>Create <code>days_to_adoption</code>:</strong></li>
 </ul>
 <p>(<code>outcome_date</code> - <code>intake_date</code>)</p>
+</div>
 </section>
 <section id="data-considerations-part-2" class="slide level2">
 <h2>Data Considerations (Part 2)</h2>
@@ -229,27 +227,31 @@ Isle of Dogs: Joey Garcia &amp; David Kyle
 <section>
 <section id="question-1" class="title-slide slide level1 center">
 <h1>Question 1</h1>
-
+<ol type="1">
+<li>How do intake conditions and animal types affect the animal’s outcome?</li>
+</ol>
 </section>
-<section id="plots" class="slide level2">
-<h2>Plots</h2>
+<section id="section" class="slide level2">
+<h2></h2>
 
 <img data-src="images/intake_influence_outcomes.png" class="r-stretch"></section>
-<section id="plots-1" class="slide level2">
-<h2>Plots</h2>
+<section id="section-1" class="slide level2">
+<h2></h2>
 
 <img data-src="images/prop_outcomes_per_animal.png" class="r-stretch"></section></section>
 <section>
 <section id="question-2" class="title-slide slide level1 center">
 <h1>Question 2</h1>
-
+<ol start="2" type="1">
+<li>How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?</li>
+</ol>
 </section>
-<section id="plots-2" class="slide level2">
-<h2>Plots</h2>
+<section id="section-2" class="slide level2">
+<h2></h2>
 
 <img data-src="images/days_to_adoption.png" class="r-stretch"></section>
-<section id="plots-3" class="slide level2">
-<h2>Plots</h2>
+<section id="section-3" class="slide level2">
+<h2></h2>
 
 <img data-src="images/volume_speed_species.png" class="r-stretch"></section></section>
 <section>
@@ -261,202 +263,28 @@ Isle of Dogs: Joey Garcia &amp; David Kyle
 <h2>Our Insights</h2>
 <ul>
 <li><p>“Other” species face lower adoption rates and higher death rates</p></li>
-<li><p>Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes.</p></li>
+<li><p>Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes</p></li>
 <li><p>Dog and cat adoptions surged after 2020 pandemic dip; “Other” species showed gains but more variability</p></li>
-<li><p>Dogs are rehomed quickest, cats show more long-stay variability</p></li>
+<li><p>Dogs are re-homed quickest, cats show more long-stay variability</p></li>
 <li><p>There’s faster median time to adoption, despite rising volumes</p></li>
 </ul>
 </section>
 <section id="takeaways" class="slide level2">
 <h2>Takeaways</h2>
 <ul>
-<li><p>Highlights need for targeted care and intervention for “Other” species that are underrepresented and more vulnerable.</p></li>
+<li><p>Highlights need for targeted care and intervention for “Other” species that are underrepresented and more vulnerable</p></li>
 <li><p>Fast median times reflects shelter staff and volunteer efforts to improve animal outcomes</p></li>
 </ul>
 </section></section>
-<section>
 <section id="cited-work" class="title-slide slide level1 center">
 <h1>Cited Work</h1>
-
-</section>
-<section id="quarto" class="slide level2">
-<h2>Quarto</h2>
 <ul>
-<li><p>The presentation is created using the Quarto CLI</p></li>
-<li><p><code>##</code> sets the start of a new slide</p></li>
-</ul>
-</section>
-<section id="layouts" class="slide level2">
-<h2>Layouts</h2>
-<p>You can use plain text</p>
-<div class="columns">
-<div class="column" style="width:40%;">
-<ul>
-<li>or bullet points<sup>1</sup></li>
-</ul>
-</div><div class="column" style="width:60%;">
-<p>or in two columns</p>
-</div></div>
-<ul>
-<li><p>like</p></li>
-<li><p>this</p></li>
-</ul>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>And add footnotes</p></li></ol></aside></section>
-<section id="code" class="slide level2">
-<h2>Code</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term        estimate std.error statistic       p.value
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
-1 (Intercept)   25.3      3.08        8.22 0.00000000358
-2 speed         -0.116    0.0642     -1.81 0.0806       </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 12
-  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
-      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.
-# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="plots-4" class="slide level2">
-<h2>Plots</h2>
-
-<img data-src="presentation_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
-<section id="plot-and-text" class="slide level2">
-<h2>Plot and text</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<ul>
-<li><p>Some text</p></li>
-<li><p>goes here</p></li>
-</ul>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-4-1.png" width="528"></p>
-</figure>
-</div>
-</div>
-</div>
-</div></div>
-</section></section>
-<section>
-<section id="a-new-section" class="title-slide slide level1 center">
-<h1>A new section…</h1>
-
-</section>
-<section id="tables" class="slide level2">
-<h2>Tables</h2>
-<p>If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table caption-top" data-quarto-postprocess="true" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">island</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">bill_length_mm</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">bill_depth_mm</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">flipper_length_mm</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">body_mass_g</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: right;">39.1</td>
-<td style="text-align: right;">18.7</td>
-<td style="text-align: right;">181</td>
-<td style="text-align: right;">3750</td>
-<td style="text-align: left;">male</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: right;">39.5</td>
-<td style="text-align: right;">17.4</td>
-<td style="text-align: right;">186</td>
-<td style="text-align: right;">3800</td>
-<td style="text-align: left;">female</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: right;">40.3</td>
-<td style="text-align: right;">18.0</td>
-<td style="text-align: right;">195</td>
-<td style="text-align: right;">3250</td>
-<td style="text-align: left;">female</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: right;">36.7</td>
-<td style="text-align: right;">19.3</td>
-<td style="text-align: right;">193</td>
-<td style="text-align: right;">3450</td>
-<td style="text-align: left;">female</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: right;">39.3</td>
-<td style="text-align: right;">20.6</td>
-<td style="text-align: right;">190</td>
-<td style="text-align: right;">3650</td>
-<td style="text-align: left;">male</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-</div>
-</section>
-<section id="math-expressions" class="slide level2 smaller">
-<h2>Math Expressions</h2>
-<p>You can write LaTeX math expressions inside a pair of dollar signs, e.g.&nbsp;$\alpha+\beta$ renders <span class="math inline">\(\alpha + \beta\)</span>. You can use the display style with double dollar signs:</p>
-<pre><code>$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$</code></pre>
-<p><span class="math display">\[
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-\]</span></p>
-<p>Limitations:</p>
-<ol type="1">
-<li><p>The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting <code>$$</code> must appear in the very beginning of a line, followed immediately by a non-space character, and the ending <code>$$</code> must be at the end of a line, led by a non-space character;</p></li>
-<li><p>There should not be spaces after the opening <code>$</code> or before the closing <code>$</code>.</p></li>
-</ol>
-</section></section>
-<section>
-<section id="wrap-up" class="title-slide slide level1 center">
-<h1>Wrap up</h1>
-
-</section>
-<section id="feeling-adventurous" class="slide level2">
-<h2>Feeling adventurous?</h2>
-<ul>
-<li><p>You are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.</p></li>
-<li><p>But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.</p></li>
+<li><p>Dataset Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)</p></li>
+<li><p>Title Slide Logo: from Long Beach, CA Animal Care Services website (https://www.longbeach.gov/acs/our-animals/adoptions/)</p></li>
 </ul>
 
 
-</section></section>
-
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

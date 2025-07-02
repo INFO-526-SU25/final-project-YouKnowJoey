@@ -4,7 +4,7 @@ subtitle: "INFO 526 - Summer 2025 - Final Project"
 author: "Isle of Dogs: Joey Garcia & David Kyle"
 title-slide-attributes:
   data-background-image: images/LB_AnimalCareServices-932x501.avif
-  data-background-size: 50%
+  data-background-size: "600px auto"
   data-background-position: center top
   data-background-opacity: "0.9"
   data-slide-number: none
@@ -57,7 +57,7 @@ We want ALL animals adopted!
 
 -   Dataset: TidyTuesday (Week of 2025-03-04)
 
--   Records: 29,787 animal intakes and outcomes (2021–2025)
+-   Records: 29,787 animal intakes and outcomes (2017-2024)
 
 -   Key Fields: Intake/Outcome Dates, Intake Condition, Animal Type, Outcome Type, Date of Birth, Geolocation
 
@@ -70,6 +70,8 @@ Understanding the factors that influence animal shelter outcomes is essential fo
 2.  How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
 
 ## Data Considerations (Part 1)
+
+<div style="font-size: 80%">
 
 What must we change in the Data?
 
@@ -84,6 +86,8 @@ What must we change in the Data?
 -   **Create `days_to_adoption`:**
 
 (`outcome_date` - `intake_date`)
+
+</div>
 
 ## Data Considerations (Part 2)
 
@@ -129,21 +133,25 @@ outcome_summary |>
 
 # Question 1
 
-## Plots
+1.  How do intake conditions and animal types affect the animal's outcome?
+
+## 
 
 ![](images/intake_influence_outcomes.png)
 
-## Plots
+## 
 
 ![](images/prop_outcomes_per_animal.png)
 
 # Question 2
 
-## Plots
+2.  How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
+
+## 
 
 ![](images/days_to_adoption.png)
 
-## Plots
+## 
 
 ![](images/volume_speed_species.png)
 
@@ -153,124 +161,22 @@ outcome_summary |>
 
 -   "Other" species face lower adoption rates and higher death rates
 
--   Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes.
+-   Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes
 
 -   Dog and cat adoptions surged after 2020 pandemic dip; "Other" species showed gains but more variability
 
--   Dogs are rehomed quickest, cats show more long-stay variability
+-   Dogs are re-homed quickest, cats show more long-stay variability
 
 -   There's faster median time to adoption, despite rising volumes
 
 ## Takeaways
 
--   Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable.
+-   Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable
 
 -   Fast median times reflects shelter staff and volunteer efforts to improve animal outcomes
 
 # Cited Work
 
-## Quarto
+- Dataset Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)
 
--   The presentation is created using the Quarto CLI
-
--   `##` sets the start of a new slide
-
-## Layouts
-
-You can use plain text
-
-::::: columns
-::: {.column width="40%"}
--   or bullet points[^1]
-:::
-
-::: {.column width="60%"}
-or in two columns
-:::
-:::::
-
-[^1]: And add footnotes
-
--   like
-
--   this
-
-## Code
-
-```{r, echo=FALSE}
-model <- lm(mpg ~ speed, data = mtcars) 
-
-model |> tidy()
-
-model |> glance()
-
-```
-
-## Plots
-
-```{r}
-penguins |>
-  mutate(species = ifelse(species == "Adelie", "Adelie", "Other")) |>
-  ggplot(aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
-  geom_point()
-```
-
-## Plot and text
-
-::::: columns
-::: {.column width="50%"}
--   Some text
-
--   goes here
-:::
-
-::: {.column width="50%"}
-```{r, warning=FALSE, fig.width=5.5}
-penguins |>
-  ggplot(aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot(linewidth = 0.75,
-               outlier.size = 2.5) +
-  theme_minimal(base_size = 15) +
-  theme(legend.key.size = unit(0.8, "cm"))
-```
-:::
-:::::
-
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r}
-penguins |> 
-  head() |>
-  kableExtra::kable() |>
-  kableExtra::kable_styling()
-```
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
-
-```         
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-$$
-
-Limitations:
-
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-2.  There should not be spaces after the opening `$` or before the closing `$`.
-
-# Wrap up
-
-## Feeling adventurous?
-
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
+- Title Slide Logo: from Long Beach, CA Animal Care Services website (https://www.longbeach.gov/acs/our-animals/adoptions/)
