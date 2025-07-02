@@ -133,19 +133,19 @@ outcome_summary |>
 
 # Question 1
 
-1.  How do intake conditions and animal types affect the animal's outcome?
+How do intake conditions and animal types affect the animal's outcome?
 
 ## 
 
 ![](images/intake_influence_outcomes.png)
 
-## 
+##
 
 ![](images/prop_outcomes_per_animal.png)
 
 # Question 2
 
-2.  How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
+How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats, and Other Species?
 
 ## 
 
@@ -167,7 +167,7 @@ outcome_summary |>
 
 -   Dogs are re-homed quickest, cats show more long-stay variability
 
--   There's faster median time to adoption, despite rising volumes
+-   There is faster median time to adoption, despite rising volumes
 
 ## Takeaways
 
