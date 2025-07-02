@@ -37,6 +37,25 @@ pacman::p_load(tidyverse,
 
 # Graphically Pawsitive Vibes
 
+### Data Loading 
+
+Load the Longbeach dataset from TidyTuesday
+
+```{r}
+longbeach <- tt_load("2025-03-04")
+longbeach = longbeach$longbeach
+
+# get dimensions
+cat("Rows:", nrow(longbeach), "\nColumns:", ncol(longbeach), "\n\n")
+
+# list the column names
+cols <- colnames(longbeach)
+for (i in seq_along(cols)) {
+  cat(sprintf("%2d. %s\n", i, cols[i]))
+}
+
+```
+
 ## Abstract
 
 This project examines factors influencing animal outcomes and adoption timelines at the Long Beach Animal Shelter. The dataset—sourced from TidyTuesday—contains 29,787 records and 22 fields, capturing intake and outcome events for various species in Long Beach, California.
@@ -51,14 +70,7 @@ The Long Beach Animal Shelter dataset (TidyTuesday week 2025-03-04) captures 29,
 
 This project visualizes which intake scenarios and animal characteristics predict different outcomes, and how quickly animals find homes over time. By looking at a variety of visualizations, we hope to provide insight into how intake conditions and animal types affect the animal's outcome and then examine year-by-year shifts in both the number of adoptions and the speed with which animals find homes. This information could deliver actionable insights for shelter staff on resource allocation and policy planning.
 
-### Data Loading and Cleaning
-
-Load the Longbeach dataset from TidyTuesday
-
-```{r}
-longbeach <- tt_load("2025-03-04")
-longbeach = longbeach$longbeach
-```
+### Data Cleaning
 
 Before diving into our analyses, we perform several key data‐wrangling steps to ensure consistency and create the variables we need. First, we standardize the `intake_condition` text by trimming extra whitespace, replacing slashes with spaces, and converting to lowercase. Next, we collapse the many values of `animal_type` into a three-level factor—Dog, Cat, and Other—so we can directly compare these groups. We also calculate each animal’s age at intake (in years) from its date of birth, flagging missing values as “Unknown.” Finally, we derive `days_to_adoption` by subtracting `intake_date` from `outcome_date`, which sets us up to explore adoption timelines.
 
@@ -66,7 +78,7 @@ Before diving into our analyses, we perform several key data‐wrangling steps t
 
 longbeach_clean <- longbeach |>
   
-  # 1. Standardize & title‐case intake_condition  
+  # title‐case intake_condition  
   mutate(
     intake_condition = intake_condition |>
       str_squish() |>
@@ -75,14 +87,14 @@ longbeach_clean <- longbeach |>
       str_to_title()
   ) |>
   
-  # 2. Title‐case animal_type for consistency  
+  # title‐case animal_type for consistency  
   mutate(
     animal_type = animal_type |> 
       str_to_lower() |> 
       str_to_title()
   ) |>
   
-  # 3. Simplify species_group  
+  # species_group  
   mutate(
     species_group = case_when(
       animal_type == "Dog" ~ "Dog",
@@ -92,18 +104,18 @@ longbeach_clean <- longbeach |>
       factor(levels = c("Dog", "Cat", "Other"))
   ) |>
   
-  # 4. Compute age_at_intake & flag missing  
+  # age_at_intake & flag missing  
   mutate(
     age_at_intake = as.numeric(intake_date - dob) / 365,
     age_unknown   = is.na(age_at_intake)
   ) |>
   
-  # 5. Compute days to adoption  
+  # days to adoption  
   mutate(
     days_to_adoption = as.integer(outcome_date - intake_date)
   ) |>
   
-  # 6. Extract intake_year as a factor for plotting  
+  # intake_year as a factor for plotting  
   mutate(
     intake_year = factor(lubridate::year(intake_date), 
                          levels = 2017:2024)
@@ -119,8 +131,11 @@ To establish the rationale for combining `animal_type` into Dog, Cat, and Other,
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1
+
+# clean data
 longbeach_clean |>
   count(animal_type, species_group, sort = TRUE) |>
+  # plot
     ggplot(aes(x = n, y = reorder(animal_type, n), fill = species_group)) +
       geom_col() +
       geom_text(
@@ -144,6 +159,7 @@ longbeach_clean |>
       breaks = c("Cat", "Dog", "Other")
     ) +
     theme_minimal() +
+    # theme
     theme(
       plot.title.position = "plot",
       plot.title = element_text(face = "bold", hjust = 0.025, size = 17),
@@ -181,7 +197,7 @@ The outcome variable, originally containing 19 unique `outcome_type` values, has
 #| fig-height: 7
 #| fig-retina: 1
 
-# Select top 6 intake conditions by count for each outcome category
+# top 6 intake conditions by count for each outcome category
 top_6_intake <- longbeach_clean |>
   mutate(outcome_category = case_when(
     outcome_type %in% c("adoption", "foster to adopt", 
@@ -201,8 +217,9 @@ top_6_intake <- longbeach_clean |>
   group_by(outcome_category, intake_condition) |>
   summarise(n = n(), .groups = "drop") |>
   group_by(outcome_category) |>
-  slice_max(n, n = 6) # adjust int for n amount of 'top' conditions
+  slice_max(n, n = 6) 
 
+# plot
 ggplot(top_6_intake, 
        aes(x = reorder(intake_condition, n), y = n, fill = intake_condition)) +
   geom_col(show.legend = FALSE) +
@@ -218,18 +235,19 @@ ggplot(top_6_intake,
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
-    theme(
-      plot.title.position = "plot",
-      plot.title = element_text(face = "bold", hjust = 0.068, size = 17),
-      plot.subtitle = element_text(hjust = 0.023, size = 13),
-      axis.text = element_text(size = 11),
-      axis.title.y        = element_text(size = 13),
-      axis.title.x        = element_text(margin = margin(t = 9), size = 13),
-      strip.text = element_text(size = 13,),
-      plot.caption = element_text(margin = margin(t = 10), size = 12),
-      panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
-      panel.grid.minor = element_blank()
-    )
+  # theme
+  theme(
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold", hjust = 0.068, size = 17),
+    plot.subtitle = element_text(hjust = 0.023, size = 13),
+    axis.text = element_text(size = 11),
+    axis.title.y        = element_text(size = 13),
+    axis.title.x        = element_text(margin = margin(t = 9), size = 13),
+    strip.text = element_text(size = 13,),
+    plot.caption = element_text(margin = margin(t = 10), size = 12),
+    panel.grid.major = element_line(color = "grey95", linewidth = 0.1),
+    panel.grid.minor = element_blank()
+  )
 
 ```
 
@@ -237,9 +255,10 @@ ggplot(top_6_intake,
 #| fig-width: 10
 #| fig-height: 7
 #| fig-retina: 1
-
+#| 
+# clean data
 longbeach_clean |>
-  
+  # mutate to Adopted, Death, Non-death
   mutate(outcome_category = case_when(
     outcome_type %in% c("adoption", "foster to adopt", 
                         "homefirst") ~ "Adopted",
@@ -259,6 +278,7 @@ longbeach_clean |>
   group_by(species_group) |>
   mutate(prop = n / sum(n)) |>
   
+  # plot
   ggplot(aes(x = outcome_category, y = prop, fill = species_group)) +
   geom_col(
       position = position_dodge(width = 0.82),
@@ -267,6 +287,7 @@ longbeach_clean |>
     ) +
   scale_y_continuous(labels = percent_format()) +
   scale_fill_brewer(palette = "Dark2") +
+  # labels
   labs(
     title = "A Stark Divide: The Uneven Landscape of Shelter Adoptions and Deaths",
     subtitle = "Proportion of Outcomes by Animal Type in California",
@@ -276,6 +297,7 @@ longbeach_clean |>
     caption = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
+    # theme
     theme(
       plot.title.position = "plot",
       plot.caption.position = "plot", 
@@ -328,7 +350,7 @@ adopt_df <- longbeach_clean |>
 #| fig-height: 7
 #| fig-retina: 1
 
-# 1. Prepare adoption data for 2017–2024
+# sdoption data for 2017–2024
 adopt_df_full <- longbeach_clean |>
   filter(
     outcome_type     == "adoption",
@@ -341,26 +363,26 @@ adopt_df_full <- longbeach_clean |>
   # then turn it into a factor for the x-axis
   mutate(intake_year = factor(intake_year_num, levels = 2017:2024)) 
 
-# 2. Compute the 95th percentile of days_to_adoption
+# compute the 95th percentile of days_to_adoption
 p95 <- quantile(adopt_df_full$days_to_adoption, 0.95, na.rm = TRUE)
 
-# 3. Compute counts per year & species for bar fills
+# compute counts per year & species for bar fills
 count_df <- adopt_df_full |>
   count(species_group, intake_year, name = "n_adopt")
 
-# 4. Scaling factor to align counts with days scale
+# scaling factor
 scaleFact <- p95 / max(count_df$n_adopt)
 
-# 5. Plot with combined legend on top
+# plot
 ggplot() +
-  # Bars (counts)
+  # b
   geom_col(
     data = count_df,
     aes(x = intake_year, y = n_adopt * scaleFact, fill = "Number of adoptions"),
     width = 0.6,
     alpha = 0.7
   ) +
-  # Violins (delay distributions)
+  # violins
   geom_violin(
     data = adopt_df_full,
     aes(x = intake_year, y = days_to_adoption, fill = "Days to adoption"),
@@ -368,7 +390,7 @@ ggplot() +
     color  = NA,
     alpha = 0.5
   ) +
-  # Median points
+  # medians
   stat_summary(
     data = adopt_df_full,
     aes(x = intake_year, y = days_to_adoption, color = "Median days"),
@@ -378,8 +400,6 @@ ggplot() +
   ) +
   facet_wrap(~ species_group, ncol = 1, scales = "fixed") +
   scale_x_discrete(drop = FALSE) +
-  
-  # Fill legend for bars & violins
   scale_fill_manual(
     name   = NULL,
     values = c(
@@ -389,14 +409,11 @@ ggplot() +
     breaks = c("Days to adoption", "Number of adoptions"),
     guide  = guide_legend(order = 1)
   ) +
-  # Color legend for median dots
   scale_color_manual(
     values = c("Median days" = "darkblue"),
     guide  = guide_legend(order = 2, override.aes = list(size = 4)),
     name   = NULL
   ) +
-  
-  # Dual axis & zoom
   scale_y_continuous(
     name    = "Days to Adoption",
     labels  = comma_format(),
@@ -408,7 +425,7 @@ ggplot() +
     )
   ) +
   coord_cartesian(ylim = c(0, p95)) +
-  
+  # labels
   labs(
     title    = "Adoption Delays and Counts by Year and Species Group",
     subtitle = "Violin = full days-to-adoption distribution; dots = median (2017–2024), zoomed to the 95th percentile",
@@ -416,6 +433,7 @@ ggplot() +
     caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
+  # theme
   theme(
     plot.title.position   = "plot",
     plot.caption.position = "plot", 
@@ -442,6 +460,7 @@ ggplot() +
 #| fig-height: 7
 #| fig-retina: 1
 
+# clean data
 bubble_df <- longbeach_clean |>
   filter(outcome_type == "adoption", !is.na(days_to_adoption)) |>
   mutate(intake_year = year(intake_date)) |>
@@ -453,6 +472,7 @@ bubble_df <- longbeach_clean |>
     .groups     = "drop"
   )
 
+# plot
 ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
   geom_line(aes(group = 1), color = "grey50", linewidth = 0.5) +
   geom_point(aes(size = n_adopt),
@@ -478,6 +498,7 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
     caption  = "Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)"
   ) +
   theme_minimal() +
+  # theme
   theme(
     plot.title.position = "plot",
     plot.caption.position = "plot", 
@@ -498,7 +519,7 @@ ggplot(bubble_df, aes(x = intake_year, y = median_days)) +
 
 The plots show a clear pandemic‐era dip in adoptions, followed by a strong post‐2020 rebound. Dog adoptions surged from roughly 100 in 2020 to over 600 by 2023–24, with cats exhibiting a similar rebound and “Other” species peaking around 200 placements.
 
-Despite these volume swings, median wait times held steady or improved compared to pre-pandemic levels, representing a true dual gain for the shelter: higher throughput and faster turnover. Dogs remain the quickest to rehome, cats exhibit a broader distribution with some long-stay outliers, and “Other” species continue to show the greatest year-to-year variability. The broader distribution for cats is not surprising as more adoptions suggest a broader variety of time to adoption–it is impressive that dogs did not show the same increase even though their adoption numbers increased as well.
+Despite these volume swings, median wait times held steady or improved compared to pre-pandemic levels, representing a true dual gain for the shelter: higher throughput and faster turnover. Dogs remain the quickest to re-home, cats exhibit a broader distribution with some long-stay outliers, and “Other” species continue to show the greatest year-to-year variability. The broader distribution for cats is not surprising as more adoptions suggest a broader variety of time to adoption–it is impressive that dogs did not show the same increase even though their adoption numbers increased as well.
 
 These improvements speak to the shelter's focus on improving outcomes for their animals. It is a reflection of staff, volunteer, and supporter dedication to the lives of pets and their owners.
 
