@@ -35,7 +35,9 @@ pacman::p_load(tidyverse,
                RColorBrewer)
 ```
 
-# Graphically Pawsitive Vibes
+# Graphically Pawsitive Vibes[^1]
+
+[^1]: AI was used for assistance in this project. It was used for code clarification, exception explanations, and discussions on how lubridate, scales, and other packages operate. Code snippets were used only when unable to resolve an issue independently. All text is written exclusively by the team.
 
 ## Abstract
 
