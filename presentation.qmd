@@ -136,9 +136,3 @@ How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats,
 -   Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable
 
 -   Fast median times reflects shelter staff and volunteer efforts to improve animal outcomes
-
-# Cited Work
-
--   Dataset Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)
-
--   Title Slide Logo: from Long Beach, CA Animal Care Services website (https://www.longbeach.gov/acs/our-animals/adoptions/)
