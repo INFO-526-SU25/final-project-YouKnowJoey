@@ -131,21 +131,7 @@ How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats,
 
 ![](images/volume_speed_species.png)
 
-# Conclusions
-
-## Our Insights
-
--   "Other" species face lower adoption rates and higher death rates
-
--   Favorable intake conditions lead to higher chances of adoption; animals arriving in poor condition face significantly worse outcomes
-
--   Dog and cat adoptions surged after 2020 pandemic dip; "Other" species showed gains but more variability
-
--   Dogs are re-homed quickest, cats show more long-stay variability
-
--   There is faster median time to adoption, despite rising volumes
-
-## Takeaways
+# Conclusions & Takeaways
 
 -   Highlights need for targeted care and intervention for "Other" species that are underrepresented and more vulnerable
 
