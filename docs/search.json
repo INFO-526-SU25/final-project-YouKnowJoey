@@ -95,21 +95,14 @@
     "href": "presentation.html#data-considerations-part-1",
     "title": "Graphically Pawsitive Vibes",
     "section": "Data Considerations (Part 1)",
-    "text": "Data Considerations (Part 1)\n\nWhat must we change in the Data?\n\nSimplified species_group:\n\nanimal_type is grouped as \"Dog\", \"Cat\", \"Other\"\n\nCreate age_at_intake:\n\n(intake_date - dob) / 365\n\nCreate days_to_adoption:\n\n(outcome_date - intake_date)"
+    "text": "Data Considerations (Part 1)\nJustification for species_group"
   },
   {
     "objectID": "presentation.html#data-considerations-part-2",
     "href": "presentation.html#data-considerations-part-2",
     "title": "Graphically Pawsitive Vibes",
     "section": "Data Considerations (Part 2)",
-    "text": "Data Considerations (Part 2)\nJustification for species_group"
-  },
-  {
-    "objectID": "presentation.html#data-considerations-part-3",
-    "href": "presentation.html#data-considerations-part-3",
-    "title": "Graphically Pawsitive Vibes",
-    "section": "Data Considerations (Part 3)",
-    "text": "Data Considerations (Part 3)\nAnimal Outcome Category Classification\n\n\n\nadopted\ndeath\nnon-death\n\n\n\n\n# A tibble: 20 × 2\n   outcome_category subcategories          \n   &lt;chr&gt;            &lt;chr&gt;                  \n 1 adopted          adoption               \n 2 adopted          foster to adopt        \n 3 adopted          homefirst              \n 4 death            euthanasia             \n 5 death            died                   \n 6 death            disposal               \n 7 non-death        rescue                 \n 8 non-death        transfer               \n 9 non-death        return to owner        \n10 non-death        shelter, neuter, return\n11 non-death        return to rescue       \n12 non-death        transport              \n13 non-death        community cat          \n14 non-death        return to wild habitat \n15 non-death        foster                 \n16 non-death        trap, neuter, release  \n17 non-death        missing                \n18 non-death        NA                     \n19 non-death        duplicate              \n20 non-death        others"
+    "text": "Data Considerations (Part 2)\nAnimal Outcome Category Classification\n\n\n\nadopted\ndeath\nnon-death\n\n\n\n\n# A tibble: 20 × 2\n   outcome_category subcategories          \n   &lt;chr&gt;            &lt;chr&gt;                  \n 1 adopted          adoption               \n 2 adopted          foster to adopt        \n 3 adopted          homefirst              \n 4 death            euthanasia             \n 5 death            died                   \n 6 death            disposal               \n 7 non-death        rescue                 \n 8 non-death        transfer               \n 9 non-death        return to owner        \n10 non-death        shelter, neuter, return\n11 non-death        return to rescue       \n12 non-death        transport              \n13 non-death        community cat          \n14 non-death        return to wild habitat \n15 non-death        foster                 \n16 non-death        trap, neuter, release  \n17 non-death        missing                \n18 non-death        NA                     \n19 non-death        duplicate              \n20 non-death        others"
   },
   {
     "objectID": "presentation.html#our-insights",

@@ -47,10 +47,6 @@ data(mtcars)
 mtcars$speed <- mtcars$hp / mtcars$wt
 ```
 
-# Introduction - "Pawsome" Animal Shelter Data
-
-We want ALL animals adopted!
-
 ## About Animal Shelter Data
 
 -   Source: Long Beach, CA Animal Care Services Open Data Portal
@@ -71,31 +67,11 @@ Understanding the factors that influence animal shelter outcomes is essential fo
 
 ## Data Considerations (Part 1)
 
-<div style="font-size: 80%">
-
-What must we change in the Data?
-
--   **Simplified `species_group`:**
-
-`animal_type` is grouped as `"Dog"`, `"Cat"`, `"Other"`
-
--   **Create `age_at_intake`:**
-
-(`intake_date` - `dob`) / 365
-
--   **Create `days_to_adoption`:**
-
-(`outcome_date` - `intake_date`)
-
-</div>
-
-## Data Considerations (Part 2)
-
 **Justification for `species_group`**
 
 ![](images/animal_intake_type.png)
 
-## Data Considerations (Part 3)
+## Data Considerations (Part 2)
 
 Animal Outcome Category Classification
 
@@ -139,7 +115,7 @@ How do intake conditions and animal types affect the animal's outcome?
 
 ![](images/intake_influence_outcomes.png)
 
-##
+## 
 
 ![](images/prop_outcomes_per_animal.png)
 
@@ -177,6 +153,6 @@ How Have Adoption Volumes and Timelines Evolved (2017–2024) Across Dogs, Cats,
 
 # Cited Work
 
-- Dataset Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)
+-   Dataset Source: City of Long Beach, CA Animal Care Services (TidyTuesday 2025-03-04)
 
-- Title Slide Logo: from Long Beach, CA Animal Care Services website (https://www.longbeach.gov/acs/our-animals/adoptions/)
+-   Title Slide Logo: from Long Beach, CA Animal Care Services website (https://www.longbeach.gov/acs/our-animals/adoptions/)
